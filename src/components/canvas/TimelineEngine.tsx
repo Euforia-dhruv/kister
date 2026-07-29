@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback, ReactNode } from "react";
-import { gsap, ScrollTrigger } from "@/lib/engine/gsap";
+import { useState } from "react";
 
 interface TimelineSegment {
   id: string;
@@ -70,11 +69,6 @@ class MasterTimelineEngine {
 export type { TimelineSegment, MasterTimelineEngine };
 
 export function useMasterTimeline() {
-  const engineRef = useRef<MasterTimelineEngine | null>(null);
-
-  if (!engineRef.current) {
-    engineRef.current = new MasterTimelineEngine();
-  }
-
-  return engineRef.current;
+  const [engine] = useState(() => new MasterTimelineEngine());
+  return engine;
 }

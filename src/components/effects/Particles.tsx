@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect, useMemo } from "react";
-import { gsap, ScrollTrigger } from "@/lib/engine/gsap";
 
 interface Particle {
   x: number;

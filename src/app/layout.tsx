@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Nav from "@/components/site/Nav";
+import Footer from "@/components/site/Footer";
 
 export const metadata: Metadata = {
   title: "Kitser — Premium Kitchen Curation | Coimbatore",
@@ -16,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kitser — Premium Kitchen Curation",
     description: "Heritage meets innovation. Visit our showroom in Coimbatore.",
-    images: ["/images/lifestyle/hero-main.jpg"],
+    images: ["/images/marble-veins.jpg"],
     type: "website",
   },
 };
@@ -28,7 +30,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <Nav />
+        {children}
+        <Footer />
+        <div className="film-grain" aria-hidden="true" />
+      </body>
     </html>
   );
 }

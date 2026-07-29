@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useMemo } from "react";
 
 interface CinematicTextProps {
   text: string;
@@ -30,7 +30,7 @@ export default function CinematicText({
   className = "",
   reveal = "fade",
   revealDelay = 0,
-  parallaxSpeed = 0,
+  parallaxSpeed: _parallaxSpeed = 0,
   perspective = 0,
   rotateX = 0,
 }: CinematicTextProps) {
@@ -45,6 +45,7 @@ export default function CinematicText({
 
   return (
     <Tag
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={textRef as any}
       className={`cinematic-text ${className}`}
       style={{

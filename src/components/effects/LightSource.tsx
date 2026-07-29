@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-
 interface LightSourceProps {
   x: string;
   y: string;

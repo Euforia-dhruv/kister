@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 
 interface CinematicImageProps {
   src: string;
@@ -30,12 +30,12 @@ interface CinematicImageProps {
 export default function CinematicImage({
   src,
   alt,
-  reveal = "zoom",
+  reveal: _reveal = "zoom",
   maskShape = "rectangle",
   maskSize = "100%",
   scale = [1.1, 1],
-  panX = [0, 0],
-  panY = [0, 0],
+  panX: _panX = [0, 0],
+  panY: _panY = [0, 0],
   overlay = "rgba(10,10,10,0.3)",
   vignette = true,
   blurAmount = 0,

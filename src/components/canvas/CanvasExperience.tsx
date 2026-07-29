@@ -114,7 +114,7 @@ const DEEP_VIGNETTE = "radial-gradient(ellipse at center, transparent 20%, rgba(
 export default function CanvasExperience() {
   const [progress, setProgress] = useState(0);
   const rafRef = useRef(0);
-  const lastScrollTime = useRef(Date.now());
+  const lastScrollTime = useRef(0);
   const isAutoAdvancing = useRef(false);
   const userHasScrolled = useRef(false);
 
@@ -223,7 +223,7 @@ export default function CanvasExperience() {
 // BEAT 01 — NOTHING (Curiosity)
 // ═══════════════════════════════════════════════════════════════
 
-function NothingBeat({ progress: p }: { progress: number }) {
+function NothingBeat({ progress: _p }: { progress: number }) {
   return null;
 }
 
@@ -231,7 +231,7 @@ function NothingBeat({ progress: p }: { progress: number }) {
 // BEAT 02 — SPARK (Wonder)
 // ═══════════════════════════════════════════════════════════════
 
-function SparkBeat({ progress: p }: { progress: number }) {
+function SparkBeat({ progress: _p }: { progress: number }) {
   return null;
 }
 
@@ -400,7 +400,7 @@ function HandsBeat({ progress: p }: { progress: number }) {
 // BEAT 08 — BREATH (Anticipation)
 // ═══════════════════════════════════════════════════════════════
 
-function BreathBeat({ progress: p }: { progress: number }) {
+function BreathBeat({ progress: _p }: { progress: number }) {
   return null;
 }
 
@@ -436,7 +436,7 @@ function KitchenBeat({ progress: p }: { progress: number }) {
 // BEAT 10 — SHIFT (Expansion)
 // ═══════════════════════════════════════════════════════════════
 
-function ShiftBeat({ progress: p }: { progress: number }) {
+function ShiftBeat({ progress: _p }: { progress: number }) {
   return null;
 }
 

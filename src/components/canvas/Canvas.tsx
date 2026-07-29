@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/engine/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -33,7 +33,6 @@ export default function Canvas({ children, totalDuration = 80 }: CanvasProps) {
   }, [reducedMotion]);
 
   // Provide context to children
-  const contextValue = { progress, currentBeat, totalDuration };
 
   return (
     <div
