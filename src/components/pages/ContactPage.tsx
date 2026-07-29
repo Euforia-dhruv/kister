@@ -46,7 +46,7 @@ export default function ContactPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -57,12 +57,36 @@ export default function ContactPage() {
               Begin your<br />kitchen journey.
             </h1>
           </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              A few questions to understand your vision.
+              Then we&apos;ll create something extraordinary together.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Consultation form */}
+      {/* Consultation form — luxury minimal */}
       <section className="editorial-section">
         <div className="mx-auto max-w-2xl">
+          {/* Progress — minimal dots */}
+          {status !== "success" && (
+            <Reveal>
+              <div className="flex items-center gap-3 mb-16">
+                {[1, 2, 3].map((s) => (
+                  <div key={s} className="flex items-center gap-3">
+                    <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-500 ${
+                      step >= s ? "bg-ember" : "bg-linen/15"
+                    }`} />
+                    {s < 3 && <div className={`w-8 h-[1px] transition-colors duration-500 ${
+                      step > s ? "bg-ember/40" : "bg-linen/10"
+                    }`} />}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          )}
+
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
@@ -70,10 +94,9 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="editorial-caption">STEP 01</span>
-                <h2 className="editorial-headline-sm mt-4">
+                <h2 className="editorial-headline-sm">
                   What brings you to Kitser?
                 </h2>
                 <div className="grid grid-cols-2 gap-4 mt-12">
@@ -104,10 +127,9 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="editorial-caption">STEP 02</span>
-                <h2 className="editorial-headline-sm mt-4">
+                <h2 className="editorial-headline-sm">
                   What inspires your kitchen?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
@@ -156,10 +178,9 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="editorial-caption">STEP 03</span>
-                <h2 className="editorial-headline-sm mt-4">
+                <h2 className="editorial-headline-sm">
                   How do we reach you?
                 </h2>
                 <div className="flex flex-col gap-8 mt-12">
@@ -170,7 +191,7 @@ export default function ContactPage() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors"
+                        className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors duration-500"
                         placeholder="Your name"
                       />
                     </div>
@@ -180,7 +201,7 @@ export default function ContactPage() {
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors"
+                        className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors duration-500"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -191,7 +212,7 @@ export default function ContactPage() {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors"
+                      className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors duration-500"
                       placeholder="+91"
                     />
                   </div>
@@ -201,7 +222,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows={3}
-                      className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors resize-none"
+                      className="w-full border-b border-linen/20 bg-transparent px-0 py-3 font-body text-sm font-[300] text-linen placeholder:text-ash/60 focus:border-ember focus:outline-none transition-colors duration-500 resize-none"
                       placeholder="Tell us about your space, timeline, or any specific requirements"
                     />
                   </div>
@@ -214,13 +235,13 @@ export default function ContactPage() {
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center py-16"
               >
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+                  transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="w-16 h-16 border border-ember/30 rounded-full flex items-center justify-center mx-auto mb-8"
                 >
                   <span className="text-ember text-2xl">✓</span>
@@ -260,7 +281,7 @@ export default function ContactPage() {
               <button
                 onClick={() => setStep(Math.max(1, step - 1) as Step)}
                 disabled={step === 1}
-                className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
+                className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 ← Back
               </button>
@@ -295,6 +316,41 @@ export default function ContactPage() {
               )}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Closing statement */}
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal blur>
+            <h2 className="editorial-headline-md">
+              The best kitchens<br />start with conversation.
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              Walk in, call, or fill out the form. however you reach us,
+              we&apos;re ready to listen.
+            </p>
+          </Reveal>
+          <Reveal delay={400}>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="tel:+914222301092"
+                className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+              >
+                CALL US
+              </a>
+              <a
+                href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+              >
+                VISIT SHOWROOM
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
     </main>

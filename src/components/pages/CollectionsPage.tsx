@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import Reveal from "@/components/site/Reveal";
 
@@ -13,7 +14,6 @@ const CATEGORIES = [
     image: "/images/cookware/01-cast-iron.jpg",
     brands: ["Le Creuset", "Meyer", "Bergner", "Mauviel"],
     featured: "Le Creuset Signature Dutch Oven",
-    layout: "large" as const,
   },
   {
     name: "Bakeware",
@@ -22,7 +22,6 @@ const CATEGORIES = [
     image: "/images/cookware/bakeware-hero.jpg",
     brands: ["Le Creuset", "Borosil"],
     featured: "Le Creuset Stoneware Collection",
-    layout: "small" as const,
   },
   {
     name: "Barware",
@@ -31,7 +30,6 @@ const CATEGORIES = [
     image: "/images/cookware/barware-hero.jpg",
     brands: ["Nachtmann", "Dubblin"],
     featured: "Nachtmann Heritage Crystal",
-    layout: "small" as const,
   },
   {
     name: "Kitchen Tools",
@@ -40,7 +38,6 @@ const CATEGORIES = [
     image: "/images/kitchens/scavolini-poetica-ushaped.jpg",
     brands: ["Bosch", "Futura"],
     featured: "Bosch Professional Series",
-    layout: "large" as const,
   },
   {
     name: "Sinks & Faucets",
@@ -49,7 +46,6 @@ const CATEGORIES = [
     image: "/images/cookware/01-cast-iron.jpg",
     brands: ["BLANCO", "Franke", "Reginox"],
     featured: "BLANCO SILGRANIT",
-    layout: "small" as const,
   },
   {
     name: "Storage",
@@ -58,7 +54,6 @@ const CATEGORIES = [
     image: "/images/cookware/bakeware-hero.jpg",
     brands: ["Blum", "Hettich", "Kesseböhmer"],
     featured: "Blum LEGRABOX",
-    layout: "small" as const,
   },
 ];
 
@@ -67,7 +62,7 @@ export default function CollectionsPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -78,14 +73,20 @@ export default function CollectionsPage() {
               Every material<br />has a story.
             </h1>
           </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              Cookware, bakeware, barware, tools, sinks, and storage.
+              Curated from 35+ brands across 12 countries.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Featured collection — full editorial split */}
+      {/* Featured collection — asymmetric editorial split */}
       <section className="editorial-section-sm">
         <div className="mx-auto max-w-[1400px]">
           <div
-            className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center cursor-pointer"
+            className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center cursor-pointer group"
             onClick={() => setExpandedCategory(expandedCategory === "Cookware" ? null : "Cookware")}
           >
             <Reveal className="md:col-span-7" scale>
@@ -94,7 +95,7 @@ export default function CollectionsPage() {
                   src={CATEGORIES[0].image}
                   alt={CATEGORIES[0].name}
                   fill
-                  className="object-cover transition-transform duration-1000 hover:scale-105 img-grade"
+                  className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 60vw"
                 />
                 <div className="absolute inset-0 img-warm img-vignette" />
@@ -117,38 +118,79 @@ export default function CollectionsPage() {
                     </span>
                   ))}
                 </div>
+                <div className="mt-8">
+                  <span className="inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/50 group-hover:text-ember transition-colors duration-500">
+                    EXPLORE COLLECTION
+                    <span className="w-0 group-hover:w-5 h-[1px] bg-current transition-all duration-700" />
+                  </span>
+                </div>
               </Reveal>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Remaining collections — editorial grid */}
+      {/* Remaining collections — asymmetric editorial grid */}
       <section className="editorial-section">
         <div className="mx-auto max-w-[1400px]">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {CATEGORIES.slice(1).map((cat, i) => (
-              <Reveal key={cat.name} delay={i * 100}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
+            {/* Large card — 8 cols */}
+            <Reveal className="md:col-span-8" delay={0}>
+              <div
+                className="group relative block overflow-hidden cursor-pointer"
+                onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[1].name ? null : CATEGORIES[1].name)}
+              >
+                <div className="relative overflow-hidden aspect-[16/10]">
+                  <Image src={CATEGORIES[1].image} alt={CATEGORIES[1].name} fill
+                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
+                    sizes="(max-width: 768px) 100vw, 70vw" />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-8">
+                    <span className="editorial-caption">{CATEGORIES[1].brands[0].toUpperCase()}</span>
+                    <h3 className="editorial-headline-sm mt-2">{CATEGORIES[1].name}</h3>
+                    <p className="editorial-body mt-2 max-w-sm">{CATEGORIES[1].desc}</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Small card — 4 cols */}
+            <Reveal className="md:col-span-4" delay={100}>
+              <div
+                className="group relative block overflow-hidden cursor-pointer"
+                onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[2].name ? null : CATEGORIES[2].name)}
+              >
+                <div className="relative overflow-hidden aspect-[4/5]">
+                  <Image src={CATEGORIES[2].image} alt={CATEGORIES[2].name} fill
+                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
+                    sizes="(max-width: 768px) 100vw, 30vw" />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-8">
+                    <span className="editorial-caption">{CATEGORIES[2].brands[0].toUpperCase()}</span>
+                    <h3 className="editorial-headline-sm mt-2">{CATEGORIES[2].name}</h3>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 2: three equal */}
+            {CATEGORIES.slice(3).map((cat, i) => (
+              <Reveal key={cat.name} className="md:col-span-4" delay={i * 80}>
                 <div
                   className="group relative block overflow-hidden cursor-pointer"
                   onClick={() => setExpandedCategory(expandedCategory === cat.name ? null : cat.name)}
                 >
-                  <div className={`relative overflow-hidden ${i % 3 === 0 ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
-                    <Image
-                      src={cat.image}
-                      alt={cat.name}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
+                  <div className="relative overflow-hidden aspect-[4/5]">
+                    <Image src={cat.image} alt={cat.name} fill
+                      className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
+                      sizes="(max-width: 768px) 100vw, 33vw" />
                     <div className="absolute inset-0 img-warm img-vignette" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 p-8">
                       <span className="editorial-caption">{cat.brands[0].toUpperCase()}</span>
                       <h3 className="editorial-headline-sm mt-2">{cat.name}</h3>
-                      <p className="editorial-body mt-2 max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        {cat.desc}
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -165,7 +207,7 @@ export default function CollectionsPage() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="scene scene-warm overflow-hidden"
           >
             <div className="editorial-section">
@@ -185,21 +227,17 @@ export default function CollectionsPage() {
                           <span key={b} className="editorial-label border border-linen/10 px-4 py-2">{b}</span>
                         ))}
                       </div>
-                      <motion.button
-                        whileHover={{ x: 4 }}
-                        className="self-start mt-4 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors hover:text-flame"
+                      <Link
+                        href="/contact"
+                        className="self-start mt-4 inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
                       >
-                        INQUIRE ABOUT THIS COLLECTION →
-                      </motion.button>
+                        INQUIRE ABOUT THIS COLLECTION
+                        <span className="w-0 hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                      </Link>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden">
-                      <Image
-                        src={cat.image}
-                        alt={cat.name}
-                        fill
-                        className="object-cover img-grade"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+                      <Image src={cat.image} alt={cat.name} fill className="object-cover img-grade"
+                        sizes="(max-width: 768px) 100vw, 50vw" />
                       <div className="absolute inset-0 img-warm img-vignette" />
                     </div>
                   </div>
@@ -210,7 +248,7 @@ export default function CollectionsPage() {
         )}
       </AnimatePresence>
 
-      {/* Brand statement */}
+      {/* Brand statement — closing */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal blur>
@@ -223,6 +261,14 @@ export default function CollectionsPage() {
               We represent Scavolini, Bosch, Le Creuset, Dyson, Miele, Blum, BLANCO, Franke,
               Smeg, Siemens, and more. But we don&apos;t chase brand names. We chase quality.
             </p>
+          </Reveal>
+          <Reveal delay={400}>
+            <div className="mt-10">
+              <Link href="/brands" className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember">
+                VIEW ALL BRANDS
+                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>

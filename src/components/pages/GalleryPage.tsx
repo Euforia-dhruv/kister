@@ -94,7 +94,7 @@ export default function GalleryPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -108,6 +108,7 @@ export default function GalleryPage() {
           <Reveal delay={200}>
             <p className="editorial-body mt-8 mx-auto max-w-md">
               Every kitchen is a collaboration. Every material is a choice.
+              Here are the results.
             </p>
           </Reveal>
         </div>
@@ -125,7 +126,7 @@ export default function GalleryPage() {
                 src={GALLERY[0].image}
                 alt={GALLERY[0].title}
                 fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                 sizes="(max-width: 768px) 100vw, 90vw"
               />
               <div className="absolute inset-0 img-warm img-vignette" />
@@ -157,7 +158,7 @@ export default function GalleryPage() {
                   src={GALLERY[1].image}
                   alt={GALLERY[1].title}
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 img-warm img-vignette" />
@@ -170,7 +171,7 @@ export default function GalleryPage() {
                 </div>
               </div>
             </Reveal>
-            <Reveal className="md:col-span-6" delay={100}>
+            <Reveal className="md:col-span-6" delay={80}>
               <div
                 className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
                 onClick={() => setSelected(GALLERY[2])}
@@ -179,7 +180,7 @@ export default function GalleryPage() {
                   src={GALLERY[2].image}
                   alt={GALLERY[2].title}
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 img-warm img-vignette" />
@@ -194,7 +195,7 @@ export default function GalleryPage() {
             </Reveal>
 
             {/* Row 2: one wide, two stacked */}
-            <Reveal className="md:col-span-8" delay={200}>
+            <Reveal className="md:col-span-8" delay={160}>
               <div
                 className="group relative aspect-[16/10] overflow-hidden cursor-pointer"
                 onClick={() => setSelected(GALLERY[3])}
@@ -203,7 +204,7 @@ export default function GalleryPage() {
                   src={GALLERY[3].image}
                   alt={GALLERY[3].title}
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 70vw"
                 />
                 <div className="absolute inset-0 img-warm img-vignette" />
@@ -214,7 +215,7 @@ export default function GalleryPage() {
               </div>
             </Reveal>
             <div className="md:col-span-4 flex flex-col gap-4">
-              <Reveal delay={300}>
+              <Reveal delay={240}>
                 <div
                   className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
                   onClick={() => setSelected(GALLERY[4])}
@@ -223,7 +224,7 @@ export default function GalleryPage() {
                     src={GALLERY[4].image}
                     alt={GALLERY[4].title}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
                   />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -232,7 +233,7 @@ export default function GalleryPage() {
                   </div>
                 </div>
               </Reveal>
-              <Reveal delay={400}>
+              <Reveal delay={320}>
                 <div
                   className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
                   onClick={() => setSelected(GALLERY[5])}
@@ -241,7 +242,7 @@ export default function GalleryPage() {
                     src={GALLERY[5].image}
                     alt={GALLERY[5].title}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
                   />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -254,7 +255,7 @@ export default function GalleryPage() {
 
             {/* Row 3: three equal */}
             {GALLERY.slice(6).map((item, i) => (
-              <Reveal key={item.id} className="md:col-span-4" delay={i * 100}>
+              <Reveal key={item.id} className="md:col-span-4" delay={i * 80}>
                 <div
                   className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
                   onClick={() => setSelected(item)}
@@ -263,7 +264,7 @@ export default function GalleryPage() {
                     src={item.image}
                     alt={item.title}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -280,6 +281,23 @@ export default function GalleryPage() {
         </div>
       </section>
 
+      {/* Closing statement */}
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal blur>
+            <h2 className="editorial-headline-md">
+              Every kitchen<br />tells a story.
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-lg">
+              Yours is next. Visit the showroom to see, touch, and experience
+              the materials that will define your kitchen.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Lightbox */}
       <AnimatePresence>
         {selected && (
@@ -287,14 +305,15 @@ export default function GalleryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-void/95 backdrop-blur-sm p-6"
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="relative max-w-5xl w-full aspect-[16/10] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
@@ -316,7 +335,7 @@ export default function GalleryPage() {
               </div>
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 w-10 h-10 border border-linen/20 flex items-center justify-center bg-void/40 backdrop-blur-sm transition-colors hover:border-linen/50"
+                className="absolute top-4 right-4 w-10 h-10 border border-linen/20 flex items-center justify-center bg-void/40 backdrop-blur-sm transition-colors duration-500 hover:border-linen/50"
               >
                 <span className="text-linen text-lg">×</span>
               </button>

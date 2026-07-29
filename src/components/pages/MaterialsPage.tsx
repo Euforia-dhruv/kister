@@ -57,7 +57,7 @@ const MATERIALS = [
 export default function MaterialsPage() {
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -68,10 +68,16 @@ export default function MaterialsPage() {
               Materials that<br />deserve the name.
             </h1>
           </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              Six materials. Each chosen for how it performs, how it ages,
+              and how it makes you feel when you touch it.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Materials — editorial splits, alternating */}
+      {/* Materials — editorial splits, alternating, with per-material atmosphere */}
       {MATERIALS.map((material, i) => {
         const isReversed = i % 2 === 1;
         return (
@@ -91,6 +97,12 @@ export default function MaterialsPage() {
                       sizes="(max-width: 768px) 100vw, 55vw"
                     />
                     <div className="absolute inset-0 img-warm img-vignette" />
+                    {/* Material number overlay */}
+                    <div className="absolute top-0 right-0 p-8">
+                      <span className="font-display text-[4rem] md:text-[6rem] font-[100] text-linen/[0.04] leading-none">
+                        0{i + 1}
+                      </span>
+                    </div>
                   </div>
                 </Reveal>
 
@@ -135,6 +147,23 @@ export default function MaterialsPage() {
           </section>
         );
       })}
+
+      {/* Closing statement */}
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal blur>
+            <h2 className="editorial-headline-md">
+              Good materials<br />don&apos;t need explanation.
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-lg">
+              You feel the difference the moment you touch them. That&apos;s how
+              you know a material deserves its name.
+            </p>
+          </Reveal>
+        </div>
+      </section>
     </main>
   );
 }

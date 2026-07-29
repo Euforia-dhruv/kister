@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import Reveal from "@/components/site/Reveal";
+import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
 
 const HOURS = [
   { day: "Monday — Friday", time: "10:00 AM — 7:00 PM" },
@@ -36,7 +36,7 @@ const GALLERY_IMAGES = [
 export default function ShowroomPage() {
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -46,6 +46,12 @@ export default function ShowroomPage() {
             <h1 className="editorial-headline mt-6">
               Experience<br />the materials.
             </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              3,000 sq ft. Twelve brands. One room designed to help you
+              feel the difference before you commit.
+            </p>
           </Reveal>
         </div>
       </section>
@@ -64,24 +70,12 @@ export default function ShowroomPage() {
                 priority
               />
               <div className="absolute inset-0 img-warm img-vignette" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 border border-linen/20 px-8 py-4 bg-void/40 backdrop-blur-sm transition-all duration-500 hover:border-ember hover:bg-void/60"
-                >
-                  <span className="w-2 h-2 rounded-full bg-ember animate-pulse" />
-                  <span className="font-body text-sm font-[300] tracking-wide-custom text-linen">
-                    VIRTUAL TOUR
-                  </span>
-                </motion.button>
-              </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Details — editorial split: location left, hours + appointment right */}
+      {/* Details — editorial split: location, hours, appointment */}
       <section className="editorial-section">
         <div className="mx-auto max-w-[1400px]">
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
@@ -101,9 +95,10 @@ export default function ShowroomPage() {
                     href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-block font-body text-xs font-[400] tracking-wide-custom text-ember transition-opacity hover:opacity-80"
+                    className="mt-4 inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
                   >
-                    OPEN IN MAPS →
+                    OPEN IN MAPS
+                    <span className="w-0 hover:w-4 h-[1px] bg-current transition-all duration-500" />
                   </a>
                 </div>
                 <div>
@@ -131,10 +126,10 @@ export default function ShowroomPage() {
                 </div>
                 <div>
                   <span className="editorial-caption">CONTACT</span>
-                  <a href="tel:+914222301092" className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors hover:text-ember">
+                  <a href="tel:+914222301092" className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors duration-500 hover:text-ember">
                     +91 422 230 1092
                   </a>
-                  <a href="mailto:showroom@kitser.in" className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors hover:text-linen">
+                  <a href="mailto:showroom@kitser.in" className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors duration-500 hover:text-linen">
                     showroom@kitser.in
                   </a>
                 </div>
@@ -161,7 +156,7 @@ export default function ShowroomPage() {
                   </Link>
                   <a
                     href="tel:+914222301092"
-                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen"
+                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen"
                   >
                     Or call directly →
                   </a>
@@ -172,8 +167,8 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* Brand wall as story */}
-      <section className="editorial-section border-t border-linen/5">
+      {/* Brand wall — editorial grid */}
+      <section className="editorial-section">
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <span className="editorial-caption">BRAND WALL</span>
@@ -204,7 +199,7 @@ export default function ShowroomPage() {
       </section>
 
       {/* Interior gallery — editorial grid */}
-      <section className="editorial-section border-t border-linen/5">
+      <section className="editorial-section">
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <span className="editorial-caption">INTERIORS</span>
@@ -232,7 +227,7 @@ export default function ShowroomPage() {
       </section>
 
       {/* Map */}
-      <section className="editorial-section border-t border-linen/5">
+      <section className="editorial-section">
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <span className="editorial-caption">FIND US</span>
@@ -253,6 +248,35 @@ export default function ShowroomPage() {
                 className="absolute inset-0"
               />
               <div className="absolute inset-0 pointer-events-none border border-linen/5" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Closing statement */}
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal blur>
+            <h2 className="editorial-headline-md">
+              The showroom<br />is the experience.
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              No website can replace the feel of cast iron in your hand,
+              the weight of a Blum drawer, the warmth of walnut.
+              Visit us.
+            </p>
+          </Reveal>
+          <Reveal delay={400}>
+            <div className="mt-10">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+              >
+                BOOK A VISIT
+                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+              </Link>
             </div>
           </Reveal>
         </div>

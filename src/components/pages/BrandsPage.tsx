@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import Reveal from "@/components/site/Reveal";
 
@@ -78,7 +79,7 @@ export default function BrandsPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero */}
+      {/* Hero — full viewport */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
@@ -104,7 +105,7 @@ export default function BrandsPage() {
         return (
           <section key={brand.name} className="editorial-section-sm">
             <div className="mx-auto max-w-[1400px]">
-              <div className={`grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center ${isReversed ? "" : ""}`}>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
                 <Reveal className={`${isReversed ? "md:col-span-5 md:order-2" : "md:col-span-7"}`} scale>
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <Image
@@ -133,7 +134,7 @@ export default function BrandsPage() {
         );
       })}
 
-      {/* All brands — editorial list */}
+      {/* All brands — editorial list, expandable */}
       <section className="editorial-section">
         <div className="mx-auto max-w-[1000px]">
           <Reveal>
@@ -161,6 +162,7 @@ export default function BrandsPage() {
                       </span>
                       <motion.span
                         animate={{ rotate: expandedBrand === brand.name ? 45 : 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         className="text-ember/40 text-lg"
                       >
                         +
@@ -173,7 +175,7 @@ export default function BrandsPage() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
                         <div className="pt-6 pl-12 max-w-2xl">
@@ -194,7 +196,7 @@ export default function BrandsPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — closing */}
       <section className="editorial-section-lg">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal blur>
@@ -209,12 +211,13 @@ export default function BrandsPage() {
           </Reveal>
           <Reveal delay={400}>
             <div className="mt-10">
-              <a
+              <Link
                 href="/contact"
-                className="inline-block border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
               >
                 DISCUSS YOUR PROJECT
-              </a>
+                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+              </Link>
             </div>
           </Reveal>
         </div>
