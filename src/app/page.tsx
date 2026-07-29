@@ -8,13 +8,6 @@ import BrandsSection from "@/components/sections/BrandsSection";
 
 const CanvasExperience = dynamic(() => import("@/components/canvas/CanvasExperience"), { ssr: false });
 
-const COLLECTIONS = [
-  { name: "Cookware", image: "/images/marble-veins.jpg", href: "/collections" },
-  { name: "Bakeware", image: "/images/brass-detail.jpg", href: "/collections" },
-  { name: "Barware", image: "/images/artisan-hands-v2.jpg", href: "/collections" },
-  { name: "Kitchen Tools", image: "/images/dark-kitchen-v2.jpg", href: "/collections" },
-];
-
 export default function Home() {
   return (
     <main className="relative bg-void">
@@ -23,124 +16,163 @@ export default function Home() {
 
       {/* ─── WEBSITE ──────────────────────────────────── */}
       <div className="relative bg-void">
-        {/* Hero statement */}
-        <section className="flex items-center justify-center px-6 py-32 md:py-40">
-          <div className="max-w-4xl text-center">
-            <Reveal blur>
-              <h1 className="font-display text-[clamp(2.2rem,5vw,4.5rem)] font-[100] leading-[1.08] tracking-[0.05em] text-linen text-balance">
-                A kitchen is not furniture.
-              </h1>
-            </Reveal>
-            <Reveal delay={200}>
-              <p className="mt-8 font-body text-[clamp(0.9rem,1.4vw,1.15rem)] font-[300] leading-[1.9] text-smoke max-w-2xl mx-auto">
-                It is where life happens. Kitser curates the world&apos;s finest
-                materials, appliances, and cookware to create kitchens that honour this truth.
-              </p>
-            </Reveal>
-            <Reveal delay={400}>
-              <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  href="/collections"
-                  className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
-                >
-                  EXPLORE COLLECTIONS
-                  <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-300 hover:text-ember"
-                >
-                  BOOK A CONSULTATION
-                  <span className="text-ember">→</span>
-                </Link>
+
+        {/* ─── HERO: Editorial split — image left, text right ─── */}
+        <section className="editorial-section-lg">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
+              {/* Large image — takes 7 cols */}
+              <Reveal className="md:col-span-7" scale>
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <Image
+                    src="/images/kitchens/scavolini-poetica-island.jpg"
+                    alt="Scavolini Poetica kitchen — Pecan Ash island composition"
+                    fill
+                    className="object-cover img-grade"
+                    sizes="(max-width: 768px) 100vw, 60vw"
+                    priority
+                  />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                </div>
+              </Reveal>
+
+              {/* Text — takes 5 cols, offset right */}
+              <div className="md:col-span-4 md:col-start-9 flex flex-col justify-center">
+                <Reveal blur>
+                  <h1 className="editorial-headline">
+                    A kitchen<br />is not<br />furniture.
+                  </h1>
+                </Reveal>
+                <Reveal delay={200}>
+                  <p className="editorial-body mt-8 max-w-sm">
+                    It is where life happens. Kitser curates the world&apos;s finest
+                    materials, appliances, and cookware to create kitchens that honour this truth.
+                  </p>
+                </Reveal>
+                <Reveal delay={400}>
+                  <div className="mt-12 flex flex-wrap items-center gap-6">
+                    <Link
+                      href="/collections"
+                      className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                    >
+                      EXPLORE
+                      <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-300 hover:text-ember"
+                    >
+                      BOOK A CONSULTATION
+                    </Link>
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
-        {/* Collections preview */}
-        <section className="px-6 py-24 md:py-32 md:px-12">
-          <div className="mx-auto max-w-7xl">
+        {/* ─── COLLECTIONS: Editorial magazine — one large, two small ─── */}
+        <section className="editorial-section-lg">
+          <div className="mx-auto max-w-[1400px]">
             <Reveal>
-              <div className="flex items-end justify-between mb-16">
-                <div>
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember">COLLECTIONS</span>
-                  <h2 className="mt-4 font-display text-[clamp(1.6rem,3.5vw,2.8rem)] font-[100] tracking-[0.04em] text-linen">
-                    Curated with intention.
-                  </h2>
-                </div>
-                <Link
-                  href="/collections"
-                  className="hidden md:inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors hover:text-flame"
-                >
-                  VIEW ALL <span>→</span>
-                </Link>
-              </div>
+              <span className="editorial-caption">COLLECTIONS</span>
+              <h2 className="editorial-headline-md mt-4">
+                Curated with<br />intention.
+              </h2>
             </Reveal>
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              {COLLECTIONS.map((col, i) => (
-                <Reveal key={col.name} delay={i * 80}>
-                  <Link href={col.href} className="group relative block aspect-[3/4] overflow-hidden">
+
+            {/* Magazine layout: large feature + two stacked supporting */}
+            <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
+              {/* Large feature — 8 cols */}
+              <Reveal className="md:col-span-8" delay={100}>
+                <Link href="/collections" className="group relative block aspect-[16/10] overflow-hidden">
+                  <Image
+                    src="/images/kitchens/scavolini-delinea-brass.jpg"
+                    alt="Scavolini DeLinea kitchen — brass handle profiles"
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    sizes="(max-width: 768px) 100vw, 70vw"
+                  />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-void/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-8 md:p-12">
+                    <span className="editorial-caption">COOKWARE</span>
+                    <h3 className="editorial-headline-sm mt-3">
+                      Materials that<br />endure.
+                    </h3>
+                    <span className="mt-4 inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/60 transition-colors group-hover:text-ember">
+                      VIEW COLLECTION <span className="w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
+
+              {/* Two stacked supporting — 4 cols */}
+              <div className="md:col-span-4 flex flex-col gap-4">
+                <Reveal delay={200}>
+                  <Link href="/collections" className="group relative block aspect-[4/3] overflow-hidden">
                     <Image
-                      src={col.image}
-                      alt={col.name}
+                    src="/images/cookware/04-flatlay.jpg"
+                    alt="Cookware flatlay arrangement"
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105 img-grade"
-                      sizes="(max-width: 640px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                      sizes="(max-width: 768px) 100vw, 30vw"
                     />
                     <div className="absolute inset-0 img-warm img-vignette" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute inset-0 flex items-end p-5">
-                      <div className="transform transition-transform duration-500 group-hover:-translate-y-1">
-                        <span className="font-display text-sm font-[300] tracking-wide-custom text-linen transition-colors group-hover:text-ember">
-                          {col.name}
-                        </span>
-                      </div>
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <span className="editorial-caption">BAKEWARE</span>
                     </div>
                   </Link>
                 </Reveal>
-              ))}
-            </div>
-            <div className="mt-8 md:hidden text-center">
-              <Link
-                href="/collections"
-                className="inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember"
-              >
-                VIEW ALL <span>→</span>
-              </Link>
+                <Reveal delay={300}>
+                  <Link href="/collections" className="group relative block aspect-[4/3] overflow-hidden">
+                    <Image
+                    src="/images/materials/03-brass-detail.jpg"
+                    alt="Brass material closeup"
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                      sizes="(max-width: 768px) 100vw, 30vw"
+                    />
+                    <div className="absolute inset-0 img-warm img-vignette" />
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <span className="editorial-caption">BARWARE</span>
+                    </div>
+                  </Link>
+                </Reveal>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Brands */}
+        {/* ─── BRANDS ──────────────────────────────────── */}
         <BrandsSection />
 
-        {/* Showroom CTA */}
+        {/* ─── SHOWROOM CTA: Full-bleed atmospheric ─── */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0">
             <Image
-              src="/images/dark-kitchen-v2.jpg"
-              alt=""
+              src="/images/appliances/bosch-kitchen-hero.jpg"
+              alt="Bosch kitchen lifestyle"
               fill
-              className="object-cover img-grade opacity-30"
+              className="object-cover img-atmospheric"
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-void/70" />
+            <div className="absolute inset-0 bg-void/60" />
           </div>
-          <div className="relative flex items-center justify-center px-6 py-32 md:py-40">
-            <div className="max-w-3xl text-center">
+          <div className="relative editorial-section-lg">
+            <div className="mx-auto max-w-3xl text-center">
               <Reveal blur>
-                <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-[100] tracking-[0.06em] text-linen">
-                  Visit the showroom.
+                <h2 className="editorial-headline">
+                  Visit the<br />showroom.
                 </h2>
               </Reveal>
               <Reveal delay={200}>
-                <p className="mt-6 font-body text-[clamp(0.9rem,1.4vw,1.1rem)] font-[300] leading-relaxed text-smoke">
+                <p className="editorial-body mt-8 mx-auto max-w-md">
                   No. 1, Nava India Road, Coimbatore — 641028
                 </p>
               </Reveal>
               <Reveal delay={400}>
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
                   <Link
                     href="/showroom"
                     className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
@@ -150,10 +182,9 @@ export default function Home() {
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-300 hover:text-ember"
+                    className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-300 hover:text-ember"
                   >
                     BOOK APPOINTMENT
-                    <span className="text-ember">→</span>
                   </Link>
                 </div>
               </Reveal>

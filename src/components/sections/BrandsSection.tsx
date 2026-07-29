@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
+import Reveal from "@/components/site/Reveal";
 
 const BRANDS = [
   { name: "Scavolini", category: "Cabinetry", origin: "Italy", year: 1961 },
@@ -27,59 +27,59 @@ const BRANDS = [
 
 export default function BrandsSection() {
   return (
-    <section className="scene scene-dark px-6 py-32 md:px-12">
-      <div className="mx-auto max-w-7xl">
+    <section className="editorial-section border-t border-linen/5">
+      <div className="mx-auto max-w-[1400px]">
         <Reveal>
           <div className="text-center mb-16">
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">PARTNERS</span>
-            <h2 className="mt-4 font-display text-[clamp(1.8rem,4vw,3rem)] font-[100] tracking-[0.04em] text-linen">
+            <span className="editorial-caption">PARTNERS</span>
+            <h2 className="editorial-headline-md mt-4">
               The world&apos;s finest makers.
             </h2>
-            <p className="mt-6 font-body text-[clamp(0.9rem,1.3vw,1.05rem)] font-[300] leading-[1.8] text-smoke max-w-2xl mx-auto">
+            <p className="editorial-body mt-6 mx-auto max-w-md">
               We don&apos;t chase brand names. We chase quality. Each partner is chosen for their commitment to craft, innovation, and materials that endure.
             </p>
           </div>
         </Reveal>
 
-        {/* Brand grid */}
-        <Stagger stagger={0.05} className="grid grid-cols-2 gap-px bg-linen/5 sm:grid-cols-3 lg:grid-cols-4">
-          {BRANDS.map((brand) => (
-            <StaggerItem key={brand.name}>
+        {/* Brand grid — editorial */}
+        <div className="grid grid-cols-2 gap-px bg-linen/5 sm:grid-cols-3 lg:grid-cols-4">
+          {BRANDS.map((brand, i) => (
+            <Reveal key={brand.name} delay={i * 30}>
               <motion.div
-                whileHover={{ backgroundColor: "rgba(196,90,44,0.08)" }}
-                className="group flex flex-col items-center justify-center gap-3 bg-void p-8 transition-colors duration-500 cursor-pointer"
+                whileHover={{ backgroundColor: "rgba(196,90,44,0.06)" }}
+                className="group flex flex-col items-center justify-center gap-3 bg-void p-8 transition-colors duration-500 cursor-pointer min-h-[160px]"
               >
-                <span className="font-display text-base font-[100] tracking-[0.12em] text-linen/60 group-hover:text-linen transition-colors duration-500">
+                <span className="font-display text-base font-[100] tracking-[0.12em] text-linen/50 group-hover:text-linen transition-colors duration-500">
                   {brand.name}
                 </span>
                 <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="font-body text-[0.6rem] font-[400] tracking-wide-custom text-ember">
+                  <span className="editorial-label text-ember">
                     {brand.category}
                   </span>
-                  <span className="text-linen/20">·</span>
-                  <span className="font-body text-[0.6rem] font-[300] text-smoke">
+                  <span className="text-linen/15">·</span>
+                  <span className="font-body text-[0.6rem] font-[300] text-smoke/50">
                     {brand.origin}
                   </span>
                 </div>
               </motion.div>
-            </StaggerItem>
+            </Reveal>
           ))}
-        </Stagger>
+        </div>
 
         {/* Stats */}
         <Reveal delay={200}>
           <div className="mt-16 flex flex-wrap justify-center gap-12">
             <div className="text-center">
               <span className="font-display text-3xl font-[100] text-ember">35+</span>
-              <p className="mt-2 font-body text-xs font-[300] tracking-wide-custom text-smoke">Brand Partners</p>
+              <p className="editorial-label mt-2">Brand Partners</p>
             </div>
             <div className="text-center">
               <span className="font-display text-3xl font-[100] text-ember">12</span>
-              <p className="mt-2 font-body text-xs font-[300] tracking-wide-custom text-smoke">Countries</p>
+              <p className="editorial-label mt-2">Countries</p>
             </div>
             <div className="text-center">
               <span className="font-display text-3xl font-[100] text-ember">35+</span>
-              <p className="mt-2 font-body text-xs font-[300] tracking-wide-custom text-smoke">Years of Partnerships</p>
+              <p className="editorial-label mt-2">Years of Partnerships</p>
             </div>
           </div>
         </Reveal>

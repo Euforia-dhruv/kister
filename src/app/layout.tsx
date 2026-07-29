@@ -4,9 +4,10 @@ import Nav from "@/components/site/Nav";
 import Footer from "@/components/site/Footer";
 import ScrollToTop from "@/components/site/ScrollToTop";
 import PageTransition from "@/components/site/PageTransition";
+import SmoothScroll from "@/components/site/SmoothScroll";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kister-v2.vercel.app"),
+  metadataBase: new URL("https://kitser-v2.vercel.app"),
   title: "Kitser — Premium Kitchen Curation | Coimbatore",
   description:
     "Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in Coimbatore.",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kitser — Premium Kitchen Curation",
     description: "Heritage meets innovation. Visit our showroom in Coimbatore.",
-    images: ["/images/marble-veins.jpg"],
+    images: ["/images/kitchens/scavolini-poetica-island.jpg"],
     type: "website",
   },
 };
@@ -34,11 +35,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full">
-        <ScrollToTop />
-        <Nav />
-        <PageTransition>{children}</PageTransition>
-        <Footer />
-        <div className="film-grain" aria-hidden="true" />
+        <SmoothScroll>
+          <ScrollToTop />
+          <Nav />
+          <PageTransition>{children}</PageTransition>
+          <Footer />
+          <div className="film-grain" aria-hidden="true" />
+        </SmoothScroll>
       </body>
     </html>
   );

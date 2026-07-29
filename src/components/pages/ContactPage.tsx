@@ -6,13 +6,6 @@ import Reveal from "@/components/site/Reveal";
 
 type Step = 1 | 2 | 3 | 4;
 
-const STEPS = [
-  { label: "Your Space", description: "Tell us about your kitchen" },
-  { label: "Your Style", description: "What inspires you" },
-  { label: "Your Details", description: "How to reach you" },
-  { label: "Confirmation", description: "We'll be in touch" },
-];
-
 const KITCHEN_TYPES = ["New Build", "Renovation", "Upgrade", "Not Sure"];
 const STYLE_OPTIONS = ["Modern Minimal", "Heritage Warm", "Industrial", "Natural Materials", "Not Sure"];
 const BUDGET_RANGES = ["Under ₹5L", "₹5L — ₹15L", "₹15L — ₹30L", "₹30L+", "Prefer not to say"];
@@ -29,8 +22,6 @@ export default function ContactPage() {
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
-
-  const progress = (step / 4) * 100;
 
   const handleSubmit = async () => {
     setStatus("loading");
@@ -56,13 +47,13 @@ export default function ContactPage() {
   return (
     <main className="relative bg-void">
       {/* Hero */}
-      <section className="flex items-center justify-center px-6 py-32 md:py-40">
-        <div className="max-w-4xl text-center">
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">CONSULTATION</span>
+            <span className="editorial-caption">CONSULTATION</span>
           </Reveal>
           <Reveal delay={100} blur>
-            <h1 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-[100] leading-[1.08] tracking-[0.05em] text-linen">
+            <h1 className="editorial-headline mt-6">
               Begin your<br />kitchen journey.
             </h1>
           </Reveal>
@@ -70,36 +61,8 @@ export default function ContactPage() {
       </section>
 
       {/* Consultation form */}
-      <section className="px-6 pb-32 md:px-12">
-        <div className="mx-auto max-w-3xl">
-          {/* Progress bar */}
-          <Reveal>
-            <div className="mb-16">
-              <div className="flex items-center justify-between mb-4">
-                {STEPS.map((s, i) => (
-                  <div key={s.label} className="flex items-center gap-2">
-                    <span className={`font-body text-[0.65rem] font-[400] tracking-wide-custom transition-colors duration-500 ${
-                      step > i + 1 ? "text-ember" : step === i + 1 ? "text-linen" : "text-ash/40"
-                    }`}>
-                      {s.label}
-                    </span>
-                    {i < STEPS.length - 1 && (
-                      <span className="hidden sm:block w-8 h-[1px] bg-linen/10 mx-2" />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="h-[1px] bg-linen/10 relative">
-                <motion.div
-                  className="absolute left-0 top-0 h-full bg-ember"
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Steps */}
+      <section className="editorial-section">
+        <div className="mx-auto max-w-2xl">
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
@@ -109,13 +72,11 @@ export default function ContactPage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="mb-12">
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember">STEP 01</span>
-                  <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
-                    What brings you to Kitser?
-                  </h2>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
+                <span className="editorial-caption">STEP 01</span>
+                <h2 className="editorial-headline-sm mt-4">
+                  What brings you to Kitser?
+                </h2>
+                <div className="grid grid-cols-2 gap-4 mt-12">
                   {KITCHEN_TYPES.map((type) => (
                     <button
                       key={type}
@@ -145,13 +106,11 @@ export default function ContactPage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="mb-12">
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember">STEP 02</span>
-                  <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
-                    What inspires your kitchen?
-                  </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <span className="editorial-caption">STEP 02</span>
+                <h2 className="editorial-headline-sm mt-4">
+                  What inspires your kitchen?
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
                   {STYLE_OPTIONS.map((style) => (
                     <button
                       key={style}
@@ -170,8 +129,8 @@ export default function ContactPage() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-8">
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember mb-4 block">BUDGET RANGE</span>
+                <div className="mt-12">
+                  <span className="editorial-caption mb-4 block">BUDGET RANGE</span>
                   <div className="flex flex-wrap gap-3">
                     {BUDGET_RANGES.map((range) => (
                       <button
@@ -199,16 +158,14 @@ export default function ContactPage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="mb-12">
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember">STEP 03</span>
-                  <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
-                    How do we reach you?
-                  </h2>
-                </div>
-                <div className="flex flex-col gap-8">
+                <span className="editorial-caption">STEP 03</span>
+                <h2 className="editorial-headline-sm mt-4">
+                  How do we reach you?
+                </h2>
+                <div className="flex flex-col gap-8 mt-12">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div>
-                      <label className="font-body text-xs font-[400] tracking-wide-custom text-smoke mb-3 block">NAME *</label>
+                      <label className="editorial-label mb-3 block">NAME *</label>
                       <input
                         type="text"
                         value={formData.name}
@@ -218,7 +175,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
-                      <label className="font-body text-xs font-[400] tracking-wide-custom text-smoke mb-3 block">EMAIL *</label>
+                      <label className="editorial-label mb-3 block">EMAIL *</label>
                       <input
                         type="email"
                         value={formData.email}
@@ -229,7 +186,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="font-body text-xs font-[400] tracking-wide-custom text-smoke mb-3 block">PHONE</label>
+                    <label className="editorial-label mb-3 block">PHONE</label>
                     <input
                       type="tel"
                       value={formData.phone}
@@ -239,7 +196,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="font-body text-xs font-[400] tracking-wide-custom text-smoke mb-3 block">ANYTHING ELSE?</label>
+                    <label className="editorial-label mb-3 block">ANYTHING ELSE?</label>
                     <textarea
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -268,15 +225,15 @@ export default function ContactPage() {
                 >
                   <span className="text-ember text-2xl">✓</span>
                 </motion.div>
-                <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-[100] tracking-[0.04em] text-linen mb-4">
+                <h2 className="editorial-headline-sm mb-4">
                   Thank you, {formData.name.split(" ")[0]}.
                 </h2>
-                <p className="font-body text-[clamp(0.9rem,1.3vw,1.05rem)] font-[300] leading-[1.8] text-smoke max-w-md mx-auto">
-                  Your consultation request has been received. A member of our team will reach out within 24 hours to discuss your kitchen journey.
+                <p className="editorial-body mx-auto max-w-md">
+                  Your consultation request has been received. A member of our team will reach out within 24 hours.
                 </p>
-                <div className="mt-12 p-8 border border-linen/10 max-w-md mx-auto">
-                  <span className="font-body text-xs font-[500] tracking-ultra text-ember">YOUR SELECTIONS</span>
-                  <div className="mt-4 flex flex-col gap-2 text-left">
+                <div className="mt-12 p-8 border border-linen/10 max-w-sm mx-auto text-left">
+                  <span className="editorial-caption">YOUR SELECTIONS</span>
+                  <div className="mt-4 flex flex-col gap-2">
                     <div className="flex justify-between">
                       <span className="font-body text-sm font-[300] text-smoke">Kitchen</span>
                       <span className="font-body text-sm font-[300] text-linen">{formData.kitchenType}</span>
@@ -299,46 +256,44 @@ export default function ContactPage() {
 
           {/* Navigation */}
           {status !== "success" && (
-            <Reveal delay={200}>
-              <div className="flex items-center justify-between mt-16">
+            <div className="flex items-center justify-between mt-16">
+              <button
+                onClick={() => setStep(Math.max(1, step - 1) as Step)}
+                disabled={step === 1}
+                className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                ← Back
+              </button>
+              {step < 3 ? (
                 <button
-                  onClick={() => setStep(Math.max(1, step - 1) as Step)}
-                  disabled={step === 1}
-                  className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
+                  onClick={() => setStep((step + 1) as Step)}
+                  disabled={!canProceed()}
+                  className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  ← Back
+                  CONTINUE
+                  <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
                 </button>
-                {step < 3 ? (
-                  <button
-                    onClick={() => setStep((step + 1) as Step)}
-                    disabled={!canProceed()}
-                    className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    CONTINUE
-                    <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleSubmit}
-                    disabled={!canProceed() || status === "loading"}
-                    className="group inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    {status === "loading" ? (
-                      <span className="flex items-center gap-2">
-                        <motion.span
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          className="inline-block w-4 h-4 border border-current/30 border-t-current rounded-full"
-                        />
-                        SUBMITTING...
-                      </span>
-                    ) : (
-                      "SUBMIT CONSULTATION"
-                    )}
-                  </button>
-                )}
-              </div>
-            </Reveal>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canProceed() || status === "loading"}
+                  className="group inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? (
+                    <span className="flex items-center gap-2">
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="inline-block w-4 h-4 border border-current/30 border-t-current rounded-full"
+                      />
+                      SUBMITTING...
+                    </span>
+                  ) : (
+                    "SUBMIT CONSULTATION"
+                  )}
+                </button>
+              )}
+            </div>
           )}
         </div>
       </section>

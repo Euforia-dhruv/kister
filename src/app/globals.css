@@ -68,6 +68,77 @@ body {
   outline-offset: 2px;
 }
 
+/* ─── EDITORIAL SPACING RHYTHM ─────────────────────────── */
+/* Generous breathing spaces. Never stack tightly. */
+
+.editorial-section {
+  padding: clamp(4rem, 12vw, 10rem) clamp(1.5rem, 5vw, 6rem);
+}
+
+.editorial-section-lg {
+  padding: clamp(6rem, 16vw, 14rem) clamp(1.5rem, 5vw, 6rem);
+}
+
+.editorial-section-sm {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 6rem);
+}
+
+/* ─── EDITORIAL TYPOGRAPHY SCALE ────────────────────────── */
+/* Headlines: massive. Supporting: small. 40% less text. */
+
+.editorial-headline {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 100;
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 1.0;
+  letter-spacing: 0.02em;
+  color: #f5f0eb;
+}
+
+.editorial-headline-md {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 100;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  color: #f5f0eb;
+}
+
+.editorial-headline-sm {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 100;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: #f5f0eb;
+}
+
+.editorial-body {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  line-height: 1.8;
+  color: #8a8a8a;
+}
+
+.editorial-caption {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c45a2c;
+}
+
+.editorial-label {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
 /* ─── REUSABLE ANIMATION CLASSES ───────────────────────── */
 
 .reveal {
@@ -166,6 +237,20 @@ body {
   pointer-events: none;
 }
 
+/* ─── EDITORIAL IMAGE FRAMES ───────────────────────────── */
+
+.img-editorial {
+  filter: saturate(0.75) sepia(0.08) contrast(1.1) brightness(0.88);
+}
+
+.img-tactile {
+  filter: saturate(0.9) contrast(1.15) brightness(0.85);
+}
+
+.img-atmospheric {
+  filter: saturate(0.6) sepia(0.15) contrast(1.05) brightness(0.8);
+}
+
 /* ─── TYPOGRAPHY UTILITIES ─────────────────────────────── */
 
 .text-balance { text-wrap: balance; }
@@ -173,6 +258,42 @@ body {
 
 .tracking-ultra { letter-spacing: 0.3em; }
 .tracking-wide-custom { letter-spacing: 0.12em; }
+
+/* ─── EDITORIAL LAYOUT UTILITIES ───────────────────────── */
+
+/* Asymmetric grid: 60/40 split */
+.editorial-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .editorial-split {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.editorial-split-reverse {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .editorial-split-reverse {
+    grid-template-columns: 2fr 3fr;
+  }
+}
+
+/* Full-bleed image */
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+}
 
 /* ─── SMOOTH SCROLL ───────────────────────────────────── */
 

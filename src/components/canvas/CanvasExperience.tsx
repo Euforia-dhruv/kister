@@ -354,7 +354,7 @@ function StoneBeat({ progress: p }: { progress: number }) {
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
       willChange: "opacity, filter",
     }}>
-      <img src="/images/marble-veins.jpg" alt="" className="h-full w-full object-cover" draggable={false}
+      <img src="/images/textures/marble.jpg" alt="" className="h-full w-full object-cover" draggable={false}
         style={{ filter: GRADE, transform: `scale(${scale})` }} />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
@@ -380,7 +380,7 @@ function CopperBeat({ progress: p }: { progress: number }) {
       transform: `translateX(${panX}%)`,
       willChange: "opacity, filter, transform",
     }}>
-      <img src="/images/brass-detail.jpg" alt="" className="h-full w-full object-cover" draggable={false}
+      <img src="/images/textures/brass.jpg" alt="" className="h-full w-full object-cover" draggable={false}
         style={{ filter: GRADE }} />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
@@ -427,7 +427,7 @@ function HandsBeat({ progress: p }: { progress: number }) {
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
       willChange: "opacity, filter",
     }}>
-      <img src="/images/artisan-hands-v2.jpg" alt="" className="h-full w-full object-cover" draggable={false}
+      <img src="/images/textures/artisan.jpg" alt="" className="h-full w-full object-cover" draggable={false}
         style={{ filter: GRADE, transform: `translateY(${driftY}%)` }} />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
@@ -455,7 +455,7 @@ function KitchenBeat({ progress: p }: { progress: number }) {
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
       willChange: "opacity, filter",
     }}>
-      <img src="/images/dark-kitchen-v2.jpg" alt="" className="h-full w-full object-cover" draggable={false}
+      <img src="/images/textures/dark-surface.jpg" alt="" className="h-full w-full object-cover" draggable={false}
         style={{ transform: `scale(${scale})`, filter: GRADE }} />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />

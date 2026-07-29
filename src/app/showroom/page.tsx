@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Showroom — Kitser",
     description: "Experience the materials. No. 1 Nava India Road, Coimbatore.",
-    images: ["/images/dark-kitchen-v2.jpg"],
+    images: ["/images/showroom/01-interior.jpg"],
   },
 };
 

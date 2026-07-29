@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Inquire — Kitser",
     description: "Begin your kitchen journey. Premium curation from Coimbatore.",
-    images: ["/images/brass-detail.jpg"],
+    images: ["/images/materials/03-brass-detail.jpg"],
   },
 };
 

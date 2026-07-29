@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Our Story — Kitser",
     description: "Three decades of curated craft. Premium kitchen curation from Coimbatore.",
-    images: ["/images/artisan-hands-v2.jpg"],
+    images: ["/images/textures/artisan.jpg"],
   },
 };
 

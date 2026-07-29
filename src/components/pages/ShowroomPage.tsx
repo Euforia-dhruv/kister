@@ -11,43 +11,52 @@ const HOURS = [
   { day: "Sunday", time: "By appointment" },
 ];
 
-const BRAND_WALL = [
-  "Scavolini", "Bosch", "Le Creuset", "Miele", "Dyson",
-  "Blum", "BLANCO", "Franke", "Smeg", "Siemens",
-  "Hettich", "Kesseböhmer", "Meyer", "Bergner", "Borosil",
+const BRAND_STORIES = [
+  { name: "Scavolini", origin: "Italy", note: "Our cabinetry partner since 2005" },
+  { name: "Le Creuset", origin: "France", note: "Exclusive regional distributor" },
+  { name: "Bosch", origin: "Germany", note: "Appliance excellence since 1886" },
+  { name: "Miele", origin: "Germany", note: "Built to last 20 years" },
+  { name: "Blum", origin: "Austria", note: "The invisible backbone" },
+  { name: "BLANCO", origin: "Germany", note: "Granite composite leaders" },
+  { name: "Franke", origin: "Switzerland", note: "Swiss precision since 1911" },
+  { name: "Smeg", origin: "Italy", note: "Where technology meets style" },
+  { name: "Dyson", origin: "UK", note: "Reinventing the everyday" },
+  { name: "Siemens", origin: "Germany", note: "Smart home integration" },
+  { name: "Hettich", origin: "Germany", note: "Invisible engineering" },
+  { name: "Kesseböhmer", origin: "Germany", note: "Every inch utilized" },
 ];
 
 const GALLERY_IMAGES = [
-  { src: "/images/dark-kitchen-v2.jpg", alt: "Showroom interior — dark kitchen display" },
-  { src: "/images/marble-veins.jpg", alt: "Showroom interior — marble and stone displays" },
-  { src: "/images/brass-detail.jpg", alt: "Showroom interior — brass and copper accents" },
-  { src: "/images/artisan-hands-v2.jpg", alt: "Showroom interior — artisan cookware display" },
+  { src: "/images/showroom/02-display.jpg", alt: "Showroom interior — dark kitchen display" },
+  { src: "/images/showroom/03-cookware.jpg", alt: "Showroom interior — marble and stone displays" },
+  { src: "/images/showroom/04-brand-wall.jpg", alt: "Showroom interior — brass and copper accents" },
+  { src: "/images/appliances/miele-experience-center.jpg", alt: "Showroom interior — artisan cookware display" },
 ];
 
 export default function ShowroomPage() {
   return (
     <main className="relative bg-void">
       {/* Hero */}
-      <section className="flex items-center justify-center px-6 py-32 md:py-40">
-        <div className="max-w-4xl text-center">
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">SHOWROOM</span>
+            <span className="editorial-caption">SHOWROOM</span>
           </Reveal>
           <Reveal delay={100} blur>
-            <h1 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-[100] leading-[1.08] tracking-[0.05em] text-linen">
+            <h1 className="editorial-headline mt-6">
               Experience<br />the materials.
             </h1>
           </Reveal>
         </div>
       </section>
 
-      {/* Full-width hero image */}
-      <section className="px-6 md:px-12">
+      {/* Full-bleed hero image */}
+      <section className="editorial-section-sm">
         <div className="mx-auto max-w-[1400px]">
           <Reveal scale>
             <div className="relative aspect-[16/7] overflow-hidden">
               <Image
-                src="/images/dark-kitchen-v2.jpg"
+                src="/images/showroom/01-interior.jpg"
                 alt="Kitser showroom interior"
                 fill
                 className="object-cover img-grade"
@@ -55,8 +64,6 @@ export default function ShowroomPage() {
                 priority
               />
               <div className="absolute inset-0 img-warm img-vignette" />
-
-              {/* Virtual tour overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -74,129 +81,138 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* Details + Appointment */}
-      <section className="px-6 py-24 md:px-12">
-        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-16 lg:grid-cols-3">
-          {/* Location + Parking */}
-          <Reveal>
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-3">
-                <span className="font-body text-xs font-[500] tracking-ultra text-ember">LOCATION</span>
-                <h3 className="font-display text-lg font-[300] tracking-[0.04em] text-linen">No. 1, Nava India Road</h3>
-                <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">
-                  Coimbatore — 641028<br />
-                  Tamil Nadu, India
-                </p>
-                <a
-                  href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-opacity hover:opacity-80"
-                >
-                  OPEN IN MAPS →
-                </a>
-              </div>
-              <div className="flex flex-col gap-3">
-                <span className="font-body text-xs font-[500] tracking-ultra text-ember">PARKING</span>
-                <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">
-                  Dedicated parking available<br />
-                  on Nava India Road. Valet service<br />
-                  for consultation appointments.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Hours */}
-          <Reveal delay={100}>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-3">
-                <span className="font-body text-xs font-[500] tracking-ultra text-ember">HOURS</span>
-                <div className="flex flex-col gap-3">
-                  {HOURS.map((h) => (
-                    <div key={h.day} className="flex justify-between items-baseline border-b border-linen/5 pb-3">
-                      <span className="font-body text-sm font-[300] text-smoke">{h.day}</span>
-                      <span className="font-body text-sm font-[300] text-linen">{h.time}</span>
-                    </div>
-                  ))}
+      {/* Details — editorial split: location left, hours + appointment right */}
+      <section className="editorial-section">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
+            {/* Location */}
+            <Reveal className="md:col-span-4">
+              <div className="flex flex-col gap-6">
+                <div>
+                  <span className="editorial-caption">LOCATION</span>
+                  <h3 className="font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3">
+                    No. 1, Nava India Road
+                  </h3>
+                  <p className="editorial-body mt-2">
+                    Coimbatore — 641028<br />
+                    Tamil Nadu, India
+                  </p>
+                  <a
+                    href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block font-body text-xs font-[400] tracking-wide-custom text-ember transition-opacity hover:opacity-80"
+                  >
+                    OPEN IN MAPS →
+                  </a>
+                </div>
+                <div>
+                  <span className="editorial-caption">PARKING</span>
+                  <p className="editorial-body mt-3">
+                    Dedicated parking available on Nava India Road. Valet service for consultation appointments.
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <span className="font-body text-xs font-[500] tracking-ultra text-ember">CONTACT</span>
-                <a href="tel:+914222301092" className="font-display text-lg font-[300] tracking-[0.04em] text-linen transition-colors hover:text-ember">
-                  +91 422 230 1092
-                </a>
-                <a href="mailto:showroom@kitser.in" className="font-body text-sm font-[300] text-smoke transition-colors hover:text-linen">
-                  showroom@kitser.in
-                </a>
-              </div>
-            </div>
-          </Reveal>
+            </Reveal>
 
-          {/* Appointment CTA */}
-          <Reveal delay={200}>
-            <div className="flex flex-col gap-6 p-8 border border-linen/10 h-full">
-              <span className="font-body text-xs font-[500] tracking-ultra text-ember">APPOINTMENT</span>
-              <h3 className="font-display text-[clamp(1.3rem,2.5vw,2rem)] font-[100] tracking-[0.04em] text-linen leading-[1.2]">
-                Book a private consultation.
-              </h3>
-              <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">
-                Walk-ins welcome. For kitchen consultations, we recommend booking an appointment — our design team will dedicate their full attention to your project.
-              </p>
-              <div className="mt-auto flex flex-col gap-3">
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center justify-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void"
-                >
-                  BOOK CONSULTATION
-                  <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
-                </Link>
-                <a
-                  href="tel:+914222301092"
-                  className="inline-flex items-center justify-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen"
-                >
-                  Or call directly →
-                </a>
+            {/* Hours */}
+            <Reveal className="md:col-span-4" delay={100}>
+              <div className="flex flex-col gap-6">
+                <div>
+                  <span className="editorial-caption">HOURS</span>
+                  <div className="flex flex-col gap-3 mt-4">
+                    {HOURS.map((h) => (
+                      <div key={h.day} className="flex justify-between items-baseline border-b border-linen/5 pb-3">
+                        <span className="font-body text-sm font-[300] text-smoke">{h.day}</span>
+                        <span className="font-body text-sm font-[300] text-linen">{h.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <span className="editorial-caption">CONTACT</span>
+                  <a href="tel:+914222301092" className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors hover:text-ember">
+                    +91 422 230 1092
+                  </a>
+                  <a href="mailto:showroom@kitser.in" className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors hover:text-linen">
+                    showroom@kitser.in
+                  </a>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+
+            {/* Appointment CTA */}
+            <Reveal className="md:col-span-4" delay={200}>
+              <div className="flex flex-col gap-6 p-8 border border-linen/10 h-full">
+                <span className="editorial-caption">APPOINTMENT</span>
+                <h3 className="editorial-headline-sm leading-[1.15]">
+                  Book a private consultation.
+                </h3>
+                <p className="editorial-body">
+                  Walk-ins welcome. For kitchen consultations, we recommend booking an appointment.
+                </p>
+                <div className="mt-auto flex flex-col gap-3">
+                  <Link
+                    href="/contact"
+                    className="group inline-flex items-center justify-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void"
+                  >
+                    BOOK CONSULTATION
+                    <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                  </Link>
+                  <a
+                    href="tel:+914222301092"
+                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors hover:text-linen"
+                  >
+                    Or call directly →
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* Brand Wall */}
-      <section className="px-6 py-24 md:px-12 border-t border-linen/5">
-        <div className="mx-auto max-w-7xl">
+      {/* Brand wall as story */}
+      <section className="editorial-section border-t border-linen/5">
+        <div className="mx-auto max-w-[1400px]">
           <Reveal>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">BRAND WALL</span>
-            <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
-              35+ brands. One showroom.
+            <span className="editorial-caption">BRAND WALL</span>
+            <h2 className="editorial-headline-md mt-4">
+              35+ brands.<br />One showroom.
             </h2>
           </Reveal>
-          <Reveal delay={200}>
-            <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
-              {BRAND_WALL.map((brand) => (
-                <span
-                  key={brand}
-                  className="font-body text-sm font-[300] tracking-wide-custom text-smoke/40 transition-colors duration-300 hover:text-linen/70"
-                >
-                  {brand}
-                </span>
-              ))}
-            </div>
-          </Reveal>
+          <div className="mt-16 grid grid-cols-1 gap-px bg-linen/5 sm:grid-cols-2 lg:grid-cols-3">
+            {BRAND_STORIES.map((brand, i) => (
+              <Reveal key={brand.name} delay={i * 30}>
+                <div className="group bg-void p-8 transition-colors duration-500 hover:bg-ember/[0.03]">
+                  <div className="flex items-baseline justify-between">
+                    <span className="font-display text-base font-[100] tracking-[0.08em] text-linen/60 group-hover:text-linen transition-colors duration-500">
+                      {brand.name}
+                    </span>
+                    <span className="font-body text-[0.55rem] font-[400] tracking-wide-custom text-smoke/40">
+                      {brand.origin}
+                    </span>
+                  </div>
+                  <p className="font-body text-xs font-[300] text-smoke/40 mt-2 group-hover:text-smoke/70 transition-colors duration-500">
+                    {brand.note}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Interior Gallery */}
-      <section className="px-6 py-24 md:px-12 border-t border-linen/5">
-        <div className="mx-auto max-w-7xl">
+      {/* Interior gallery — editorial grid */}
+      <section className="editorial-section border-t border-linen/5">
+        <div className="mx-auto max-w-[1400px]">
           <Reveal>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">INTERIORS</span>
-            <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
-              The showroom experience.
+            <span className="editorial-caption">INTERIORS</span>
+            <h2 className="editorial-headline-md mt-4">
+              The showroom<br />experience.
             </h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {GALLERY_IMAGES.map((img, i) => (
               <Reveal key={img.src} delay={i * 80}>
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -216,11 +232,11 @@ export default function ShowroomPage() {
       </section>
 
       {/* Map */}
-      <section className="px-6 py-24 md:px-12 border-t border-linen/5">
-        <div className="mx-auto max-w-7xl">
+      <section className="editorial-section border-t border-linen/5">
+        <div className="mx-auto max-w-[1400px]">
           <Reveal>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">FIND US</span>
-            <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.5rem)] font-[100] tracking-[0.04em] text-linen">
+            <span className="editorial-caption">FIND US</span>
+            <h2 className="editorial-headline-md mt-4">
               Visit the showroom.
             </h2>
           </Reveal>

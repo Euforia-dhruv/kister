@@ -36,7 +36,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-void border-t border-linen/5">
-      <div className="mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+      <div className="mx-auto max-w-[1400px] px-6 py-16 md:px-12 md:py-24">
         <Stagger stagger={0.08} className="grid grid-cols-1 gap-12 md:grid-cols-4">
           {/* Brand */}
           <StaggerItem>
@@ -44,7 +44,7 @@ export default function Footer() {
               <span className="font-display text-lg font-[100] tracking-[0.2em] text-linen">
                 KITSER
               </span>
-              <p className="font-body text-sm font-[300] leading-relaxed text-smoke">
+              <p className="editorial-body">
                 Premium kitchen curation.<br />
                 Heritage meets innovation.<br />
                 Coimbatore, India.
@@ -68,7 +68,7 @@ export default function Footer() {
           {/* Links */}
           <StaggerItem>
             <div className="flex flex-col gap-2.5">
-              <span className="font-body text-xs font-[500] tracking-ultra text-ember mb-2">NAVIGATE</span>
+              <span className="editorial-caption mb-2">NAVIGATE</span>
               {LINKS.map((link) => (
                 <Link
                   key={link.href}
@@ -84,7 +84,7 @@ export default function Footer() {
           {/* Contact */}
           <StaggerItem>
             <div className="flex flex-col gap-3">
-              <span className="font-body text-xs font-[500] tracking-ultra text-ember mb-2">CONTACT</span>
+              <span className="editorial-caption mb-2">CONTACT</span>
               <span className="font-body text-sm font-[300] text-smoke">
                 No. 1, Nava India Road
               </span>
@@ -103,14 +103,14 @@ export default function Footer() {
           {/* Newsletter */}
           <StaggerItem>
             <div className="flex flex-col gap-3">
-              <span className="font-body text-xs font-[500] tracking-ultra text-ember mb-2">NEWSLETTER</span>
+              <span className="editorial-caption mb-2">NEWSLETTER</span>
               {subscribed ? (
                 <p className="font-body text-sm font-[300] text-linen">
                   Thank you for subscribing.
                 </p>
               ) : (
                 <>
-                  <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">
+                  <p className="editorial-body">
                     Curated insights on materials, craft, and kitchen design.
                   </p>
                   <form onSubmit={handleSubscribe} className="flex flex-col gap-3 mt-2">
@@ -138,7 +138,7 @@ export default function Footer() {
         <Reveal>
           <div className="mt-16 border-t border-linen/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="font-body text-xs font-[300] text-ash">
-              &copy; {new Date().getFullYear()} Kitser Retail Pvt Ltd. All rights reserved.
+              © {new Date().getFullYear()} Kitser Retail Pvt Ltd. All rights reserved.
             </p>
             <div className="flex gap-6">
               <span className="font-body text-xs font-[300] text-ash transition-colors hover:text-smoke cursor-pointer">

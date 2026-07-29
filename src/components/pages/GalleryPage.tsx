@@ -10,7 +10,7 @@ const GALLERY = [
     id: 1,
     title: "The Scavolini Lago",
     description: "Matte black cabinetry with brass hardware. A kitchen that breathes.",
-    image: "/images/dark-kitchen-v2.jpg",
+    image: "/images/kitchens/scavolini-poetica-hero.jpg",
     category: "Modern",
     location: "Coimbatore",
     year: "2024",
@@ -19,7 +19,7 @@ const GALLERY = [
     id: 2,
     title: "The Le Creuset Corner",
     description: "Heritage cast iron meets contemporary design. Warmth in every surface.",
-    image: "/images/marble-veins.jpg",
+    image: "/images/kitchens/scavolini-carattere-white.jpg",
     category: "Heritage",
     location: "Bangalore",
     year: "2023",
@@ -28,7 +28,7 @@ const GALLERY = [
     id: 3,
     title: "The Bosch Minimal",
     description: "Hidden appliances, clean lines. Technology that disappears into craft.",
-    image: "/images/brass-detail.jpg",
+    image: "/images/kitchens/scavolini-delinea-peninsula.jpg",
     category: "Minimal",
     location: "Mumbai",
     year: "2024",
@@ -37,7 +37,7 @@ const GALLERY = [
     id: 4,
     title: "The Artisan's Workshop",
     description: "Walnut, copper, stone. A kitchen built for making, not just showing.",
-    image: "/images/artisan-hands-v2.jpg",
+    image: "/images/kitchens/scavolini-carattere-english.jpg",
     category: "Artisan",
     location: "Chennai",
     year: "2023",
@@ -46,7 +46,7 @@ const GALLERY = [
     id: 5,
     title: "The Scavolini Nero",
     description: "Black on black. Depth without darkness. A kitchen that commands attention.",
-    image: "/images/dark-kitchen-v2.jpg",
+    image: "/images/kitchens/scavolini-poetica-ushaped.jpg",
     category: "Modern",
     location: "Hyderabad",
     year: "2024",
@@ -55,7 +55,7 @@ const GALLERY = [
     id: 6,
     title: "The Franke Station",
     description: "Granite composite, stainless steel, precision engineering. The unsung hero.",
-    image: "/images/marble-veins.jpg",
+    image: "/images/hardware/blanco-claron-700.webp",
     category: "Industrial",
     location: "Coimbatore",
     year: "2023",
@@ -64,7 +64,7 @@ const GALLERY = [
     id: 7,
     title: "The Miele Gallery",
     description: "Integrated appliances, seamless cabinetry. The kitchen that disappears.",
-    image: "/images/brass-detail.jpg",
+    image: "/images/appliances/smeg-musa-hero.jpg",
     category: "Minimal",
     location: "Pune",
     year: "2024",
@@ -73,7 +73,7 @@ const GALLERY = [
     id: 8,
     title: "The Heritage Bungalow",
     description: "Restored 1960s kitchen with modern efficiency. Original bones, contemporary soul.",
-    image: "/images/artisan-hands-v2.jpg",
+    image: "/images/kitchens/scavolini-poetica-iron-grey.jpg",
     category: "Heritage",
     location: "Bangalore",
     year: "2023",
@@ -82,118 +82,201 @@ const GALLERY = [
     id: 9,
     title: "The Copper Kitchen",
     description: "Copper cookware display, walnut shelving, marble countertops. Material heaven.",
-    image: "/images/dark-kitchen-v2.jpg",
+    image: "/images/kitchens/scavolini-poetica-linear.jpg",
     category: "Artisan",
     location: "Coimbatore",
     year: "2024",
   },
 ];
 
-const CATEGORIES = ["All", "Modern", "Heritage", "Minimal", "Artisan", "Industrial"];
-
 export default function GalleryPage() {
-  const [selected, setSelected] = useState<typeof GALLERY[0] | null>(null);
-  const [filter, setFilter] = useState("All");
-
-  const filtered = filter === "All" ? GALLERY : GALLERY.filter((g) => g.category === filter);
+  const [selected, setSelected] = useState<(typeof GALLERY)[0] | null>(null);
 
   return (
     <main className="relative bg-void">
       {/* Hero */}
-      <section className="scene scene-dark flex items-center justify-center px-6 py-40">
-        <div className="max-w-4xl text-center">
+      <section className="editorial-section-lg">
+        <div className="mx-auto max-w-[1400px] text-center">
           <Reveal blur>
-            <span className="font-body text-xs font-[500] tracking-ultra text-ember">GALLERY</span>
+            <span className="editorial-caption">GALLERY</span>
           </Reveal>
           <Reveal delay={100} blur>
-            <h1 className="mt-6 font-display text-[clamp(2.5rem,6vw,5rem)] font-[100] leading-[1.05] tracking-[0.04em] text-linen">
+            <h1 className="editorial-headline mt-6">
               Kitchens we&apos;ve<br />curated.
             </h1>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mt-8 font-body text-[clamp(0.9rem,1.5vw,1.1rem)] font-[300] leading-relaxed text-smoke max-w-2xl mx-auto">
-              Every kitchen is a collaboration. Every material is a choice. Here are nine recent projects that showcase what happens when craft meets conviction.
+            <p className="editorial-body mt-8 mx-auto max-w-md">
+              Every kitchen is a collaboration. Every material is a choice.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="scene scene-dark px-6 pt-12 pb-0 md:px-12">
-        <div className="mx-auto max-w-7xl">
-          <Reveal>
-            <div className="flex flex-wrap gap-4 justify-center">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setFilter(cat)}
-                  className={`font-body text-xs font-[400] tracking-wide-custom px-5 py-2 border transition-all duration-500 ${
-                    filter === cat
-                      ? "border-ember text-ember"
-                      : "border-linen/10 text-smoke hover:border-linen/30 hover:text-linen"
-                  }`}
-                >
-                  {cat.toUpperCase()}
-                </button>
-              ))}
+      {/* Featured kitchen — full viewport */}
+      <section className="editorial-section-sm">
+        <div className="mx-auto max-w-[1400px]">
+          <Reveal scale>
+            <div
+              className="group relative aspect-[16/9] overflow-hidden cursor-pointer"
+              onClick={() => setSelected(GALLERY[0])}
+            >
+              <Image
+                src={GALLERY[0].image}
+                alt={GALLERY[0].title}
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                sizes="(max-width: 768px) 100vw, 90vw"
+              />
+              <div className="absolute inset-0 img-warm img-vignette" />
+              <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-8 md:p-12">
+                <span className="editorial-caption">{GALLERY[0].category.toUpperCase()}</span>
+                <h2 className="editorial-headline-sm mt-3">{GALLERY[0].title}</h2>
+                <p className="editorial-body mt-2 max-w-sm">{GALLERY[0].description}</p>
+                <p className="font-body text-xs font-[300] text-smoke/50 mt-2">
+                  {GALLERY[0].location} · {GALLERY[0].year}
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Gallery grid */}
-      <section className="scene scene-dark px-6 py-16 md:px-12">
-        <div className="mx-auto max-w-7xl">
-          <motion.div layout className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
+      {/* Gallery — editorial grid with varying sizes */}
+      <section className="editorial-section">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
+            {/* Row 1: two medium */}
+            <Reveal className="md:col-span-6" delay={0}>
+              <div
+                className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
+                onClick={() => setSelected(GALLERY[1])}
+              >
+                <Image
+                  src={GALLERY[1].image}
+                  alt={GALLERY[1].title}
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 img-warm img-vignette" />
+                <div className="absolute bottom-0 left-0 p-8">
+                  <span className="editorial-caption">{GALLERY[1].category.toUpperCase()}</span>
+                  <h3 className="editorial-headline-sm mt-2">{GALLERY[1].title}</h3>
+                  <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
+                    {GALLERY[1].location} · {GALLERY[1].year}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal className="md:col-span-6" delay={100}>
+              <div
+                className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
+                onClick={() => setSelected(GALLERY[2])}
+              >
+                <Image
+                  src={GALLERY[2].image}
+                  alt={GALLERY[2].title}
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 img-warm img-vignette" />
+                <div className="absolute bottom-0 left-0 p-8">
+                  <span className="editorial-caption">{GALLERY[2].category.toUpperCase()}</span>
+                  <h3 className="editorial-headline-sm mt-2">{GALLERY[2].title}</h3>
+                  <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
+                    {GALLERY[2].location} · {GALLERY[2].year}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 2: one wide, two stacked */}
+            <Reveal className="md:col-span-8" delay={200}>
+              <div
+                className="group relative aspect-[16/10] overflow-hidden cursor-pointer"
+                onClick={() => setSelected(GALLERY[3])}
+              >
+                <Image
+                  src={GALLERY[3].image}
+                  alt={GALLERY[3].title}
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                  sizes="(max-width: 768px) 100vw, 70vw"
+                />
+                <div className="absolute inset-0 img-warm img-vignette" />
+                <div className="absolute bottom-0 left-0 p-8">
+                  <span className="editorial-caption">{GALLERY[3].category.toUpperCase()}</span>
+                  <h3 className="editorial-headline-sm mt-2">{GALLERY[3].title}</h3>
+                </div>
+              </div>
+            </Reveal>
+            <div className="md:col-span-4 flex flex-col gap-4">
+              <Reveal delay={300}>
+                <div
+                  className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
+                  onClick={() => setSelected(GALLERY[4])}
                 >
-                  <Reveal delay={i * 60}>
-                    <div
-                      className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
-                      onClick={() => setSelected(item)}
-                    >
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105 img-grade"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                      <div className="absolute inset-0 img-warm img-vignette" />
+                  <Image
+                    src={GALLERY[4].image}
+                    alt={GALLERY[4].title}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    sizes="(max-width: 768px) 100vw, 30vw"
+                  />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <span className="editorial-caption">{GALLERY[4].category.toUpperCase()}</span>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={400}>
+                <div
+                  className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
+                  onClick={() => setSelected(GALLERY[5])}
+                >
+                  <Image
+                    src={GALLERY[5].image}
+                    alt={GALLERY[5].title}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    sizes="(max-width: 768px) 100vw, 30vw"
+                  />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <span className="editorial-caption">{GALLERY[5].category.toUpperCase()}</span>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
 
-                      {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-void/0 group-hover:bg-void/50 transition-all duration-500 flex items-end p-8">
-                        <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                          <span className="font-body text-[0.6rem] font-[400] tracking-ultra text-ember">
-                            {item.category.toUpperCase()}
-                          </span>
-                          <h3 className="mt-2 font-display text-lg font-[300] tracking-[0.04em] text-linen">
-                            {item.title}
-                          </h3>
-                          <p className="mt-1 font-body text-xs font-[300] text-smoke">
-                            {item.location} · {item.year}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* View icon */}
-                      <div className="absolute top-4 right-4 w-10 h-10 border border-linen/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-void/40 backdrop-blur-sm">
-                        <span className="text-linen text-lg">+</span>
-                      </div>
-                    </div>
-                  </Reveal>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+            {/* Row 3: three equal */}
+            {GALLERY.slice(6).map((item, i) => (
+              <Reveal key={item.id} className="md:col-span-4" delay={i * 100}>
+                <div
+                  className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
+                  onClick={() => setSelected(item)}
+                >
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105 img-grade"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 img-warm img-vignette" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <span className="editorial-caption">{item.category.toUpperCase()}</span>
+                    <h3 className="font-display text-base font-[100] tracking-[0.04em] text-linen mt-1">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -223,24 +306,14 @@ export default function GalleryPage() {
                 sizes="90vw"
               />
               <div className="absolute inset-0 img-warm img-vignette" />
-
-              {/* Info overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-void/80 to-transparent">
-                <span className="font-body text-[0.65rem] font-[400] tracking-ultra text-ember">
-                  {selected.category.toUpperCase()}
-                </span>
-                <h3 className="mt-2 font-display text-2xl font-[100] tracking-[0.04em] text-linen">
-                  {selected.title}
-                </h3>
-                <p className="mt-2 font-body text-sm font-[300] text-smoke max-w-lg">
-                  {selected.description}
-                </p>
-                <p className="mt-1 font-body text-xs font-[300] text-smoke/60">
+                <span className="editorial-caption">{selected.category.toUpperCase()}</span>
+                <h3 className="editorial-headline-sm mt-2">{selected.title}</h3>
+                <p className="editorial-body mt-2 max-w-lg">{selected.description}</p>
+                <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
                   {selected.location} · {selected.year}
                 </p>
               </div>
-
-              {/* Close button */}
               <button
                 onClick={() => setSelected(null)}
                 className="absolute top-4 right-4 w-10 h-10 border border-linen/20 flex items-center justify-center bg-void/40 backdrop-blur-sm transition-colors hover:border-linen/50"

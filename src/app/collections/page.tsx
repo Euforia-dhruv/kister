@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Collections — Kitser",
     description: "Every material has a story. Curated collections from the world's finest makers.",
-    images: ["/images/marble-veins.jpg"],
+    images: ["/images/cookware/01-cast-iron.jpg"],
   },
 };
 
