@@ -83,7 +83,7 @@ export default function Nav() {
           setScrollProgress(progress);
 
           const scrollingUp = y < lastY;
-          const threshold = isHome ? 3200 : 80;
+          const threshold = isHome ? 900 : 80;
 
           setAtTop(y <= threshold);
 
