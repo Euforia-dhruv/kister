@@ -173,3 +173,34 @@ body {
 
 .tracking-ultra { letter-spacing: 0.3em; }
 .tracking-wide-custom { letter-spacing: 0.12em; }
+
+/* ─── SMOOTH SCROLL ───────────────────────────────────── */
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ─── FORM ELEMENTS ───────────────────────────────────── */
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: rgba(74, 74, 74, 0.6);
+}
+
+select option {
+  background: #0a0a0a;
+  color: #f5f0eb;
+}
+
+/* ─── PERFORMANCE ─────────────────────────────────────── */
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

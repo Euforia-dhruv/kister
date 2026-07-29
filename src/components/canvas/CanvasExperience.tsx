@@ -1,14 +1,16 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 // ═══════════════════════════════════════════════════════════════
-// CANVAS EXPERIENCE V3 — 16 beats. 800vh. Auto-progression.
+// CANVAS EXPERIENCE V4 — 16 beats. 800vh. Auto-progression.
+// Skip button. Progress indicator. Keyboard navigation.
 // ═══════════════════════════════════════════════════════════════
 
-const TOTAL_SCROLL = 800; // vh — ~8 viewports, ~60s auto-progression
-const AUTO_SPEED = 1 / 60000; // progress per ms — full experience in 60s
-const IDLE_TIMEOUT = 2500; // ms before auto-progression begins
+const TOTAL_SCROLL = 800;
+const AUTO_SPEED = 1 / 60000;
+const IDLE_TIMEOUT = 2500;
 
 // ─── BEAT DATA ──────────────────────────────────────────────
 
@@ -22,22 +24,15 @@ interface Beat {
 }
 
 const BEATS: Beat[] = [
-  // ACT I — THE AWAKENING (0.00–0.15)
   { id: "nothing",    start: 0.00, end: 0.03,  enter: 0,     hold: 0.03,  exit: 0     },
   { id: "spark",      start: 0.03, end: 0.07,  enter: 0.002, hold: 0.03,  exit: 0.01  },
   { id: "name",       start: 0.07, end: 0.15,  enter: 0.04,  hold: 0.02,  exit: 0.02  },
-
-  // ACT II — THE MATERIALS (0.15–0.50)
   { id: "stone",      start: 0.15, end: 0.24,  enter: 0.03,  hold: 0.04,  exit: 0.02  },
   { id: "copper",     start: 0.24, end: 0.33,  enter: 0.03,  hold: 0.04,  exit: 0.02  },
   { id: "number",     start: 0.33, end: 0.40,  enter: 0.01,  hold: 0.04,  exit: 0.01  },
   { id: "hands",      start: 0.40, end: 0.50,  enter: 0.03,  hold: 0.04,  exit: 0.02  },
-
-  // ACT III — THE KITCHEN (0.50–0.75)
   { id: "breath",     start: 0.50, end: 0.53,  enter: 0,     hold: 0.03,  exit: 0     },
   { id: "kitchen",    start: 0.53, end: 0.72,  enter: 0.04,  hold: 0.10,  exit: 0.04  },
-
-  // ACT IV — THE INVITATION (0.72–1.00)
   { id: "shift",      start: 0.72, end: 0.82,  enter: 0.03,  hold: 0.05,  exit: 0.02  },
   { id: "truth",      start: 0.82, end: 0.90,  enter: 0.01,  hold: 0.05,  exit: 0.02  },
   { id: "climax",     start: 0.90, end: 0.96,  enter: 0.01,  hold: 0.03,  exit: 0.01  },
@@ -101,6 +96,15 @@ function textColor(p: number): string {
   return "#0a0a0a";
 }
 
+// ─── BEAT LABELS ────────────────────────────────────────────
+
+function beatLabel(p: number): string {
+  for (let i = BEATS.length - 1; i >= 0; i--) {
+    if (p >= BEATS[i].start) return BEATS[i].id.toUpperCase();
+  }
+  return "";
+}
+
 // ─── CINEMATIC COLOR GRADING ────────────────────────────────
 
 const GRADE = "saturate(0.82) sepia(0.10) contrast(1.08) brightness(0.92)";
@@ -113,10 +117,12 @@ const DEEP_VIGNETTE = "radial-gradient(ellipse at center, transparent 20%, rgba(
 
 export default function CanvasExperience() {
   const [progress, setProgress] = useState(0);
+  const [skipped, setSkipped] = useState(false);
   const rafRef = useRef(0);
   const lastScrollTime = useRef(0);
   const isAutoAdvancing = useRef(false);
   const userHasScrolled = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // ─── SCROLL TRACKING ─────────────────────────────────
   useEffect(() => {
@@ -143,6 +149,7 @@ export default function CanvasExperience() {
 
   // ─── AUTO-PROGRESSION ────────────────────────────────
   useEffect(() => {
+    if (skipped) return;
     let lastTime = performance.now();
 
     const tick = (now: number) => {
@@ -152,7 +159,6 @@ export default function CanvasExperience() {
       const timeSinceScroll = Date.now() - lastScrollTime.current;
 
       if (timeSinceScroll > IDLE_TIMEOUT && userHasScrolled.current) {
-        // Auto-advance
         isAutoAdvancing.current = true;
         setProgress((prev) => {
           const next = prev + AUTO_SPEED * elapsed;
@@ -164,18 +170,45 @@ export default function CanvasExperience() {
     };
 
     rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-    };
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [skipped]);
+
+  const skipToEnd = useCallback(() => {
+    setSkipped(true);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({ top: h, behavior: "instant" });
   }, []);
 
-  const p = progress;
+  // ─── KEYBOARD NAVIGATION ─────────────────────────────
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (skipped) return;
+      const step = 0.05;
+      if (e.key === "ArrowDown" || e.key === " ") {
+        e.preventDefault();
+        setProgress((prev) => Math.min(prev + step, 1));
+        userHasScrolled.current = true;
+        lastScrollTime.current = Date.now();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setProgress((prev) => Math.max(prev - step, 0));
+        userHasScrolled.current = true;
+        lastScrollTime.current = Date.now();
+      } else if (e.key === "Escape") {
+        skipToEnd();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [skipped, skipToEnd]);
+
+  const p = skipped ? 1 : progress;
   const bg = bgColor(p);
   const tc = textColor(p);
   const ls = lightSize(p);
 
   return (
-    <div className="relative" style={{ height: `${TOTAL_SCROLL}vh` }}>
+    <div className="relative" style={{ height: `${TOTAL_SCROLL}vh` }} ref={containerRef}>
       <div
         className="sticky top-0 h-screen w-full overflow-hidden"
         style={{ backgroundColor: bg }}
@@ -214,30 +247,52 @@ export default function CanvasExperience() {
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
           backgroundSize: "256px 256px",
         }} />
+
+        {/* ─── PROGRESS INDICATOR ─────────────────────── */}
+        <div className="absolute bottom-8 left-1/2 z-40 -translate-x-1/2 flex flex-col items-center gap-3">
+          <span className="font-body text-[0.6rem] font-[300] tracking-[0.2em] text-linen/40">
+            {beatLabel(p)}
+          </span>
+          <div className="w-24 h-[1px] bg-linen/10 relative overflow-hidden">
+            <motion.div
+              className="absolute left-0 top-0 h-full bg-ember/60"
+              style={{ width: `${p * 100}%` }}
+              transition={{ duration: 0.1 }}
+            />
+          </div>
+        </div>
+
+        {/* ─── SKIP BUTTON ────────────────────────────── */}
+        <AnimatePresence>
+          {!skipped && p < 0.95 && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 2, duration: 0.5 }}
+              onClick={skipToEnd}
+              className="absolute bottom-8 right-8 z-40 font-body text-[0.65rem] font-[300] tracking-[0.15em] text-linen/30 transition-colors duration-300 hover:text-linen/70 border border-linen/10 px-4 py-2 hover:border-linen/30"
+            >
+              SKIP INTRO
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
 }
 
 // ═══════════════════════════════════════════════════════════════
-// BEAT 01 — NOTHING (Curiosity)
+// BEATS
 // ═══════════════════════════════════════════════════════════════
 
 function NothingBeat({ progress: _p }: { progress: number }) {
   return null;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BEAT 02 — SPARK (Wonder)
-// ═══════════════════════════════════════════════════════════════
-
 function SparkBeat({ progress: _p }: { progress: number }) {
   return null;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 03 — NAME (Warmth)
-// ═══════════════════════════════════════════════════════════════
 
 function NameBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[2];
@@ -282,10 +337,6 @@ function NameBeat({ progress: p }: { progress: number }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BEAT 04 — STONE (Weight)
-// ═══════════════════════════════════════════════════════════════
-
 function StoneBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[3];
   const vis = envelope(beat, p);
@@ -310,10 +361,6 @@ function StoneBeat({ progress: p }: { progress: number }) {
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 05 — COPPER (Presence)
-// ═══════════════════════════════════════════════════════════════
 
 function CopperBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[4];
@@ -341,10 +388,6 @@ function CopperBeat({ progress: p }: { progress: number }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BEAT 06 — NUMBER (Mystery)
-// ═══════════════════════════════════════════════════════════════
-
 function NumberBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[5];
   const vis = envelope(beat, p);
@@ -366,10 +409,6 @@ function NumberBeat({ progress: p }: { progress: number }) {
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 07 — HANDS (Intimacy)
-// ═══════════════════════════════════════════════════════════════
 
 function HandsBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[6];
@@ -396,17 +435,9 @@ function HandsBeat({ progress: p }: { progress: number }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BEAT 08 — BREATH (Anticipation)
-// ═══════════════════════════════════════════════════════════════
-
 function BreathBeat({ progress: _p }: { progress: number }) {
   return null;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 09 — KITCHEN (Desire)
-// ═══════════════════════════════════════════════════════════════
 
 function KitchenBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[8];
@@ -432,17 +463,9 @@ function KitchenBeat({ progress: p }: { progress: number }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BEAT 10 — SHIFT (Expansion)
-// ═══════════════════════════════════════════════════════════════
-
 function ShiftBeat({ progress: _p }: { progress: number }) {
   return null;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 11 — TRUTH (Conviction)
-// ═══════════════════════════════════════════════════════════════
 
 function TruthBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[10];
@@ -471,10 +494,6 @@ function TruthBeat({ progress: p }: { progress: number }) {
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 12 — CLIMAX (Feeling)
-// ═══════════════════════════════════════════════════════════════
 
 function ClimaxBeat({ progress: p }: { progress: number }) {
   const beat = BEATS[11];
@@ -512,10 +531,6 @@ function ClimaxBeat({ progress: p }: { progress: number }) {
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// BEAT 13 — CLOSE (Completion)
-// ═══════════════════════════════════════════════════════════════
 
 function CloseBeat({ progress: p, color }: { progress: number; color: string }) {
   const beat = BEATS[12];

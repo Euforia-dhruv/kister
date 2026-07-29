@@ -3,6 +3,7 @@ import "./globals.css";
 import Nav from "@/components/site/Nav";
 import Footer from "@/components/site/Footer";
 import ScrollToTop from "@/components/site/ScrollToTop";
+import PageTransition from "@/components/site/PageTransition";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kister-v2.vercel.app"),
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <ScrollToTop />
         <Nav />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
         <div className="film-grain" aria-hidden="true" />
       </body>

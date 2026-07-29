@@ -1,6 +1,9 @@
 "use client";
 
-import Reveal from "@/components/site/Reveal";
+import Image from "next/image";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
+import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
 
 const TIMELINE = [
   { year: "1989", title: "Founded", desc: "Kitser opens its first showroom in Coimbatore, bringing premium European cookware to South India." },
@@ -11,18 +14,48 @@ const TIMELINE = [
 ];
 
 const VALUES = [
-  { title: "Craft", desc: "Every product is chosen for its integrity, not its marketing." },
-  { title: "Heritage", desc: "We partner with makers who have decades — sometimes centuries — of expertise." },
-  { title: "Material", desc: "Cast iron, copper, stone, walnut, brass. Materials that age with grace." },
-  { title: "Restraint", desc: "We curate. We don't accumulate. Less, but better." },
+  { title: "Craft", desc: "Every product is chosen for its integrity, not its marketing.", icon: "◆" },
+  { title: "Heritage", desc: "We partner with makers who have decades — sometimes centuries — of expertise.", icon: "◇" },
+  { title: "Material", desc: "Cast iron, copper, stone, walnut, brass. Materials that age with grace.", icon: "○" },
+  { title: "Restraint", desc: "We curate. We don't accumulate. Less, but better.", icon: "□" },
 ];
 
+const STATS = [
+  { value: 35, suffix: "+", label: "Brand Partners" },
+  { value: 35, suffix: "+", label: "Years of Craft" },
+  { value: 1, suffix: "", label: "Philosophy" },
+];
+
+function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
+  return (
+    <motion.span
+      className="font-display text-[clamp(2.5rem,5vw,4rem)] font-[100] tracking-[0.04em] text-ember"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+    >
+      {value}{suffix}
+    </motion.span>
+  );
+}
+
 export default function AboutPage() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
     <main className="relative bg-void">
-      {/* Hero */}
-      <section className="scene scene-dark flex items-center justify-center px-6 py-40">
-        <div className="max-w-4xl text-center">
+      {/* Hero with parallax */}
+      <section ref={heroRef} className="scene scene-dark flex items-center justify-center px-6 py-40 overflow-hidden">
+        <motion.div
+          className="max-w-4xl text-center relative z-10"
+          style={{ y: heroY, opacity: heroOpacity }}
+        >
           <Reveal blur>
             <span className="font-body text-xs font-[500] tracking-ultra text-ember">OUR STORY</span>
           </Reveal>
@@ -31,6 +64,29 @@ export default function AboutPage() {
               Three decades of<br />curated craft.
             </h1>
           </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-8 font-body text-[clamp(0.9rem,1.3vw,1.05rem)] font-[300] leading-[1.8] text-smoke max-w-xl mx-auto">
+              From a single showroom to 35+ world-class partnerships — the story of Kitser is the story of the kitchen itself.
+            </p>
+          </Reveal>
+        </motion.div>
+      </section>
+
+      {/* Stats */}
+      <section className="scene scene-warm px-6 py-20 md:px-12">
+        <div className="mx-auto max-w-5xl">
+          <Stagger stagger={0.15} className="grid grid-cols-1 gap-12 sm:grid-cols-3">
+            {STATS.map((stat) => (
+              <StaggerItem key={stat.label} className="text-center">
+                <div className="flex flex-col items-center gap-2">
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                  <span className="font-body text-sm font-[300] tracking-wide-custom text-smoke">
+                    {stat.label}
+                  </span>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
@@ -60,7 +116,14 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={200} scale>
             <div className="relative aspect-[4/5] overflow-hidden">
-              <img src="/images/artisan-hands-v2.jpg" alt="Artisan craftsmanship" className="h-full w-full object-cover img-grade" />
+              <Image
+                src="/images/artisan-hands-v2.jpg"
+                alt="Artisan craftsmanship"
+                fill
+                className="object-cover img-grade"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
               <div className="absolute inset-0 img-warm img-vignette" />
             </div>
           </Reveal>
@@ -76,16 +139,19 @@ export default function AboutPage() {
               What we believe.
             </h2>
           </Reveal>
-          <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
-            {VALUES.map((val, i) => (
-              <Reveal key={val.title} delay={i * 100}>
-                <div className="flex flex-col gap-3">
+          <Stagger stagger={0.1} className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+            {VALUES.map((val) => (
+              <StaggerItem key={val.title}>
+                <div className="flex flex-col gap-4 group">
+                  <span className="text-2xl text-ember/40 group-hover:text-ember transition-colors duration-500">
+                    {val.icon}
+                  </span>
                   <h3 className="font-display text-lg font-[300] tracking-[0.06em] text-linen">{val.title}</h3>
                   <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">{val.desc}</p>
                 </div>
-              </Reveal>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -98,20 +164,27 @@ export default function AboutPage() {
               A timeline of craft.
             </h2>
           </Reveal>
-          <div className="mt-16 flex flex-col gap-12">
-            {TIMELINE.map((item, i) => (
-              <Reveal key={item.year} delay={i * 100}>
-                <div className="flex gap-8">
-                  <span className="font-display text-sm font-[300] tracking-wide-custom text-ember shrink-0 w-16">
-                    {item.year}
-                  </span>
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-base font-[300] tracking-[0.04em] text-linen">{item.title}</h3>
-                    <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">{item.desc}</p>
+          <div className="mt-16 relative">
+            {/* Vertical line */}
+            <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-linen/10" />
+
+            <Stagger stagger={0.15} className="flex flex-col gap-12">
+              {TIMELINE.map((item) => (
+                <StaggerItem key={item.year}>
+                  <div className="flex gap-8 relative">
+                    {/* Dot */}
+                    <div className="absolute left-8 top-1 w-2 h-2 -translate-x-[3.5px] rounded-full bg-ember/60" />
+                    <span className="font-display text-sm font-[300] tracking-wide-custom text-ember shrink-0 w-16 pl-12">
+                      {item.year}
+                    </span>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-display text-base font-[300] tracking-[0.04em] text-linen">{item.title}</h3>
+                      <p className="font-body text-sm font-[300] leading-[1.7] text-smoke">{item.desc}</p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
         </div>
       </section>
