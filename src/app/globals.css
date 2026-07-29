@@ -45,6 +45,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide default cursor on desktop */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, [data-cursor] { cursor: none; }
+}
+
 ::selection {
   background: rgba(196, 90, 44, 0.3);
   color: #fff;
@@ -69,29 +75,28 @@ body {
 }
 
 /* ─── EDITORIAL SPACING RHYTHM ─────────────────────────── */
-/* Generous breathing spaces. Never stack tightly. */
+/* Reduced spacing for scroll overlap — sections feel connected */
 
 .editorial-section {
-  padding: clamp(4rem, 12vw, 10rem) clamp(1.5rem, 5vw, 6rem);
+  padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 5vw, 6rem);
 }
 
 .editorial-section-lg {
-  padding: clamp(6rem, 16vw, 14rem) clamp(1.5rem, 5vw, 6rem);
+  padding: clamp(4rem, 10vw, 9rem) clamp(1.5rem, 5vw, 6rem);
 }
 
 .editorial-section-sm {
-  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 6rem);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 5vw, 6rem);
 }
 
 /* ─── EDITORIAL TYPOGRAPHY SCALE ────────────────────────── */
-/* Headlines: massive. Supporting: small. 40% less text. */
 
 .editorial-headline {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 100;
   font-size: clamp(3rem, 8vw, 7rem);
-  line-height: 1.0;
-  letter-spacing: 0.02em;
+  line-height: 0.96;
+  letter-spacing: -0.01em;
   color: #f5f0eb;
 }
 
@@ -99,8 +104,8 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 100;
   font-size: clamp(2rem, 5vw, 4.5rem);
-  line-height: 1.05;
-  letter-spacing: 0.03em;
+  line-height: 1.0;
+  letter-spacing: -0.005em;
   color: #f5f0eb;
 }
 
@@ -108,8 +113,17 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 100;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.1;
-  letter-spacing: 0.04em;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  color: #f5f0eb;
+}
+
+.editorial-headline-xs {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 100;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
   color: #f5f0eb;
 }
 
@@ -177,7 +191,6 @@ body {
   transform: scale(1);
 }
 
-/* Stagger children */
 .stagger > * { transition-delay: calc(var(--i, 0) * 100ms); }
 
 /* ─── SCENE TYPES ──────────────────────────────────────── */
@@ -261,7 +274,6 @@ body {
 
 /* ─── EDITORIAL LAYOUT UTILITIES ───────────────────────── */
 
-/* Asymmetric grid: 60/40 split */
 .editorial-split {
   display: grid;
   grid-template-columns: 1fr;
@@ -288,7 +300,6 @@ body {
   }
 }
 
-/* Full-bleed image */
 .full-bleed {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
@@ -324,4 +335,226 @@ select option {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+/* ─── PREMIUM ANIMATIONS ─────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── SECTION DIVIDERS ────────────────────────────────── */
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,90,44,0.15), transparent);
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+/* ─── IMAGE MASK REVEAL ───────────────────────────────── */
+
+.mask-reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mask-reveal.revealed {
+  clip-path: inset(0 0% 0 0);
+}
+
+/* ─── HOVER EFFECTS ───────────────────────────────────── */
+
+.hover-lift {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* ─── TEXT STAGGER ────────────────────────────────────── */
+
+.word-reveal > span {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.word-reveal > span > span {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.word-reveal.revealed > span > span {
+  transform: translateY(0);
+}
+
+/* ─── MAGNETIC BUTTON ─────────────────────────────────── */
+
+.magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid rgba(245,240,235,0.15);
+  padding: 0.875rem 2rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: #f5f0eb;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.magnetic-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(196,90,44,0.1), rgba(196,90,44,0.05));
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.magnetic-btn:hover::before {
+  opacity: 1;
+}
+
+.magnetic-btn:hover {
+  border-color: rgba(196,90,44,0.4);
+  color: #f5f0eb;
+}
+
+.magnetic-btn .btn-arrow {
+  width: 0;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnetic-btn:hover .btn-arrow {
+  width: 1rem;
+}
+
+/* ─── EDITORIAL GRID PATTERNS ─────────────────────────── */
+
+.grid-magazine {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-magazine {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .grid-magazine > :first-child {
+    grid-row: 1 / 3;
+  }
+}
+
+/* ─── MATERIAL CHAPTERS ───────────────────────────────── */
+
+.material-chapter {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .material-chapter {
+    min-height: auto;
+    padding: 4rem 0;
+  }
+}
+
+/* ─── MOBILE OPTIMIZATIONS ────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Touch-friendly targets */
+  .magnetic-btn {
+    padding: 1rem 1.5rem;
+    font-size: 0.7rem;
+    min-height: 44px;
+  }
+
+  /* Editorial spacing reduction on mobile */
+  .editorial-section {
+    padding: clamp(2.5rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .editorial-section-lg {
+    padding: clamp(3rem, 10vw, 6rem) clamp(1.25rem, 4vw, 2rem);
+  }
+
+  /* Headlines scale down gracefully */
+  .editorial-headline {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .editorial-headline-md {
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
+  }
+
+  .editorial-headline-sm {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+
+  /* Hide custom cursor on touch */
+  .film-grain {
+    opacity: 0.02;
+  }
+
+  /* Reduce animations for performance */
+  .gpu-accelerate {
+    transform: none;
+  }
+}
+
+/* ─── HOVER MEDIA QUERY ───────────────────────────────── */
+
+@media (hover: none) {
+  .magnetic-btn:hover::before {
+    opacity: 0;
+  }
+
+  .magnetic-btn:hover {
+    border-color: rgba(245,240,235,0.15);
+  }
+}
+
+/* ─── SAFE AREA (notch devices) ───────────────────────── */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .editorial-section,
+  .editorial-section-lg {
+    padding-left: calc(clamp(1.25rem, 4vw, 2rem) + env(safe-area-inset-left));
+    padding-right: calc(clamp(1.25rem, 4vw, 2rem) + env(safe-area-inset-right));
+  }
 }

@@ -5,6 +5,7 @@ import Footer from "@/components/site/Footer";
 import ScrollToTop from "@/components/site/ScrollToTop";
 import PageTransition from "@/components/site/PageTransition";
 import SmoothScroll from "@/components/site/SmoothScroll";
+import Cursor from "@/components/site/Cursor";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kitser-v2.vercel.app"),
@@ -36,6 +37,7 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full">
         <SmoothScroll>
+          <Cursor />
           <ScrollToTop />
           <Nav />
           <PageTransition>{children}</PageTransition>

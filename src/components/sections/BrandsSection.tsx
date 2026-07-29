@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import Reveal from "@/components/site/Reveal";
 
 const BRANDS = [
@@ -25,42 +26,91 @@ const BRANDS = [
   { name: "Reginox", category: "Sinks", origin: "Netherlands", year: 1976 },
 ];
 
-export default function BrandsSection() {
+// ─── INFINITE MARQUEE ─────────────────────────────────────
+function MarqueeRow({ brands, speed = 30 }: { brands: typeof BRANDS; speed?: number }) {
   return (
-    <section className="editorial-section border-t border-linen/5">
+    <div className="relative overflow-hidden whitespace-nowrap py-4">
+      <motion.div
+        className="inline-flex gap-16"
+        animate={{ x: [0, -2000] }}
+        transition={{
+          x: {
+            duration: speed,
+            repeat: Infinity,
+            ease: "linear",
+          },
+        }}
+      >
+        {[...brands, ...brands, ...brands].map((brand, i) => (
+          <span
+            key={`${brand.name}-${i}`}
+            className="font-display text-lg font-[100] tracking-[0.12em] text-linen/15 inline-block"
+          >
+            {brand.name}
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+export default function BrandsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <section ref={ref} className="editorial-section relative overflow-hidden">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
-          <div className="text-center mb-16">
+          <div className="mb-16">
             <span className="editorial-caption">PARTNERS</span>
             <h2 className="editorial-headline-md mt-4">
               The world&apos;s finest makers.
             </h2>
-            <p className="editorial-body mt-6 mx-auto max-w-md">
+            <p className="editorial-body mt-6 max-w-md">
               We don&apos;t chase brand names. We chase quality. Each partner is chosen for their commitment to craft, innovation, and materials that endure.
             </p>
           </div>
         </Reveal>
 
-        {/* Brand grid — editorial */}
-        <div className="grid grid-cols-2 gap-px bg-linen/5 sm:grid-cols-3 lg:grid-cols-4">
+        {/* Brand grid — editorial with hover reveals */}
+        <div className="grid grid-cols-2 gap-px bg-linen/[0.03] sm:grid-cols-3 lg:grid-cols-4">
           {BRANDS.map((brand, i) => (
-            <Reveal key={brand.name} delay={i * 30}>
+            <Reveal key={brand.name} delay={i * 25}>
               <motion.div
-                whileHover={{ backgroundColor: "rgba(196,90,44,0.06)" }}
-                className="group flex flex-col items-center justify-center gap-3 bg-void p-8 transition-colors duration-500 cursor-pointer min-h-[160px]"
+                whileHover={{ backgroundColor: "rgba(196,90,44,0.04)" }}
+                className="group relative flex flex-col items-center justify-center gap-3 bg-void p-8 transition-colors duration-700 cursor-pointer min-h-[150px]"
+                data-cursor={brand.category.toUpperCase()}
+                data-cursor-magnetic
               >
-                <span className="font-display text-base font-[100] tracking-[0.12em] text-linen/50 group-hover:text-linen transition-colors duration-500">
+                {/* Brand name */}
+                <span className="font-display text-[0.9rem] font-[100] tracking-[0.1em] text-linen/35 group-hover:text-linen/80 transition-all duration-700">
                   {brand.name}
                 </span>
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="editorial-label text-ember">
+
+                {/* Hover reveal — category, origin, year */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
+                  <span className="editorial-caption text-[0.55rem]">
                     {brand.category}
                   </span>
-                  <span className="text-linen/15">·</span>
-                  <span className="font-body text-[0.6rem] font-[300] text-smoke/50">
-                    {brand.origin}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-body text-[0.6rem] font-[300] text-smoke/40">
+                      {brand.origin}
+                    </span>
+                    <span className="text-linen/10">·</span>
+                    <span className="font-body text-[0.6rem] font-[300] text-smoke/40">
+                      {brand.year}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Bottom accent line */}
+                <motion.div
+                  className="absolute bottom-0 left-1/2 h-[1px] bg-ember/40"
+                  initial={{ width: 0, x: "-50%" }}
+                  whileHover={{ width: "60%", x: "-50%" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                />
               </motion.div>
             </Reveal>
           ))}
@@ -68,7 +118,7 @@ export default function BrandsSection() {
 
         {/* Stats */}
         <Reveal delay={200}>
-          <div className="mt-16 flex flex-wrap justify-center gap-12">
+          <div className="mt-16 flex flex-wrap justify-center gap-16">
             <div className="text-center">
               <span className="font-display text-3xl font-[100] text-ember">35+</span>
               <p className="editorial-label mt-2">Brand Partners</p>
@@ -83,6 +133,24 @@ export default function BrandsSection() {
             </div>
           </div>
         </Reveal>
+
+        {/* Infinite marquee — background */}
+        <div className="mt-16 opacity-40">
+          <MarqueeRow brands={BRANDS.slice(0, 10)} speed={40} />
+        </div>
+      </div>
+
+      {/* ─── MOUSE-FOLLOWING GLOW ────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.02]"
+          style={{
+            background: "radial-gradient(circle, rgba(196,90,44,0.3) 0%, transparent 70%)",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
       </div>
     </section>
   );
