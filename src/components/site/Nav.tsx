@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -13,20 +14,24 @@ const LINKS = [
 
 export default function Nav() {
   const [show, setShow] = useState(false);
-  const [_scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     let lastY = 0;
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 100);
-      setShow(y > 300 && y < lastY);
+      if (isHome) {
+        setShow(y > 3200 && y < lastY);
+      } else {
+        setShow(y > 100 && y < lastY);
+      }
       lastY = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
 
   return (
     <>
@@ -36,6 +41,9 @@ export default function Nav() {
           opacity: show ? 1 : 0,
           transform: show ? "translateY(0)" : "translateY(-12px)",
           pointerEvents: show ? "auto" : "none",
+          backdropFilter: show ? "blur(12px)" : "none",
+          WebkitBackdropFilter: show ? "blur(12px)" : "none",
+          backgroundColor: show ? "rgba(10,10,10,0.7)" : "transparent",
         }}
       >
         <div className="flex items-center justify-between px-6 py-5 md:px-12">
@@ -50,7 +58,9 @@ export default function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body text-[0.8rem] font-[300] tracking-wide-custom text-linen/60 transition-colors hover:text-linen"
+                className={`font-body text-[0.8rem] font-[300] tracking-wide-custom transition-colors hover:text-linen ${
+                  pathname === link.href ? "text-ember" : "text-linen/60"
+                }`}
               >
                 {link.label}
               </Link>
@@ -81,7 +91,9 @@ export default function Nav() {
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
-            className="font-display text-2xl font-[100] tracking-[0.15em] text-linen transition-colors hover:text-ember"
+            className={`font-display text-2xl font-[100] tracking-[0.15em] transition-colors hover:text-ember ${
+              pathname === link.href ? "text-ember" : "text-linen"
+            }`}
             style={{ transitionDelay: menuOpen ? `${i * 80}ms` : "0ms" }}
           >
             {link.label}

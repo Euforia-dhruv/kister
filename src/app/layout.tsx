@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/site/Nav";
 import Footer from "@/components/site/Footer";
+import ScrollToTop from "@/components/site/ScrollToTop";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kister-v2.vercel.app"),
   title: "Kitser — Premium Kitchen Curation | Coimbatore",
   description:
     "Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in Coimbatore.",
@@ -31,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full">
+        <ScrollToTop />
         <Nav />
         {children}
         <Footer />

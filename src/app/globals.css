@@ -115,7 +115,16 @@ body {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .scene {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
 }
 
 .scene-dark { background: #0a0a0a; color: #ffffff; }
