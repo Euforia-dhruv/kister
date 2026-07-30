@@ -1,197 +1,22 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import Link from "next/link";
+import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/site/Reveal";
+import InteractiveKitchen from "@/components/hero/InteractiveKitchen";
 import BrandsSection from "@/components/sections/BrandsSection";
 
 export default function Home() {
   return (
     <main className="relative bg-void">
-      <HeroSection />
+      <InteractiveKitchen />
       <CollectionsSection />
       <BrandsSection />
       <MaterialsTeaser />
       <ShowroomCTA />
     </main>
-  );
-}
-
-// ─── HERO — Split layout: 40% text / 60% image ──────────────
-function HeroSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [scrollCueVisible, setScrollCueVisible] = useState(true);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 20]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
-  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
-
-  // Mouse parallax
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 40) setScrollCueVisible(false);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 8;
-      const y = (e.clientY / window.innerHeight - 0.5) * 8;
-      mouseX.set(x);
-      mouseY.set(y);
-    };
-    window.addEventListener("mousemove", handleMouse, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouse);
-  }, [mouseX, mouseY]);
-
-  return (
-    <section ref={ref} className="hero-split">
-      {/* LEFT — Typography (40%) */}
-      <div className="hero-split-left">
-        <div className="hero-split-content">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.3 } } }}
-          >
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="hero-label">KITSER</span>
-            </motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1 className="hero-headline">
-                Kitchen<br />
-                is where<br />
-                life happens.
-              </h1>
-            </motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="hero-headline-accent">Not furniture.</span>
-            </motion.div>
-          </motion.div>
-
-          <motion.p
-            className="hero-body"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Premium kitchen curation for homes that value craftsmanship, timeless materials and world-class brands.
-          </motion.p>
-
-          <motion.div
-            className="hero-buttons"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Link href="/contact" className="hero-btn-primary">
-              Book Consultation
-              <span className="hero-btn-arrow" />
-            </Link>
-            <Link href="/collections" className="hero-btn-secondary">
-              View Collections
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Bottom left — scroll indicator */}
-        <motion.div
-          className="hero-scroll-indicator"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.9 }}
-          style={{ opacity: scrollCueVisible ? scrollCueOpacity : 0 }}
-        >
-          <span className="hero-scroll-text">Scroll</span>
-          <motion.div
-            className="hero-scroll-line"
-            animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.15, 0.35, 0.15] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ transformOrigin: "top" }}
-          />
-        </motion.div>
-
-        {/* Bottom right — stats */}
-        <motion.div
-          className="hero-stats"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="hero-stat">
-            <span className="hero-stat-number">35+</span>
-            <span className="hero-stat-label">Global Brands</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-number">30+</span>
-            <span className="hero-stat-label">Years</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-number">1000+</span>
-            <span className="hero-stat-label">Projects</span>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* RIGHT — Image (60%) */}
-      <div className="hero-split-right">
-        <motion.div
-          className="hero-image-container"
-          style={{ y: imageY, scale: imageScale, x: springX, translateY: springY }}
-        >
-          <motion.div
-            className="relative w-full h-full"
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Image
-              src="/images/kitchens/scavolini-poetica-island.jpg"
-              alt="Scavolini Poetica modular kitchen — walnut cabinetry, stone island, natural light"
-              fill
-              className="object-cover"
-              style={{ filter: "saturate(0.82) sepia(0.06) contrast(1.08) brightness(0.88)" }}
-              sizes="60vw"
-              priority
-            />
-          </motion.div>
-        </motion.div>
-
-        {/* Left gradient — for text legibility on overlap */}
-        <div className="hero-image-gradient-left" />
-
-        {/* Bottom vignette */}
-        <div className="hero-image-gradient-bottom" />
-
-        {/* Soft noise */}
-        <div className="hero-image-noise" />
-      </div>
-    </section>
   );
 }
 
