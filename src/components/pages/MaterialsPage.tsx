@@ -8,7 +8,7 @@ const MATERIALS = [
     name: "Cast Iron",
     description: "Dense, heat-retaining, and virtually indestructible. Le Creuset enameled cast iron develops a patina that improves with every meal. The material of grandmothers.",
     detail: "Cast iron has been the preferred cooking material for centuries. Its thermal mass means it holds heat evenly and releases it slowly — perfect for searing, braising, and baking.",
-    image: "/images/materials/01-marble-countertop.jpg",
+    image: "/images/cookware/04-hero.jpg",
     properties: ["Heat retention", "Durability", "Naturally non-stick"],
     brands: ["Le Creuset", "Meyer"],
   },

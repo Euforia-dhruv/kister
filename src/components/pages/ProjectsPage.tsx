@@ -49,7 +49,7 @@ const PROJECTS = [
     description: "A professional-grade home kitchen for a serious home cook. Miele range, Le Creuset collection, Blum storage systems.",
     longDesc: "Priya cooks every day — and she cooks seriously. Her kitchen needed professional performance without the industrial aesthetic. We installed a Miele range with five burners, a Le Creuset cast iron collection, and Blum storage systems that keep every tool within arm's reach.",
     brands: ["Miele", "Le Creuset", "Blum", "Scavolini"],
-    image: "/images/appliances/smeg-musa-lifestyle.jpg",
+    image: "/images/kitchens/scavolini-carattere-hero.jpg",
     stats: { area: "1,200 sq ft", duration: "10 weeks", brands: 4 },
     materials: ["Stainless steel countertops", "Walnut open shelving", "Cast iron collection", "Professional range"],
   },
@@ -60,7 +60,7 @@ export default function ProjectsPage() {
     <main className="relative bg-void">
       {/* Hero */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">PROJECTS</span>
           </Reveal>

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 
 // ═══════════════════════════════════════════════════════════════
@@ -385,13 +386,19 @@ export default function CanvasExperience() {
                 KITSER
               </span>
               <div className="flex items-center gap-8">
-                {["Collections", "Brands", "Showroom", "Contact"].map((label) => (
-                  <span
-                    key={label}
-                    className="font-body text-[0.65rem] font-[300] tracking-[0.12em] text-linen/30 hover:text-linen/60 transition-colors duration-300 cursor-pointer"
+                {[
+                  { label: "Collections", href: "/collections" },
+                  { label: "Brands", href: "/brands" },
+                  { label: "Showroom", href: "/showroom" },
+                  { label: "Contact", href: "/contact" },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="font-body text-[0.65rem] font-[300] tracking-[0.12em] text-linen/30 hover:text-linen/60 transition-colors duration-300"
                   >
-                    {label.toUpperCase()}
-                  </span>
+                    {link.label.toUpperCase()}
+                  </Link>
                 ))}
               </div>
             </motion.div>

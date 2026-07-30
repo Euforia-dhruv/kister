@@ -93,8 +93,8 @@ export default function Footer() {
               © {new Date().getFullYear()} Kitser Retail Pvt Ltd. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <span className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke cursor-pointer">Privacy</span>
-              <span className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke cursor-pointer">Terms</span>
+              <Link href="/privacy" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Privacy</Link>
+              <Link href="/terms" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Terms</Link>
             </div>
           </div>
         </Reveal>

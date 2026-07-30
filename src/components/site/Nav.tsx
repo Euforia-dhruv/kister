@@ -76,8 +76,7 @@ export default function Nav() {
           const vh = window.innerHeight;
 
           // On homepage, show nav after cinematic intro (600vh) + hero (180vh)
-          // On other pages, show after 80px scroll
-          const threshold = isHome ? vh * 6.5 : 80;
+          const threshold = isHome ? vh * 7.8 : 80;
           const pastThreshold = y > threshold;
 
           setScrolled(y > 80);

@@ -33,8 +33,8 @@ export default function AboutPage() {
   return (
     <main className="relative bg-void">
       {/* Hero — full viewport with parallax */}
-      <section ref={heroRef} className="hero-container">
-        <motion.div className="hero-image-wrapper" style={{ y: heroY }}>
+      <section ref={heroRef} className="relative h-screen overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="/images/artisan-hands-v2.jpg"
             alt="Artisan hands shaping wood — the craft behind every Kitser kitchen"
@@ -45,26 +45,23 @@ export default function AboutPage() {
             priority
           />
         </motion.div>
-        <div className="hero-overlay-directional" />
-        <div className="hero-overlay-bottom" />
-        <div className="hero-grain" />
+        <div className="absolute inset-0 z-[2]" style={{ background: "linear-gradient(135deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.1) 50%, rgba(10,10,10,0.6) 100%)" }} />
+        <div className="absolute inset-0 z-[3]" style={{ background: "linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 100%)" }} />
 
-        <motion.div className="hero-content" style={{ opacity: heroOpacity }}>
-          <div className="hero-content-inner">
-            <Reveal blur>
-              <span className="hero-eyebrow">OUR STORY</span>
-            </Reveal>
-            <Reveal delay={100} blur>
-              <h1 style={{ fontSize: "clamp(40px, 8vw, 96px)" }} className="hero-headline">
-                Three decades of<br />curated craft.
-              </h1>
-            </Reveal>
-            <Reveal delay={200}>
-              <p className="hero-body mt-8">
-                From a single showroom to 35+ world-class partnerships — the story of Kitser is the story of the kitchen itself.
-              </p>
-            </Reveal>
-          </div>
+        <motion.div className="absolute inset-0 z-[10] flex flex-col justify-center" style={{ padding: "clamp(60px, 8vh, 120px) clamp(28px, 5vw, 72px)", opacity: heroOpacity }}>
+          <Reveal blur>
+            <span className="block font-body text-[0.6rem] font-[400] tracking-[0.2em] text-ember/70 mb-8">OUR STORY</span>
+          </Reveal>
+          <Reveal delay={100} blur>
+            <h1 className="font-display text-[clamp(40px,8vw,96px)] font-[200] leading-[0.94] tracking-[-0.025em] text-linen max-w-[700px]">
+              Three decades of<br />curated craft.
+            </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="font-body text-[clamp(0.85rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/50 max-w-[420px] mt-8">
+              From a single showroom to 35+ world-class partnerships — the story of Kitser is the story of the kitchen itself.
+            </p>
+          </Reveal>
         </motion.div>
       </section>
 
