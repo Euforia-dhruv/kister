@@ -26,8 +26,8 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.15);
-    y.set((e.clientY - centerY) * 0.15);
+    x.set((e.clientX - centerX) * 0.12);
+    y.set((e.clientY - centerY) * 0.12);
   };
 
   const reset = () => { x.set(0); y.set(0); };
@@ -42,18 +42,16 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
         className="relative py-1 group"
         data-cursor-magnetic
       >
-        <span className={`font-body text-[0.68rem] font-[300] tracking-[0.16em] transition-colors duration-500 ${
-          isActive ? "text-ember" : "text-linen/40 group-hover:text-linen/80"
+        <span className={`font-body text-[0.65rem] font-[300] tracking-[0.16em] transition-colors duration-600 ${
+          isActive ? "text-ember" : "text-linen/35 group-hover:text-linen/70"
         }`}>
           {label}
         </span>
         {isActive && (
           <motion.div
             layoutId="nav-indicator"
-            className="absolute -bottom-1 left-0 right-0 h-[1px]"
-            style={{
-              background: "linear-gradient(90deg, transparent, #c45a2c, transparent)",
-            }}
+            className="absolute -bottom-0.5 left-0 right-0 h-[1px]"
+            style={{ background: "rgba(196,90,44,0.4)" }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           />
         )}
@@ -65,7 +63,6 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
 export default function Nav() {
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [pastHero, setPastHero] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -79,16 +76,10 @@ export default function Nav() {
         requestAnimationFrame(() => {
           const y = window.scrollY;
           const vh = window.innerHeight;
-          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = maxScroll > 0 ? y / maxScroll : 0;
-          setScrollProgress(progress);
-
-          // Hero threshold: 10% of viewport height
           const heroThreshold = isHome ? vh * 0.1 : 80;
           setPastHero(y > heroThreshold);
 
           const scrollingUp = y < lastY;
-
           if (scrollingUp && y > heroThreshold) {
             setShow(true);
           } else if (!scrollingUp || y <= heroThreshold) {
@@ -109,20 +100,11 @@ export default function Nav() {
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  // On home: show nav only after scrolling past hero threshold
-  // On other pages: always show (with hide/reveal on scroll)
   const navVisible = isHome ? (pastHero && show) || menuOpen : !pastHero || show || menuOpen;
-
-  // Glass opacity ramps up as you scroll
-  const glassIntensity = isHome ? Math.min(scrollProgress * 8, 0.9) : Math.min(scrollProgress * 5, 0.85);
 
   return (
     <>
@@ -131,38 +113,35 @@ export default function Nav() {
         initial={false}
         animate={{
           opacity: navVisible ? 1 : 0,
-          y: navVisible ? 0 : -8,
+          y: navVisible ? 0 : -6,
         }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
-        {/* Glass background */}
         <div
           className="absolute inset-0 transition-all duration-700"
           style={{
-            backdropFilter: pastHero ? "blur(12px) saturate(1.3)" : "blur(0px)",
-            WebkitBackdropFilter: pastHero ? "blur(12px) saturate(1.3)" : "blur(0px)",
-            backgroundColor: pastHero ? `rgba(10,10,10,${0.2 + glassIntensity * 0.6})` : "transparent",
-            borderBottom: pastHero ? "1px solid rgba(196,90,44,0.06)" : "1px solid transparent",
+            backdropFilter: pastHero ? "blur(10px) saturate(1.2)" : "blur(0px)",
+            WebkitBackdropFilter: pastHero ? "blur(10px) saturate(1.2)" : "blur(0px)",
+            backgroundColor: pastHero ? "rgba(10,10,10,0.55)" : "transparent",
+            borderBottom: pastHero ? "1px solid rgba(245,240,235,0.04)" : "1px solid transparent",
           }}
         />
 
-        <nav className="relative flex items-center justify-between px-6 py-4 md:px-12 md:py-5">
-          {/* Logo */}
-          <Link href="/" className="group flex items-center gap-2.5" data-cursor-magnetic>
-            <span className="font-display text-[0.85rem] font-[100] tracking-[0.25em] text-linen transition-colors duration-500 group-hover:text-ember">
+        <nav className="relative flex items-center justify-between px-6 py-3.5 md:px-12 md:py-4">
+          <Link href="/" className="group flex items-center gap-2" data-cursor-magnetic>
+            <span className="font-display text-[0.8rem] font-[100] tracking-[0.25em] text-linen transition-colors duration-600 group-hover:text-ember">
               KITSER
             </span>
             <motion.span
-              className="hidden sm:inline-block h-[1px] bg-ember/30"
-              animate={{ width: 16 }}
-              whileHover={{ width: 24 }}
+              className="hidden sm:inline-block h-[1px] bg-ember/25"
+              animate={{ width: 14 }}
+              whileHover={{ width: 22 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             />
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden items-center gap-10 md:flex">
+          <div className="hidden items-center gap-9 md:flex">
             {LINKS.map((link) => (
               <MagneticLink
                 key={link.href}
@@ -173,7 +152,6 @@ export default function Nav() {
             ))}
           </div>
 
-          {/* Mobile hamburger */}
           <button
             className="relative z-50 flex flex-col gap-[5px] md:hidden w-6 h-6 justify-center items-center"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -200,7 +178,6 @@ export default function Nav() {
         </nav>
       </motion.header>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -212,9 +189,6 @@ export default function Nav() {
           >
             <motion.div
               className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
               style={{
                 backgroundColor: "rgba(10,10,10,0.95)",
                 backdropFilter: "blur(20px)",
@@ -222,39 +196,24 @@ export default function Nav() {
               }}
             />
 
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              style={{
-                background: "radial-gradient(circle at 50% 30%, rgba(196,90,44,0.08) 0%, transparent 60%)",
-              }}
-            />
-
             <div className="relative flex flex-col items-center gap-7">
               {LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: 0.1 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <Link
-                    href={link.href}
-                    onClick={closeMenu}
-                    className="group flex items-center gap-4"
-                  >
+                  <Link href={link.href} onClick={closeMenu} className="group flex items-center gap-4">
                     <motion.span
                       className="block h-[1px] bg-ember"
-                      animate={{ width: pathname === link.href ? 32 : 0 }}
-                      whileHover={{ width: 24 }}
+                      animate={{ width: pathname === link.href ? 28 : 0 }}
+                      whileHover={{ width: 20 }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     />
-                    <span className={`font-display text-4xl font-[100] tracking-[0.08em] transition-colors duration-500 ${
-                      pathname === link.href ? "text-ember" : "text-linen/60 group-hover:text-linen"
+                    <span className={`font-display text-3xl font-[200] tracking-[0.06em] transition-colors duration-600 ${
+                      pathname === link.href ? "text-ember" : "text-linen/50 group-hover:text-linen"
                     }`}>
                       {link.label}
                     </span>
@@ -263,18 +222,13 @@ export default function Nav() {
               ))}
 
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-6"
               >
-                <Link
-                  href="/contact"
-                  onClick={closeMenu}
-                  className="magnetic-btn"
-                  data-cursor="BOOK"
-                >
+                <Link href="/contact" onClick={closeMenu} className="magnetic-btn" data-cursor="BOOK">
                   BOOK CONSULTATION
                   <span className="btn-arrow h-[1px] bg-current" />
                 </Link>
@@ -285,12 +239,12 @@ export default function Nav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
-              className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-2"
+              className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-2"
             >
-              <span className="font-body text-[0.55rem] font-[300] tracking-[0.15em] text-linen/20">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.15em] text-linen/15">
                 No. 1, Nava India Road, Coimbatore
               </span>
-              <span className="font-body text-[0.55rem] font-[300] tracking-[0.15em] text-linen/20">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.15em] text-linen/15">
                 +91 422 230 1092
               </span>
             </motion.div>

@@ -3,30 +3,23 @@
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import Reveal from "@/components/site/Reveal";
 import BrandsSection from "@/components/sections/BrandsSection";
-
-const CanvasExperience = dynamic(() => import("@/components/canvas/CanvasExperience"), { ssr: false });
-
-import dynamic from "next/dynamic";
 
 export default function Home() {
   return (
     <main className="relative bg-void">
-      <CanvasExperience />
-      <div className="relative bg-void">
-        <HeroSection />
-        <CollectionsSection />
-        <BrandsSection />
-        <MaterialsTeaser />
-        <ShowroomCTA />
-      </div>
+      <HeroSection />
+      <CollectionsSection />
+      <BrandsSection />
+      <MaterialsTeaser />
+      <ShowroomCTA />
     </main>
   );
 }
 
-// ─── HERO — Perfect full-viewport editorial ──────────────────
+// ─── HERO — Split layout: 40% text / 60% image ──────────────
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [scrollCueVisible, setScrollCueVisible] = useState(true);
@@ -36,9 +29,15 @@ function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 54]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 20]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
   const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
+
+  // Mouse parallax
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   useEffect(() => {
     const onScroll = () => {
@@ -48,83 +47,50 @@ function HeroSection() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 8;
+      const y = (e.clientY / window.innerHeight - 0.5) * 8;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    window.addEventListener("mousemove", handleMouse, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouse);
+  }, [mouseX, mouseY]);
+
   return (
-    <section ref={ref} className="hero-container">
-      {/* Image — full bleed */}
-      <motion.div
-        className="hero-image-wrapper"
-        style={{ y: imageY, scale: imageScale }}
-      >
-        <motion.div
-          className="relative w-full h-full"
-          initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Image
-            src="/images/kitchens/scavolini-poetica-island.jpg"
-            alt="Premium Scavolini kitchen with island cabinetry, natural light, and warm materials"
-            fill
-            className="object-cover"
-            style={{ filter: "saturate(0.8) sepia(0.08) contrast(1.1) brightness(0.85)" }}
-            sizes="120vw"
-            priority
-          />
-        </motion.div>
-      </motion.div>
-
-      {/* Cinematic gradient overlay — left dark, middle medium, right light */}
-      <div className="hero-overlay-directional" />
-
-      {/* Top vignette — very subtle */}
-      <div className="hero-overlay-top" />
-
-      {/* Bottom vignette */}
-      <div className="hero-overlay-bottom" />
-
-      {/* Warm overlay */}
-      <div className="hero-overlay-warm" />
-
-      {/* Grain */}
-      <div className="hero-grain" />
-
-      {/* Dust particles */}
-      <HeroDust delay={1.5} />
-
-      {/* Content — safe layout container */}
-      <div className="hero-content">
-        <div className="hero-content-inner">
+    <section ref={ref} className="hero-split">
+      {/* LEFT — Typography (40%) */}
+      <div className="hero-split-left">
+        <div className="hero-split-content">
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.6 } } }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.3 } } }}
           >
             <motion.div
-              variants={{ hidden: { opacity: 0, y: 20, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)" } }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="hero-eyebrow">A</span>
+              <span className="hero-label">KITSER</span>
             </motion.div>
 
             <motion.div
-              variants={{ hidden: { opacity: 0, y: 30, filter: "blur(10px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)" } }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h1 className="hero-headline">Kitchen.</h1>
+              <h1 className="hero-headline">
+                Kitchen<br />
+                is where<br />
+                life happens.
+              </h1>
             </motion.div>
 
             <motion.div
-              variants={{ hidden: { opacity: 0, y: 25, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)" } }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="hero-headline-secondary">is not</span>
-            </motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 25, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)" } }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="hero-headline-accent">furniture.</span>
+              <span className="hero-headline-accent">Not furniture.</span>
             </motion.div>
           </motion.div>
 
@@ -132,114 +98,108 @@ function HeroSection() {
             className="hero-body"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 0.8, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            It is where life happens.<br />
-            Kitser curates kitchens shaped by craft,<br />
-            materials and time.
+            Premium kitchen curation for homes that value craftsmanship, timeless materials and world-class brands.
           </motion.p>
 
           <motion.div
             className="hero-buttons"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.0, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Link href="/contact" className="hero-btn-primary" data-cursor="BOOK">
-              Book a Consultation
+            <Link href="/contact" className="hero-btn-primary">
+              Book Consultation
               <span className="hero-btn-arrow" />
             </Link>
             <Link href="/collections" className="hero-btn-secondary">
-              Explore Collection
+              View Collections
             </Link>
           </motion.div>
         </div>
+
+        {/* Bottom left — scroll indicator */}
+        <motion.div
+          className="hero-scroll-indicator"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.9 }}
+          style={{ opacity: scrollCueVisible ? scrollCueOpacity : 0 }}
+        >
+          <span className="hero-scroll-text">Scroll</span>
+          <motion.div
+            className="hero-scroll-line"
+            animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.15, 0.35, 0.15] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "top" }}
+          />
+        </motion.div>
+
+        {/* Bottom right — stats */}
+        <motion.div
+          className="hero-stats"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="hero-stat">
+            <span className="hero-stat-number">35+</span>
+            <span className="hero-stat-label">Global Brands</span>
+          </div>
+          <div className="hero-stat">
+            <span className="hero-stat-number">30+</span>
+            <span className="hero-stat-label">Years</span>
+          </div>
+          <div className="hero-stat">
+            <span className="hero-stat-number">1000+</span>
+            <span className="hero-stat-label">Projects</span>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Scroll cue */}
-      <AnimatePresence>
-        {scrollCueVisible && (
+      {/* RIGHT — Image (60%) */}
+      <div className="hero-split-right">
+        <motion.div
+          className="hero-image-container"
+          style={{ y: imageY, scale: imageScale, x: springX, translateY: springY }}
+        >
           <motion.div
-            className="hero-scroll-cue"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ delay: 2.4, duration: 0.8 }}
-            style={{ opacity: scrollCueVisible ? scrollCueOpacity : 0 }}
+            className="relative w-full h-full"
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="hero-scroll-text">Scroll</span>
-            <motion.div
-              className="hero-scroll-line"
-              animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.15, 0.35, 0.15] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ transformOrigin: "top" }}
+            <Image
+              src="/images/kitchens/scavolini-poetica-island.jpg"
+              alt="Scavolini Poetica modular kitchen — walnut cabinetry, stone island, natural light"
+              fill
+              className="object-cover"
+              style={{ filter: "saturate(0.82) sepia(0.06) contrast(1.08) brightness(0.88)" }}
+              sizes="60vw"
+              priority
             />
           </motion.div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+
+        {/* Left gradient — for text legibility on overlap */}
+        <div className="hero-image-gradient-left" />
+
+        {/* Bottom vignette */}
+        <div className="hero-image-gradient-bottom" />
+
+        {/* Soft noise */}
+        <div className="hero-image-noise" />
+      </div>
     </section>
   );
 }
 
-function HeroDust({ delay = 0 }: { delay?: number }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setReady(true), delay * 1000);
-    return () => clearTimeout(timer);
-  }, [delay]);
-
-  useEffect(() => {
-    if (!ready) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let w = window.innerWidth;
-    let h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
-
-    interface Particle { x: number; y: number; size: number; speedX: number; speedY: number; opacity: number; }
-    const particles: Particle[] = Array.from({ length: 20 }, () => ({
-      x: Math.random() * w, y: Math.random() * h,
-      size: Math.random() * 1.2 + 0.3,
-      speedX: (Math.random() - 0.5) * 0.08, speedY: -Math.random() * 0.06 - 0.01,
-      opacity: Math.random() * 0.15 + 0.04,
-    }));
-
-    let raf: number;
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-      particles.forEach((p) => {
-        p.x += p.speedX; p.y += p.speedY;
-        if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
-        if (p.x < -10) p.x = w + 10;
-        if (p.x > w + 10) p.x = -10;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(196,90,44,${p.opacity})`; ctx.fill();
-      });
-      raf = requestAnimationFrame(draw);
-    };
-    draw();
-    const onResize = () => { w = window.innerWidth; h = window.innerHeight; canvas.width = w; canvas.height = h; };
-    window.addEventListener("resize", onResize);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
-  }, [ready]);
-
-  if (!ready) return null;
-  return <canvas ref={canvasRef} className="hero-dust-canvas" />;
-}
-
-// ─── COLLECTIONS — Seamless transition from hero ───────────
+// ─── COLLECTIONS ──────────────────────────────────────────────
 function CollectionsSection() {
   return (
-    <section className="collections-section">
-      <div className="collections-fade" />
-
-      <div className="relative z-[2] mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
+    <section className="editorial-section-lg">
+      <div className="mx-auto max-w-[1400px] site-padding">
         <Reveal>
           <span className="editorial-caption">COLLECTIONS</span>
           <h2 className="editorial-headline-md mt-4">
@@ -252,9 +212,9 @@ function CollectionsSection() {
             <Link href="/collections" className="group relative block aspect-[16/10] overflow-hidden" data-cursor="VIEW" data-cursor-expand>
               <Image
                 src="/images/kitchens/scavolini-delinea-brass.jpg"
-                alt="Scavolini DeLinea kitchen with brass hardware and premium cabinetry"
+                alt="Scavolini DeLinea kitchen — brass hardware, premium cabinetry, warm materials"
                 fill
-                className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
+                className="object-cover transition-transform duration-[1.6s] group-hover:scale-[1.03] img-grade"
                 sizes="(max-width: 768px) 100vw, 70vw"
               />
               <div className="absolute inset-0 img-warm img-vignette" />
@@ -262,10 +222,10 @@ function CollectionsSection() {
               <div className="absolute bottom-0 left-0 p-8 md:p-12">
                 <span className="editorial-caption">COOKWARE</span>
                 <h3 className="editorial-headline-sm mt-3">Materials that<br />endure.</h3>
-                <motion.span className="mt-5 inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/50 group-hover:text-ember transition-colors duration-500">
+                <span className="mt-5 inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/50 group-hover:text-ember transition-colors duration-700">
                   VIEW COLLECTION
                   <span className="w-0 group-hover:w-5 h-[1px] bg-current transition-all duration-700" />
-                </motion.span>
+                </span>
               </div>
             </Link>
           </Reveal>
@@ -273,7 +233,7 @@ function CollectionsSection() {
           <div className="md:col-span-4 flex flex-col gap-4">
             <Reveal delay={200}>
               <Link href="/collections" className="group relative block aspect-[4/3] overflow-hidden" data-cursor="VIEW">
-                <Image src="/images/cookware/04-flatlay.jpg" alt="Premium cookware collection — cast iron, copper, stainless steel" fill className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade" sizes="(max-width: 768px) 100vw, 30vw" />
+                <Image src="/images/cookware/04-flatlay.jpg" alt="Premium cookware collection — cast iron, copper, stainless steel on dark surface" fill className="object-cover transition-transform duration-[1.6s] group-hover:scale-[1.03] img-grade" sizes="(max-width: 768px) 100vw, 30vw" />
                 <div className="absolute inset-0 img-warm img-vignette" />
                 <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6"><span className="editorial-caption">BAKEWARE</span></div>
@@ -281,7 +241,7 @@ function CollectionsSection() {
             </Reveal>
             <Reveal delay={300}>
               <Link href="/collections" className="group relative block aspect-[4/3] overflow-hidden" data-cursor="VIEW">
-                <Image src="/images/materials/03-brass-detail.jpg" alt="Unlacquered brass hardware detail — living finish" fill className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade" sizes="(max-width: 768px) 100vw, 30vw" />
+                <Image src="/images/materials/03-brass-detail.jpg" alt="Unlacquered brass hardware — living finish, natural patina development" fill className="object-cover transition-transform duration-[1.6s] group-hover:scale-[1.03] img-grade" sizes="(max-width: 768px) 100vw, 30vw" />
                 <div className="absolute inset-0 img-warm img-vignette" />
                 <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6"><span className="editorial-caption">BARWARE</span></div>
@@ -294,7 +254,7 @@ function CollectionsSection() {
   );
 }
 
-// ─── MATERIALS TEASER ─────────────────────────────────────
+// ─── MATERIALS TEASER ──────────────────────────────────────────
 function MaterialsTeaser() {
   const materials = [
     { name: "Cast Iron", image: "/images/materials/01-marble-countertop.jpg" },
@@ -304,8 +264,8 @@ function MaterialsTeaser() {
   ];
 
   return (
-    <section className="editorial-section-lg">
-      <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
+    <section className="editorial-section">
+      <div className="mx-auto max-w-[1400px] site-padding">
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
             <div>
@@ -322,11 +282,11 @@ function MaterialsTeaser() {
           {materials.map((material, i) => (
             <Reveal key={material.name} delay={i * 80}>
               <Link href="/materials" className="group relative block aspect-[3/4] overflow-hidden" data-cursor="EXPLORE">
-                <Image src={material.image} alt={material.name} fill className="object-cover transition-transform duration-[1.5s] group-hover:scale-[1.06] img-tactile" sizes="(max-width: 768px) 50vw, 25vw" />
+                <Image src={material.image} alt={material.name} fill className="object-cover transition-transform duration-[1.6s] group-hover:scale-[1.04] img-tactile" sizes="(max-width: 768px) 50vw, 25vw" />
                 <div className="absolute inset-0 img-warm img-vignette" />
                 <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 p-5">
-                  <h3 className="font-display text-sm font-[100] tracking-[0.08em] text-linen/80 group-hover:text-linen transition-colors duration-500">{material.name}</h3>
+                  <h3 className="font-display text-sm font-[200] tracking-[0.08em] text-linen/80 group-hover:text-linen transition-colors duration-700">{material.name}</h3>
                 </div>
               </Link>
             </Reveal>
@@ -337,20 +297,19 @@ function MaterialsTeaser() {
   );
 }
 
-// ─── SHOWROOM CTA ─────────────────────────────────────────
+// ─── SHOWROOM CTA ──────────────────────────────────────────────
 function ShowroomCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], [-30, 30]);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.06, 1, 1.06]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.04, 1, 1.04]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden min-h-[60vh] flex items-center">
+    <section ref={ref} className="relative overflow-hidden min-h-[55vh] flex items-center">
       <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
-        <Image src="/images/appliances/bosch-kitchen-hero.jpg" alt="Bosch premium kitchen — integrated appliances, clean lines" fill className="object-cover img-atmospheric" sizes="100vw" />
+        <Image src="/images/appliances/bosch-kitchen-hero.jpg" alt="Bosch premium kitchen — integrated appliances, clean architectural lines" fill className="object-cover img-atmospheric" sizes="100vw" />
       </motion.div>
-      <div className="absolute inset-0 bg-void/65" />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(196,90,44,0.06) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0 bg-void/60" />
 
       <div className="relative editorial-section-lg w-full">
         <div className="mx-auto max-w-3xl text-center">
@@ -365,7 +324,7 @@ function ShowroomCTA() {
               <Link href="/showroom" className="magnetic-btn" data-cursor="VISIT">
                 GET DIRECTIONS<span className="btn-arrow h-[1px] bg-current" />
               </Link>
-              <Link href="/contact" className="font-body text-sm font-[300] tracking-wide-custom text-smoke/60 transition-colors duration-500 hover:text-ember">
+              <Link href="/contact" className="font-body text-sm font-[300] tracking-wide-custom text-smoke/60 transition-colors duration-700 hover:text-ember">
                 BOOK APPOINTMENT
               </Link>
             </div>
