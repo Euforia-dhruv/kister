@@ -6,6 +6,7 @@ import ScrollToTop from "@/components/site/ScrollToTop";
 import PageTransition from "@/components/site/PageTransition";
 import SmoothScroll from "@/components/site/SmoothScroll";
 import Cursor from "@/components/site/Cursor";
+import LayoutShell from "@/components/site/LayoutShell";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kitser-v2.vercel.app"),
@@ -39,9 +40,13 @@ export default function RootLayout({
         <SmoothScroll>
           <Cursor />
           <ScrollToTop />
-          <Nav />
+          <LayoutShell>
+            <Nav />
+          </LayoutShell>
           <PageTransition>{children}</PageTransition>
-          <Footer />
+          <LayoutShell>
+            <Footer />
+          </LayoutShell>
           <div className="film-grain" aria-hidden="true" />
         </SmoothScroll>
       </body>

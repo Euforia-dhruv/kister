@@ -501,3 +501,150 @@ select option { background: #0a0a0a; color: #f5f0eb; }
     padding-right: calc(clamp(1.5rem, 5vw, 6rem) + env(safe-area-inset-right));
   }
 }
+
+/* ─── CINEMATIC ENGINE ─────────────────────────────────────── */
+
+/* Smooth transitions between acts */
+[data-act] {
+  will-change: opacity, transform;
+}
+
+/* Metallic panel texture */
+.steel-panel {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 20%, #1e1e1e 40%, #252525 60%, #1c1c1c 80%, #222222 100%);
+}
+
+.steel-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 3px
+  );
+  pointer-events: none;
+}
+
+/* Material monolith surfaces */
+.monolith-quartz {
+  background: linear-gradient(145deg, #e8e4de 0%, #c8c2b8 40%, #b8b2a8 100%);
+}
+
+.monolith-granite {
+  background: linear-gradient(145deg, #5a5550 0%, #3a3530 40%, #2a2520 100%);
+}
+
+.monolith-glass {
+  background: linear-gradient(145deg, rgba(200,220,230,0.15) 0%, rgba(160,190,200,0.08) 50%, rgba(140,170,180,0.12) 100%);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Scene transitions */
+.scene-enter {
+  animation: sceneEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sceneEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Construction layer animation */
+.build-layer {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Connection lines */
+.connection-line {
+  stroke-dasharray: 4 4;
+  animation: dashFlow 20s linear infinite;
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* Water flow animation */
+.water-flow {
+  background: linear-gradient(180deg, rgba(160,190,220,0.4) 0%, rgba(160,190,220,0.1) 80%, transparent 100%);
+  animation: waterDrip 1.5s ease-in-out infinite;
+}
+
+@keyframes waterDrip {
+  0%, 100% { transform: scaleY(0.8); opacity: 0.3; }
+  50% { transform: scaleY(1); opacity: 0.6; }
+}
+
+/* Floating material animation */
+@keyframes materialFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(0.5deg); }
+  75% { transform: translateY(4px) rotate(-0.3deg); }
+}
+
+.material-float {
+  animation: materialFloat 8s ease-in-out infinite;
+}
+
+/* OS grid background */
+.os-grid {
+  background-image:
+    linear-gradient(rgba(245,240,235,0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,240,235,0.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Pulse ring */
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.pulse-ring {
+  animation: pulseRing 1.5s ease-out infinite;
+}
+
+/* Progress bar glow */
+.progress-glow {
+  box-shadow: 0 0 8px rgba(196,90,44,0.3), 0 0 20px rgba(196,90,44,0.1);
+}
+
+/* Scene separator — thin ember line between acts */
+.scene-separator {
+  position: relative;
+}
+
+.scene-separator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,90,44,0.3), transparent);
+}
+
+/* Cinematic text effects */
+.text-glow {
+  text-shadow: 0 0 40px rgba(196,90,44,0.15);
+}
+
+/* Smooth scroll override for cinematic experience */
+html.lenis .cinematic-scroll {
+  scroll-behavior: auto !important;
+}
