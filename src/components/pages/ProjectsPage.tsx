@@ -25,7 +25,7 @@ const PROJECTS = [
     description: "Restoring a 1960s bungalow kitchen with modern efficiency. Walnut cabinetry by Scavolini, copper cookware from Mauviel, Franke undermount sink.",
     longDesc: "The Heritage bungalow was built in 1962. Our task: restore the original proportions, add modern efficiency, and make it feel like it had always been this way. We used American black walnut for the cabinetry, copper accents, and hidden modern appliances.",
     brands: ["Scavolini", "Franke", "Mauviel"],
-    image: "/images/kitchens/scavolini-carattere-english.jpg",
+    image: "/images/kitchens/scavolini-poetica-ushaped.jpg",
     stats: { area: "1,800 sq ft", duration: "12 weeks", brands: 3 },
     materials: ["American black walnut", "Copper accents", "Marble countertops", "Franke undermount"],
   },

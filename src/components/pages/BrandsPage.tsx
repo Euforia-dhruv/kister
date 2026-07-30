@@ -50,7 +50,7 @@ const BRANDS = [
     year: 1952,
     desc: "The invisible backbone of every premium kitchen. Soft-close hinges and drawer systems.",
     story: "You never see Blum hardware. You feel it. The silent close of a drawer. The perfect alignment of a door. That's the result of seven decades of obsession with the things most people never think about.",
-    image: "/images/hardware/06-showroom.jpg",
+    image: "/images/hardware/04-hero.jpg",
   },
   {
     name: "BLANCO",
@@ -59,7 +59,7 @@ const BRANDS = [
     year: 1925,
     desc: "SILGRANIT granite composite. 80% granite, 20% acrylic. Non-polarizing, scratch-resistant.",
     story: "BLANCO's SILGRANIT is 80% natural granite — one of the hardest materials on earth. The result is a sink that resists scratches, stains, and heat up to 280°C. It also comes in colors that make stone jealous.",
-    image: "/images/appliances/smeg-musa-hero.jpg",
+    image: "/images/hardware/sinks-hero.jpg",
   },
   {
     name: "Smeg",
@@ -68,7 +68,7 @@ const BRANDS = [
     year: 1948,
     desc: "Where technology meets style. Retro and contemporary appliances that make statements.",
     story: "Smeg proves that appliances don't have to be invisible. Their retro refrigerators are icons. Their contemporary lines are sculpture. Technology and beauty — not one or the other.",
-    image: "/images/kitchens/scavolini-carattere-white.jpg",
+    image: "/images/appliances/smeg-musa-lifestyle.jpg",
   },
 ];
 

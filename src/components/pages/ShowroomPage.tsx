@@ -30,7 +30,7 @@ const GALLERY_IMAGES = [
   { src: "/images/showroom/02-display.jpg", alt: "Showroom interior — dark kitchen display" },
   { src: "/images/showroom/03-cookware.jpg", alt: "Showroom interior — marble and stone displays" },
   { src: "/images/showroom/04-brand-wall.jpg", alt: "Showroom interior — brass and copper accents" },
-  { src: "/images/appliances/smeg-musa-lifestyle.jpg", alt: "Showroom interior — Smeg Musa lifestyle display with vibrant colors" },
+  { src: "/images/appliances/smeg-musa-hero.jpg", alt: "Showroom interior — Smeg Musa lifestyle display with vibrant colors" },
 ];
 
 export default function ShowroomPage() {

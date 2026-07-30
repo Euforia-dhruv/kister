@@ -23,7 +23,7 @@ const PROJECTS = [
     year: "2023",
     description: "Restoring a 1960s bungalow kitchen with modern efficiency. Walnut cabinetry by Scavolini, copper cookware from Mauviel, Franke undermount sink.",
     brands: ["Scavolini", "Franke", "Mauviel"],
-    image: "/images/kitchens/scavolini-carattere-english.jpg",
+    image: "/images/kitchens/scavolini-poetica-iron-grey.jpg",
     stats: { area: "1,800 sq ft", duration: "12 weeks", brands: 3 },
   },
   {
