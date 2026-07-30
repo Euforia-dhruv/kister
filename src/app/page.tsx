@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/site/Reveal";
-import InteractiveKitchen from "@/components/hero/InteractiveKitchen";
+import CinematicHero from "@/components/hero/CinematicHero";
 import BrandsSection from "@/components/sections/BrandsSection";
 
 export default function Home() {
   return (
     <main className="relative bg-void">
-      <InteractiveKitchen />
+      <CinematicHero />
       <CollectionsSection />
       <BrandsSection />
       <MaterialsTeaser />
