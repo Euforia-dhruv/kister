@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 interface CursorState {
@@ -19,19 +19,15 @@ export default function Cursor() {
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
-  const x = useSpring(cursorX, springConfig);
-  const y = useSpring(cursorY, springConfig);
-
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
-  const dotSpring = { damping: 35, stiffness: 400, mass: 0.2 };
-  const dx = useSpring(dotX, dotSpring);
-  const dy = useSpring(dotY, dotSpring);
 
-  const rafRef = useRef(0);
-  const stateRef = useRef(state);
-  stateRef.current = state;
+  const springCfg = useMemo(() => ({ damping: 25, stiffness: 200, mass: 0.5 }), []);
+  const dotCfg = useMemo(() => ({ damping: 35, stiffness: 400, mass: 0.2 }), []);
+  const x = useSpring(cursorX, springCfg);
+  const y = useSpring(cursorY, springCfg);
+  const dx = useSpring(dotX, dotCfg);
+  const dy = useSpring(dotY, dotCfg);
 
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -39,9 +35,9 @@ export default function Cursor() {
       cursorY.set(e.clientY);
       dotX.set(e.clientX);
       dotY.set(e.clientY);
-      if (!visible) setVisible(true);
+      setVisible(true);
     },
-    [cursorX, cursorY, dotX, dotY, visible]
+    [cursorX, cursorY, dotX, dotY]
   );
 
   useEffect(() => {
@@ -56,7 +52,6 @@ export default function Cursor() {
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("mouseenter", onMouseEnter);
-      cancelAnimationFrame(rafRef.current);
     };
   }, [onMouseMove]);
 

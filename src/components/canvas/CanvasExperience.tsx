@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
 // ═══════════════════════════════════════════════════════════════
@@ -103,6 +104,7 @@ function DustCanvas({ opacity }: { opacity: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (opacity <= 0) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -161,7 +163,7 @@ function DustCanvas({ opacity }: { opacity: number }) {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [opacity > 0]);
 
   return (
     <canvas
@@ -472,10 +474,9 @@ function StoneBeat({ progress: p, scale }: { progress: number; scale: number }) 
       left: "10%", top: "15%", width: "60%", height: "70%",
       opacity: vis, clipPath: "ellipse(55% 45% at 50% 50%)",
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
-      willChange: "opacity, filter, transform",
     }}>
-      <img src="/images/textures/marble.jpg" alt="" className="h-full w-full object-cover" draggable={false}
-        style={{ filter: GRADE, transform: `scale(${scale}) translateX(${panX}%)` }} />
+      <Image src="/images/textures/marble.jpg" alt="" fill className="object-cover" draggable={false} unoptimized
+        style={{ filter: GRADE, transform: `scale(${scale}) translateX(${panX}%)` }} sizes="60vw" />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
     </div>
@@ -497,10 +498,9 @@ function CopperBeat({ progress: p, scale }: { progress: number; scale: number })
       left: "55%", top: "10%", width: "45%", height: "80%",
       opacity: vis, clipPath: "ellipse(42% 55% at 65% 50%)",
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
-      willChange: "opacity, filter, transform",
     }}>
-      <img src="/images/textures/brass.jpg" alt="" className="h-full w-full object-cover" draggable={false}
-        style={{ filter: GRADE, transform: `scale(${scale}) translateX(${panX}%)` }} />
+      <Image src="/images/textures/brass.jpg" alt="" fill className="object-cover" draggable={false} unoptimized
+        style={{ filter: GRADE, transform: `scale(${scale}) translateX(${panX}%)` }} sizes="45vw" />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
     </div>
@@ -525,7 +525,6 @@ function NumberBeat({ progress: p }: { progress: number }) {
         letterSpacing: "0.15em", opacity: vis,
         filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
         transform: `translateY(${yOffset}px)`,
-        willChange: "opacity, filter, transform",
       }}>0.1</span>
     </div>
   );
@@ -545,10 +544,9 @@ function HandsBeat({ progress: p, scale }: { progress: number; scale: number }) 
       left: "20%", top: "50%", width: "60%", height: "45%",
       opacity: vis,
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
-      willChange: "opacity, filter, transform",
     }}>
-      <img src="/images/textures/artisan.jpg" alt="" className="h-full w-full object-cover" draggable={false}
-        style={{ filter: GRADE, transform: `scale(${scale})` }} />
+      <Image src="/images/textures/artisan.jpg" alt="" fill className="object-cover" draggable={false} unoptimized
+        style={{ filter: GRADE, transform: `scale(${scale})` }} sizes="60vw" />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
     </div>
@@ -572,10 +570,9 @@ function KitchenBeat({ progress: p, scale }: { progress: number; scale: number }
     <div className="absolute inset-0 z-[3]" style={{
       opacity: vis,
       filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
-      willChange: "opacity, filter, transform",
     }}>
-      <img src="/images/textures/dark-surface.jpg" alt="" className="h-full w-full object-cover" draggable={false}
-        style={{ transform: `scale(${scale})`, filter: GRADE }} />
+      <Image src="/images/textures/dark-surface.jpg" alt="" fill className="object-cover" draggable={false} unoptimized
+        style={{ transform: `scale(${scale})`, filter: GRADE }} sizes="100vw" />
       <div className="absolute inset-0" style={{ background: WARM_OVERLAY, mixBlendMode: "overlay" }} />
       <div className="absolute inset-0" style={{ background: DEEP_VIGNETTE }} />
     </div>
@@ -641,7 +638,6 @@ function ClimaxBeat({ progress: p }: { progress: number }) {
               opacity: vis * lineVis,
               filter: blur > 0.5 ? `blur(${blur}px)` : undefined,
               transform: `translateY(${yOffset}px)`,
-              willChange: "opacity, filter, transform",
             }}>{line.text}</span>
           );
         })}

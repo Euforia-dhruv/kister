@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Projects — Kitser",
     description: "Kitchens we've brought to life. Case studies from Kitser.",
+    images: ["/images/kitchens/scavolini-poetica-island.jpg"],
   },
 };
 

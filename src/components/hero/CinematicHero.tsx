@@ -127,7 +127,7 @@ const COMPONENTS: KitchenComponent[] = [
 
 function DustParticles() {
   const particles = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
+    return Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,

@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Our Partners — Kitser",
     description: "35+ world-class kitchen brands curated for integrity and craft.",
+    images: ["/images/kitchens/scavolini-poetica-hero.jpg"],
   },
 };
 

@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kitchen Gallery — Kitser",
     description: "Kitchens we've curated. Every kitchen tells a story.",
+    images: ["/images/kitchens/scavolini-carattere-hero.jpg"],
   },
 };
 

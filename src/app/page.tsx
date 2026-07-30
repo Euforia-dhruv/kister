@@ -1,19 +1,30 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import CanvasExperience from "@/components/canvas/CanvasExperience";
 import CinematicHero from "@/components/hero/CinematicHero";
 import BrandsSection from "@/components/sections/BrandsSection";
 import Reveal from "@/components/site/Reveal";
+
+const CanvasExperience = lazy(
+  () => import("@/components/canvas/CanvasExperience")
+);
+
+function CanvasLoader() {
+  return (
+    <div className="h-[600vh] bg-void" />
+  );
+}
 
 export default function Home() {
   return (
     <main className="relative bg-void">
       {/* ─── CINEMATIC INTRO (600vh scroll-driven) ─── */}
-      <CanvasExperience />
+      <Suspense fallback={<CanvasLoader />}>
+        <CanvasExperience />
+      </Suspense>
 
       {/* ─── INTERACTIVE KITCHEN HERO (180vh pinned) ─── */}
       <CinematicHero />

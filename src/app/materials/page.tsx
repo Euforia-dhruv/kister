@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Materials — Kitser",
     description: "Materials that deserve the name. Cast iron, copper, granite, walnut, brass.",
+    images: ["/images/materials/03-brass-detail.jpg"],
   },
 };
 
