@@ -30,7 +30,7 @@ const GALLERY_IMAGES = [
   { src: "/images/showroom/02-display.jpg", alt: "Showroom interior — dark kitchen display" },
   { src: "/images/showroom/03-cookware.jpg", alt: "Showroom interior — marble and stone displays" },
   { src: "/images/showroom/04-brand-wall.jpg", alt: "Showroom interior — brass and copper accents" },
-  { src: "/images/appliances/miele-experience-center.jpg", alt: "Showroom interior — artisan cookware display" },
+  { src: "/images/appliances/smeg-musa-lifestyle.jpg", alt: "Showroom interior — Smeg Musa lifestyle display with vibrant colors" },
 ];
 
 export default function ShowroomPage() {
@@ -62,8 +62,8 @@ export default function ShowroomPage() {
           <Reveal scale>
             <div className="relative aspect-[16/7] overflow-hidden">
               <Image
-                src="/images/showroom/01-interior.jpg"
-                alt="Kitser showroom interior featuring dark kitchen display with premium appliances"
+                src="/images/kitchens/scavolini-carattere-hero.jpg"
+                alt="Kitser showroom — Scavolini kitchen display with premium materials and natural lighting"
                 fill
                 className="object-cover img-grade"
                 sizes="(max-width: 768px) 100vw, 90vw"

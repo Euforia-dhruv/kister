@@ -92,8 +92,8 @@ export default function CollectionsPage() {
             <Reveal className="md:col-span-7" scale>
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
-                  src={CATEGORIES[0].image}
-                  alt="Le Creuset enameled cast iron cookware collection displayed on dark shelf"
+                  src="/images/kitchens/scavolini-delinea-hero.jpg"
+                  alt="Scavolini DeLinea kitchen — premium modular design with brass hardware and warm materials"
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 60vw"

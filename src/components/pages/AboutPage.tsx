@@ -36,7 +36,7 @@ export default function AboutPage() {
       <section ref={heroRef} className="hero-container">
         <motion.div className="hero-image-wrapper" style={{ y: heroY }}>
           <Image
-            src="/images/textures/artisan.jpg"
+            src="/images/artisan-hands-v2.jpg"
             alt="Artisan hands shaping wood — the craft behind every Kitser kitchen"
             fill
             className="object-cover"
@@ -93,8 +93,8 @@ export default function AboutPage() {
             <Reveal className="md:col-span-6 md:col-start-7" delay={200} scale>
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
-                  src="/images/cabinetry/01-scavolini-modular.jpg"
-                  alt="Scavolini modular kitchen — precision joinery and premium materials"
+                  src="/images/kitchens/scavolini-carattere-hero.jpg"
+                  alt="Scavolini Carattere kitchen — premium cabinetry installation in a modern Indian home"
                   fill
                   className="object-cover img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -172,9 +172,9 @@ export default function AboutPage() {
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
-              { image: "/images/cabinetry/05-design-detail.jpg", label: "Joinery & Assembly" },
-              { image: "/images/materials/01-marble-countertop.jpg", label: "Stone Fabrication" },
-              { image: "/images/hardware/01-blum-hinge.jpg", label: "Hardware Installation" },
+              { image: "/images/cabinetry/04-hero.jpg", label: "Joinery & Assembly — detailed craftsmanship in Scavolini cabinetry" },
+              { image: "/images/materials/02-quartz-surface.jpg", label: "Stone Fabrication — premium quartz surface with natural veining" },
+              { image: "/images/hardware/06-showroom.jpg", label: "Hardware Installation — Blum showroom display of precision hardware" },
             ].map((item, i) => (
               <Reveal key={item.label} delay={i * 80}>
                 <div className="relative aspect-[4/3] overflow-hidden">

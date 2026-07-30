@@ -14,7 +14,7 @@ const BRANDS = [
     year: 1961,
     desc: "Italian kitchen design since 1961. Handcrafted cabinetry that transforms kitchens into living spaces.",
     story: "For over sixty years, Scavolini has defined what an Italian kitchen means. Not just a place to cook — a place to live. Every cabinet is a statement of intent: that design and function are inseparable.",
-    image: "/images/kitchens/scavolini-delinea-brass.jpg",
+    image: "/images/kitchens/scavolini-poetica-hero.jpg",
   },
   {
     name: "Bosch",
@@ -32,7 +32,7 @@ const BRANDS = [
     year: 1925,
     desc: "Enameled cast iron since 1925. Each piece is hand-finished in Fresnoy-le-Grand, France.",
     story: "In 1925, two Belgian iron founders and a French metal specialist created something extraordinary. Nearly a century later, each piece is still hand-finished in the same French foundry. The colors, the weight, the heat — there is no substitute.",
-    image: "/images/cookware/01-cast-iron.jpg",
+    image: "/images/cookware/06-hero.jpg",
   },
   {
     name: "Miele",
@@ -50,7 +50,7 @@ const BRANDS = [
     year: 1952,
     desc: "The invisible backbone of every premium kitchen. Soft-close hinges and drawer systems.",
     story: "You never see Blum hardware. You feel it. The silent close of a drawer. The perfect alignment of a door. That's the result of seven decades of obsession with the things most people never think about.",
-    image: "/images/kitchens/scavolini-carattere-white.jpg",
+    image: "/images/hardware/06-showroom.jpg",
   },
   {
     name: "BLANCO",
