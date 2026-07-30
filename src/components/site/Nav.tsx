@@ -65,8 +65,8 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
 export default function Nav() {
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [atTop, setAtTop] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [pastHero, setPastHero] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -78,18 +78,20 @@ export default function Nav() {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
+          const vh = window.innerHeight;
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
           const progress = maxScroll > 0 ? y / maxScroll : 0;
           setScrollProgress(progress);
 
+          // Hero threshold: 10% of viewport height
+          const heroThreshold = isHome ? vh * 0.1 : 80;
+          setPastHero(y > heroThreshold);
+
           const scrollingUp = y < lastY;
-          const threshold = isHome ? 900 : 80;
 
-          setAtTop(y <= threshold);
-
-          if (scrollingUp && y > threshold) {
+          if (scrollingUp && y > heroThreshold) {
             setShow(true);
-          } else if (!scrollingUp || y <= threshold) {
+          } else if (!scrollingUp || y <= heroThreshold) {
             setShow(false);
           }
 
@@ -115,32 +117,33 @@ export default function Nav() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const navVisible = isHome ? show : !atTop;
+  // On home: show nav only after scrolling past hero threshold
+  // On other pages: always show (with hide/reveal on scroll)
+  const navVisible = isHome ? (pastHero && show) || menuOpen : !pastHero || show || menuOpen;
 
-  // Dynamic glass opacity based on scroll
-  const glassOpacity = Math.min(scrollProgress * 5, 0.85);
+  // Glass opacity ramps up as you scroll
+  const glassIntensity = isHome ? Math.min(scrollProgress * 8, 0.9) : Math.min(scrollProgress * 5, 0.85);
 
   return (
     <>
-      {/* ─── DESKTOP NAV ─────────────────────────────────── */}
       <motion.header
         className="fixed top-0 left-0 right-0 z-40"
         initial={false}
         animate={{
-          opacity: navVisible || menuOpen ? 1 : 0,
-          y: navVisible || menuOpen ? 0 : -8,
+          opacity: navVisible ? 1 : 0,
+          y: navVisible ? 0 : -8,
         }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ pointerEvents: navVisible || menuOpen ? "auto" : "none" }}
+        style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
-        {/* Glass background — thin, elegant */}
+        {/* Glass background */}
         <div
           className="absolute inset-0 transition-all duration-700"
           style={{
-            backdropFilter: navVisible ? "blur(2px) saturate(1.3)" : "blur(0px)",
-            WebkitBackdropFilter: navVisible ? "blur(2px) saturate(1.3)" : "blur(0px)",
-            backgroundColor: navVisible ? `rgba(10,10,10,${0.3 + glassOpacity * 0.5})` : "transparent",
-            borderBottom: navVisible ? "1px solid rgba(196,90,44,0.06)" : "1px solid transparent",
+            backdropFilter: pastHero ? "blur(12px) saturate(1.3)" : "blur(0px)",
+            WebkitBackdropFilter: pastHero ? "blur(12px) saturate(1.3)" : "blur(0px)",
+            backgroundColor: pastHero ? `rgba(10,10,10,${0.2 + glassIntensity * 0.6})` : "transparent",
+            borderBottom: pastHero ? "1px solid rgba(196,90,44,0.06)" : "1px solid transparent",
           }}
         />
 
@@ -197,7 +200,7 @@ export default function Nav() {
         </nav>
       </motion.header>
 
-      {/* ─── MOBILE MENU — Fullscreen overlay ───────────── */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -207,7 +210,6 @@ export default function Nav() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Backdrop with blur */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0 }}
@@ -220,7 +222,6 @@ export default function Nav() {
               }}
             />
 
-            {/* Animated gradient accent */}
             <motion.div
               className="absolute inset-0 pointer-events-none"
               initial={{ opacity: 0 }}
@@ -232,7 +233,6 @@ export default function Nav() {
               }}
             />
 
-            {/* Links */}
             <div className="relative flex flex-col items-center gap-7">
               {LINKS.map((link, i) => (
                 <motion.div
@@ -262,7 +262,6 @@ export default function Nav() {
                 </motion.div>
               ))}
 
-              {/* Contact CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -282,7 +281,6 @@ export default function Nav() {
               </motion.div>
             </div>
 
-            {/* Bottom info */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

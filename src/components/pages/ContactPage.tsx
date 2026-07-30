@@ -48,7 +48,7 @@ export default function ContactPage() {
     <main className="relative bg-void">
       {/* Hero — full viewport */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">CONSULTATION</span>
           </Reveal>
@@ -68,11 +68,11 @@ export default function ContactPage() {
 
       {/* Consultation form — luxury minimal */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-2xl" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           {/* Progress — minimal dots */}
           {status !== "success" && (
             <Reveal>
-              <div className="flex items-center gap-3 mb-16">
+              <div className="flex items-center gap-3 mb-12">
                 {[1, 2, 3].map((s) => (
                   <div key={s} className="flex items-center gap-3">
                     <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-500 ${
@@ -277,7 +277,7 @@ export default function ContactPage() {
 
           {/* Navigation */}
           {status !== "success" && (
-            <div className="flex items-center justify-between mt-16">
+            <div className="flex items-center justify-between mt-12">
               <button
                 onClick={() => setStep(Math.max(1, step - 1) as Step)}
                 disabled={step === 1}
@@ -321,7 +321,7 @@ export default function ContactPage() {
 
       {/* Closing statement */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
               The best kitchens<br />start with conversation.

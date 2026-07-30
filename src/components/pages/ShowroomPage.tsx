@@ -38,7 +38,7 @@ export default function ShowroomPage() {
     <main className="relative bg-void">
       {/* Hero — full viewport */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">SHOWROOM</span>
           </Reveal>
@@ -58,12 +58,12 @@ export default function ShowroomPage() {
 
       {/* Full-bleed hero image */}
       <section className="editorial-section-sm">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal scale>
             <div className="relative aspect-[16/7] overflow-hidden">
               <Image
                 src="/images/showroom/01-interior.jpg"
-                alt="Kitser showroom interior"
+                alt="Kitser showroom interior featuring dark kitchen display with premium appliances"
                 fill
                 className="object-cover img-grade"
                 sizes="(max-width: 768px) 100vw, 90vw"
@@ -77,7 +77,7 @@ export default function ShowroomPage() {
 
       {/* Details — editorial split: location, hours, appointment */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
             {/* Location */}
             <Reveal className="md:col-span-4">
@@ -169,14 +169,14 @@ export default function ShowroomPage() {
 
       {/* Brand wall — editorial grid */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">BRAND WALL</span>
             <h2 className="editorial-headline-md mt-4">
               35+ brands.<br />One showroom.
             </h2>
           </Reveal>
-          <div className="mt-16 grid grid-cols-1 gap-px bg-linen/5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-px bg-linen/5 sm:grid-cols-2 lg:grid-cols-3">
             {BRAND_STORIES.map((brand, i) => (
               <Reveal key={brand.name} delay={i * 30}>
                 <div className="group bg-void p-8 transition-colors duration-500 hover:bg-ember/[0.03]">
@@ -200,14 +200,14 @@ export default function ShowroomPage() {
 
       {/* Interior gallery — editorial grid */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">INTERIORS</span>
             <h2 className="editorial-headline-md mt-4">
               The showroom<br />experience.
             </h2>
           </Reveal>
-          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {GALLERY_IMAGES.map((img, i) => (
               <Reveal key={img.src} delay={i * 80}>
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -228,7 +228,7 @@ export default function ShowroomPage() {
 
       {/* Map */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">FIND US</span>
             <h2 className="editorial-headline-md mt-4">
@@ -255,7 +255,7 @@ export default function ShowroomPage() {
 
       {/* Closing statement */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
               The showroom<br />is the experience.

@@ -64,7 +64,7 @@ export default function CollectionsPage() {
     <main className="relative bg-void">
       {/* Hero — full viewport */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">COLLECTIONS</span>
           </Reveal>
@@ -84,7 +84,7 @@ export default function CollectionsPage() {
 
       {/* Featured collection — asymmetric editorial split */}
       <section className="editorial-section-sm">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div
             className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center cursor-pointer group"
             onClick={() => setExpandedCategory(expandedCategory === "Cookware" ? null : "Cookware")}
@@ -93,7 +93,7 @@ export default function CollectionsPage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src={CATEGORIES[0].image}
-                  alt={CATEGORIES[0].name}
+                  alt="Le Creuset enameled cast iron cookware collection displayed on dark shelf"
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 60vw"
@@ -132,7 +132,7 @@ export default function CollectionsPage() {
 
       {/* Remaining collections — asymmetric editorial grid */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
             {/* Large card — 8 cols */}
             <Reveal className="md:col-span-8" delay={0}>
@@ -141,7 +141,7 @@ export default function CollectionsPage() {
                 onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[1].name ? null : CATEGORIES[1].name)}
               >
                 <div className="relative overflow-hidden aspect-[16/10]">
-                  <Image src={CATEGORIES[1].image} alt={CATEGORIES[1].name} fill
+                  <Image src={CATEGORIES[1].image} alt="Le Creuset stoneware bakeware arranged on wooden kitchen shelf" fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 70vw" />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -162,7 +162,7 @@ export default function CollectionsPage() {
                 onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[2].name ? null : CATEGORIES[2].name)}
               >
                 <div className="relative overflow-hidden aspect-[4/5]">
-                  <Image src={CATEGORIES[2].image} alt={CATEGORIES[2].name} fill
+                  <Image src={CATEGORIES[2].image} alt="Nachtmann crystal barware and cocktail accessories on dark surface" fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw" />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -183,7 +183,7 @@ export default function CollectionsPage() {
                   onClick={() => setExpandedCategory(expandedCategory === cat.name ? null : cat.name)}
                 >
                   <div className="relative overflow-hidden aspect-[4/5]">
-                    <Image src={cat.image} alt={cat.name} fill
+                    <Image src={cat.image} alt={`${cat.name} collection featuring ${cat.brands.join(' and ')} products`} fill
                       className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                       sizes="(max-width: 768px) 100vw, 33vw" />
                     <div className="absolute inset-0 img-warm img-vignette" />
@@ -211,7 +211,7 @@ export default function CollectionsPage() {
             className="scene scene-warm overflow-hidden"
           >
             <div className="editorial-section">
-              <div className="mx-auto max-w-[1000px]">
+              <div className="mx-auto max-w-[1000px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
                 {CATEGORIES.filter((c) => c.name === expandedCategory).map((cat) => (
                   <div key={cat.name} className="grid grid-cols-1 gap-12 md:grid-cols-2">
                     <div className="flex flex-col gap-6">
@@ -236,7 +236,7 @@ export default function CollectionsPage() {
                       </Link>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden">
-                      <Image src={cat.image} alt={cat.name} fill className="object-cover img-grade"
+                      <Image src={cat.image} alt={`${cat.name} collection detail view`} fill className="object-cover img-grade"
                         sizes="(max-width: 768px) 100vw, 50vw" />
                       <div className="absolute inset-0 img-warm img-vignette" />
                     </div>
@@ -250,7 +250,7 @@ export default function CollectionsPage() {
 
       {/* Brand statement — closing */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
               35+ brands.<br />One standard.

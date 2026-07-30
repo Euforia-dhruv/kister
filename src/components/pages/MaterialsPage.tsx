@@ -59,7 +59,7 @@ export default function MaterialsPage() {
     <main className="relative bg-void">
       {/* Hero — full viewport */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">MATERIALS</span>
           </Reveal>
@@ -82,7 +82,7 @@ export default function MaterialsPage() {
         const isReversed = i % 2 === 1;
         return (
           <section key={material.name} className="editorial-section">
-            <div className="mx-auto max-w-[1400px]">
+            <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
               <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
                 <Reveal
                   className={`${isReversed ? "md:col-span-5 md:order-2" : "md:col-span-7"}`}
@@ -91,7 +91,7 @@ export default function MaterialsPage() {
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <Image
                       src={material.image}
-                      alt={material.name}
+                      alt={`${material.name} material detail showing texture and finish`}
                       fill
                       className="object-cover img-tactile"
                       sizes="(max-width: 768px) 100vw, 55vw"
@@ -150,7 +150,7 @@ export default function MaterialsPage() {
 
       {/* Closing statement */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
               Good materials<br />don&apos;t need explanation.

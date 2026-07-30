@@ -96,7 +96,7 @@ export default function GalleryPage() {
     <main className="relative bg-void">
       {/* Hero — full viewport */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-[1400px] text-center">
+        <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">GALLERY</span>
           </Reveal>
@@ -116,7 +116,7 @@ export default function GalleryPage() {
 
       {/* Featured kitchen — full viewport */}
       <section className="editorial-section-sm">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal scale>
             <div
               className="group relative aspect-[16/9] overflow-hidden cursor-pointer"
@@ -124,7 +124,7 @@ export default function GalleryPage() {
             >
               <Image
                 src={GALLERY[0].image}
-                alt={GALLERY[0].title}
+                alt={`${GALLERY[0].title} — ${GALLERY[0].description}`}
                 fill
                 className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                 sizes="(max-width: 768px) 100vw, 90vw"
@@ -146,7 +146,7 @@ export default function GalleryPage() {
 
       {/* Gallery — editorial grid with varying sizes */}
       <section className="editorial-section">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
             {/* Row 1: two medium */}
             <Reveal className="md:col-span-6" delay={0}>
@@ -156,7 +156,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[1].image}
-                  alt={GALLERY[1].title}
+                  alt={`${GALLERY[1].title} — ${GALLERY[1].category} kitchen in ${GALLERY[1].location}`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -178,7 +178,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[2].image}
-                  alt={GALLERY[2].title}
+                  alt={`${GALLERY[2].title} — ${GALLERY[2].category} kitchen in ${GALLERY[2].location}`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -202,7 +202,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[3].image}
-                  alt={GALLERY[3].title}
+                  alt={`${GALLERY[3].title} — artisan kitchen with ${GALLERY[3].category.toLowerCase()} design`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 70vw"
@@ -222,7 +222,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={GALLERY[4].image}
-                    alt={GALLERY[4].title}
+                    alt={`${GALLERY[4].title} — ${GALLERY[4].category.toLowerCase()} kitchen design`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
@@ -240,7 +240,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={GALLERY[5].image}
-                    alt={GALLERY[5].title}
+                    alt={`${GALLERY[5].title} — ${GALLERY[5].category.toLowerCase()} kitchen with stainless steel`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
@@ -262,7 +262,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={item.image}
-                    alt={item.title}
+                    alt={`${item.title} — ${item.category} kitchen in ${item.location}`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 33vw"
@@ -283,7 +283,7 @@ export default function GalleryPage() {
 
       {/* Closing statement */}
       <section className="editorial-section-lg">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
               Every kitchen<br />tells a story.
@@ -319,7 +319,7 @@ export default function GalleryPage() {
             >
               <Image
                 src={selected.image}
-                alt={selected.title}
+                alt={`${selected.title} — ${selected.description}`}
                 fill
                 className="object-cover img-grade"
                 sizes="90vw"
