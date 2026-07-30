@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 
 const LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "Our Story" },
+  { href: "/about", label: "Story" },
   { href: "/collections", label: "Collections" },
   { href: "/brands", label: "Brands" },
   { href: "/showroom", label: "Showroom" },
@@ -39,19 +38,18 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
         href={href}
         onMouseMove={handleMouse}
         onMouseLeave={reset}
-        className="relative py-1 group"
+        className="relative px-3 py-1.5 group"
         data-cursor-magnetic
       >
-        <span className={`font-body text-[0.65rem] font-[300] tracking-[0.16em] transition-colors duration-600 ${
-          isActive ? "text-ember" : "text-linen/35 group-hover:text-linen/70"
+        <span className={`font-body text-[0.6rem] font-[300] tracking-[0.14em] transition-colors duration-500 ${
+          isActive ? "text-ember" : "text-linen/40 group-hover:text-linen/80"
         }`}>
-          {label}
+          {label.toUpperCase()}
         </span>
         {isActive && (
           <motion.div
-            layoutId="nav-indicator"
-            className="absolute -bottom-0.5 left-0 right-0 h-[1px]"
-            style={{ background: "rgba(196,90,44,0.4)" }}
+            layoutId="nav-pill-indicator"
+            className="absolute inset-0 rounded-full bg-ember/[0.06] border border-ember/15"
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           />
         )}
@@ -61,9 +59,9 @@ function MagneticLink({ href, label, isActive }: { href: string; label: string; 
 }
 
 export default function Nav() {
-  const [show, setShow] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -76,14 +74,24 @@ export default function Nav() {
         requestAnimationFrame(() => {
           const y = window.scrollY;
           const vh = window.innerHeight;
-          const heroThreshold = isHome ? vh * 0.1 : 80;
-          setPastHero(y > heroThreshold);
 
+          // On homepage, show nav after cinematic intro (600vh) + hero (180vh)
+          // On other pages, show after 80px scroll
+          const threshold = isHome ? vh * 6.5 : 80;
+          const pastThreshold = y > threshold;
+
+          setScrolled(y > 80);
+
+          // Show/hide logic
           const scrollingUp = y < lastY;
-          if (scrollingUp && y > heroThreshold) {
-            setShow(true);
-          } else if (!scrollingUp || y <= heroThreshold) {
-            setShow(false);
+          if (pastThreshold) {
+            if (scrollingUp) {
+              setVisible(true);
+            } else if (y - lastY > 5) {
+              setVisible(false);
+            }
+          } else {
+            setVisible(false);
           }
 
           lastY = y;
@@ -104,44 +112,45 @@ export default function Nav() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const navVisible = isHome ? (pastHero && show) || menuOpen : !pastHero || show || menuOpen;
+  // Always show on non-home pages after initial load
+  const navVisible = isHome ? visible || menuOpen : true;
 
   return (
     <>
+      {/* ─── GLASS FLOATING PILL ─── */}
       <motion.header
-        className="fixed top-0 left-0 right-0 z-40"
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
         initial={false}
         animate={{
           opacity: navVisible ? 1 : 0,
-          y: navVisible ? 0 : -6,
+          y: navVisible ? 0 : -10,
+          scale: navVisible ? 1 : 0.95,
         }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
-        <div
-          className="absolute inset-0 transition-all duration-700"
+        <nav className="relative flex items-center gap-1 px-2 py-1.5 rounded-full border border-linen/[0.06]"
           style={{
-            backdropFilter: pastHero ? "blur(10px) saturate(1.2)" : "blur(0px)",
-            WebkitBackdropFilter: pastHero ? "blur(10px) saturate(1.2)" : "blur(0px)",
-            backgroundColor: pastHero ? "rgba(10,10,10,0.55)" : "transparent",
-            borderBottom: pastHero ? "1px solid rgba(245,240,235,0.04)" : "1px solid transparent",
+            backdropFilter: "blur(20px) saturate(1.3)",
+            WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+            backgroundColor: scrolled ? "rgba(10,10,10,0.65)" : "rgba(10,10,10,0.4)",
+            boxShadow: scrolled
+              ? "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,240,235,0.03)"
+              : "0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(245,240,235,0.02)",
           }}
-        />
-
-        <nav className="relative flex items-center justify-between px-6 py-3.5 md:px-12 md:py-4">
-          <Link href="/" className="group flex items-center gap-2" data-cursor-magnetic>
-            <span className="font-display text-[0.8rem] font-[100] tracking-[0.25em] text-linen transition-colors duration-600 group-hover:text-ember">
+        >
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1.5 px-3 py-1.5 group" data-cursor-magnetic>
+            <span className="font-display text-[0.65rem] font-[100] tracking-[0.2em] text-linen/70 group-hover:text-linen transition-colors duration-500">
               KITSER
             </span>
-            <motion.span
-              className="hidden sm:inline-block h-[1px] bg-ember/25"
-              animate={{ width: 14 }}
-              whileHover={{ width: 22 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            />
           </Link>
 
-          <div className="hidden items-center gap-9 md:flex">
+          {/* Divider */}
+          <div className="w-px h-3 bg-linen/[0.06]" />
+
+          {/* Nav links */}
+          <div className="hidden items-center md:flex">
             {LINKS.map((link) => (
               <MagneticLink
                 key={link.href}
@@ -152,68 +161,70 @@ export default function Nav() {
             ))}
           </div>
 
+          {/* Mobile hamburger */}
           <button
-            className="relative z-50 flex flex-col gap-[5px] md:hidden w-6 h-6 justify-center items-center"
+            className="relative z-50 flex flex-col gap-[4px] md:hidden w-7 h-7 justify-center items-center"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             data-cursor-magnetic
           >
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen"
-              animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3.5 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute block h-[1px] w-4 bg-linen/60"
+              animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen"
-              animate={menuOpen ? { rotate: -90, scaleX: 0 } : { rotate: 0, scaleX: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              className="absolute block h-[1px] w-4 bg-linen/60"
+              animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.2 }}
             />
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen"
-              animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3.5 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute block h-[1px] w-4 bg-linen/60"
+              animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
           </button>
         </nav>
       </motion.header>
 
+      {/* ─── MOBILE MENU OVERLAY ─── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 z-30 flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
           >
             <motion.div
               className="absolute inset-0"
               style={{
-                backgroundColor: "rgba(10,10,10,0.95)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
+                backgroundColor: "rgba(10,10,10,0.96)",
+                backdropFilter: "blur(30px)",
+                WebkitBackdropFilter: "blur(30px)",
               }}
             />
 
-            <div className="relative flex flex-col items-center gap-7">
+            <div className="relative flex flex-col items-center gap-6">
               {LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ delay: 0.08 + i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <Link href={link.href} onClick={closeMenu} className="group flex items-center gap-4">
+                  <Link href={link.href} onClick={closeMenu} className="group flex items-center gap-3">
                     <motion.span
                       className="block h-[1px] bg-ember"
-                      animate={{ width: pathname === link.href ? 28 : 0 }}
-                      whileHover={{ width: 20 }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      animate={{ width: pathname === link.href ? 24 : 0 }}
+                      whileHover={{ width: 16 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     />
-                    <span className={`font-display text-3xl font-[200] tracking-[0.06em] transition-colors duration-600 ${
-                      pathname === link.href ? "text-ember" : "text-linen/50 group-hover:text-linen"
+                    <span className={`font-display text-2xl font-[200] tracking-[0.06em] transition-colors duration-500 ${
+                      pathname === link.href ? "text-ember" : "text-linen/40 group-hover:text-linen"
                     }`}>
                       {link.label}
                     </span>
@@ -222,11 +233,11 @@ export default function Nav() {
               ))}
 
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-6"
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-4"
               >
                 <Link href="/contact" onClick={closeMenu} className="magnetic-btn" data-cursor="BOOK">
                   BOOK CONSULTATION
@@ -238,13 +249,13 @@ export default function Nav() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-2"
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-1.5"
             >
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.15em] text-linen/15">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
                 No. 1, Nava India Road, Coimbatore
               </span>
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.15em] text-linen/15">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
                 +91 422 230 1092
               </span>
             </motion.div>
