@@ -12,10 +12,12 @@ export default function Home() {
   return (
     <main className="relative bg-void">
       <CinematicHero />
-      <CollectionsSection />
-      <BrandsSection />
-      <MaterialsTeaser />
-      <ShowroomCTA />
+      <div className="relative z-10 bg-void">
+        <CollectionsSection />
+        <BrandsSection />
+        <MaterialsTeaser />
+        <ShowroomCTA />
+      </div>
     </main>
   );
 }

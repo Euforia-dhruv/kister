@@ -64,9 +64,9 @@ export default function Cursor() {
   useEffect(() => {
     const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const el = target.closest("[data-cursor]");
+      const el = target.closest("[data-cursor], [data-cursor-label]");
       if (el) {
-        const label = el.getAttribute("data-cursor") || "";
+        const label = el.getAttribute("data-cursor-label") || el.getAttribute("data-cursor") || "";
         const expand = el.hasAttribute("data-cursor-expand");
         const magnetic = el.hasAttribute("data-cursor-magnetic");
         setState({ label, expand, magnetic });
