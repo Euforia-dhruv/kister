@@ -6,6 +6,7 @@ import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
 import { fade, clamp, contentReveal, vignette } from "@/lib/motion";
 import { MotionText } from "@/components/site/MotionText";
+import { BRAND } from "@/lib/brand";
 
 /* ─── ACT 8: FINAL REVEAL ───────────────────────────────── */
 
@@ -242,7 +243,7 @@ function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
       </h2>
       <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-10">
         <MotionText value={useTransform(isComplete, (v) =>
-          v ? "No. 1, Nava India Road, Coimbatore — 641028" : "Scroll to move through the space. Every detail, every material, every system — alive and waiting."
+          v ? BRAND.location.full : "Scroll to move through the space. Every detail, every material, every system — alive and waiting."
         )} />
       </p>
       <motion.div

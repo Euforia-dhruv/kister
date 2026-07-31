@@ -21,7 +21,7 @@ export default function NotFound() {
         <Reveal delay={200}>
           <p className="editorial-body mt-8 mx-auto max-w-md">
             The page you&apos;re looking for doesn&apos;t exist.
-            Let&apos;s get you back to something beautiful.
+            Let&apos;s get you back to the kitchen.
           </p>
         </Reveal>
         <Reveal delay={400}>

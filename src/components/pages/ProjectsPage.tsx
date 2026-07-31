@@ -168,7 +168,7 @@ export default function ProjectsPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="editorial-body mt-8 mx-auto max-w-md">
-              Every project begins with a conversation. Tell us about your space, your habits, your vision.
+              The best kitchens start with conversation. Tell us about your space, your habits, your vision.
             </p>
           </Reveal>
           <Reveal delay={400}>

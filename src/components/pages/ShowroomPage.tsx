@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
+import { BRAND } from "@/lib/brand";
 
 const HOURS = [
   { day: "Monday — Friday", time: "10:00 AM — 7:00 PM" },
@@ -85,14 +86,14 @@ export default function ShowroomPage() {
                 <div>
                   <span className="editorial-caption">LOCATION</span>
                   <h3 className="font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3">
-                    No. 1, Nava India Road
+                    {BRAND.location.address}
                   </h3>
                   <p className="editorial-body mt-2">
-                    Coimbatore — 641028<br />
-                    Tamil Nadu, India
+                    {BRAND.location.city} — {BRAND.location.pincode}<br />
+                    {BRAND.location.state}, {BRAND.location.country}
                   </p>
                   <a
-                    href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
+                    href={`https://maps.google.com/?q=${encodeURIComponent(BRAND.name + " " + BRAND.location.full)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
@@ -104,7 +105,7 @@ export default function ShowroomPage() {
                 <div>
                   <span className="editorial-caption">PARKING</span>
                   <p className="editorial-body mt-3">
-                    Dedicated parking available on Nava India Road. Valet service for consultation appointments.
+                    Dedicated parking available on {BRAND.location.address.split(",")[0]}. Valet service for consultation appointments.
                   </p>
                 </div>
               </div>
@@ -126,11 +127,11 @@ export default function ShowroomPage() {
                 </div>
                 <div>
                   <span className="editorial-caption">CONTACT</span>
-                  <a href="tel:+914222301092" className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors duration-500 hover:text-ember">
-                    +91 422 230 1092
+                  <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors duration-500 hover:text-ember">
+                    {BRAND.contact.phone}
                   </a>
-                  <a href="mailto:showroom@kitser.in" className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors duration-500 hover:text-linen">
-                    showroom@kitser.in
+                  <a href={`mailto:${BRAND.contact.email}`} className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors duration-500 hover:text-linen">
+                    {BRAND.contact.email}
                   </a>
                 </div>
               </div>
@@ -155,7 +156,7 @@ export default function ShowroomPage() {
                     <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
                   </Link>
                   <a
-                    href="tel:+914222301092"
+                    href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
                     className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen"
                   >
                     Or call directly →

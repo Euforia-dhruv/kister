@@ -198,7 +198,7 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
                       {selectedSystem.label}
                     </span>
                     <h3 className="font-display text-lg font-[200] text-linen mt-2">
-                      System Overview
+                      {selectedSystem.label}
                     </h3>
                   </div>
                   <button

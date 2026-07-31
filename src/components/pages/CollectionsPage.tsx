@@ -34,10 +34,10 @@ const CATEGORIES = [
   {
     name: "Kitchen Tools",
     desc: "Knives, peelers, graters. The instruments of daily craft.",
-    longDesc: "Bosch precision engineering meets Futura's Indian craftsmanship. Our kitchen tools are the kind you reach for every day — built to last, designed to feel right in your hand.",
+    longDesc: "Bergner and Meyer bring precision engineering to everyday tools. Our kitchen tools are the kind you reach for every day — built to last, designed to feel right in your hand.",
     image: "/images/hardware/05-detail.jpg",
-    brands: ["Bosch", "Futura"],
-    featured: "Bosch Professional Series",
+    brands: ["Bergner", "Meyer"],
+    featured: "Bergner Professional Series",
   },
   {
     name: "Sinks & Faucets",

@@ -90,7 +90,7 @@ const STAGES: Stage[] = [
     image: "/images/kitchens/scavolini-carattere-hero.jpg",
     title: "Your Kitchen",
     subtitle: BRAND.location.city.toUpperCase(),
-    description: `No. 1, Nava India Road, Coimbatore — 641028. Walk in, call, or begin online. However you reach us, we're ready to listen.`,
+    description: `${BRAND.location.full}. Walk in, call ${BRAND.contact.phone}, or begin online. However you reach us, we're ready to listen.`,
     stat: "1989",
     statLabel: "YEAR FOUNDED",
     in: 0.88,

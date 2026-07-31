@@ -108,7 +108,7 @@ export default function GalleryPage() {
           <Reveal delay={200}>
             <p className="editorial-body mt-8 mx-auto max-w-md">
               Every kitchen is a collaboration. Every material is a choice.
-              Here are the results.
+              The results speak for themselves.
             </p>
           </Reveal>
         </div>

@@ -129,6 +129,45 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Sustainability */}
+      <section className="editorial-section bg-concrete/30">
+        <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+            <Reveal>
+              <div className="flex flex-col gap-6">
+                <span className="editorial-caption">CONSCIOUS CHOICE</span>
+                <h2 className="editorial-headline-md">
+                  Materials that respect<br />your body and the planet.
+                </h2>
+                <p className="editorial-body mt-2">
+                  We advocate for Teflon-free cookware — cast iron, clay, and handcrafted utensils
+                  that impart depth of flavour without harmful chemicals. Our vision is plastic-free,
+                  sustainable, and mindful.
+                </p>
+                <p className="editorial-body">
+                  Beyond selling products, we advocate for a kitchen lifestyle that encourages
+                  mindful cooking, healthy eating, and the joy of sharing meals with loved ones.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={150} scale>
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  { label: "TEFLON-FREE", desc: "Cast iron, clay, handcrafted utensils" },
+                  { label: "PLASTIC-FREE", desc: "Sustainable vision for the planet" },
+                  { label: "MINDFUL", desc: "Healthy eating, joy of sharing" },
+                ].map((item) => (
+                  <div key={item.label} className="flex flex-col gap-2 p-4 border border-linen/5">
+                    <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-ember/60">{item.label}</span>
+                    <p className="font-body text-[0.7rem] font-[300] leading-[1.6] text-smoke/40">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Timeline — editorial vertical */}
       <section className="editorial-section">
         <div className="mx-auto max-w-3xl" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>

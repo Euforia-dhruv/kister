@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { BRAND } from "@/lib/brand";
 
 const LINKS = [
   { href: "/about", label: "Story" },
@@ -252,10 +253,10 @@ export default function Nav() {
               className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-1.5"
             >
               <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
-                No. 1, Nava India Road, Coimbatore
+                {BRAND.location.full}
               </span>
               <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
-                +91 422 230 1092
+                {BRAND.contact.phone}
               </span>
             </motion.div>
           </motion.div>

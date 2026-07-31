@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Reveal from "@/components/site/Reveal";
+import { BRAND } from "@/lib/brand";
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -336,13 +337,13 @@ export default function ContactPage() {
           <Reveal delay={400}>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="tel:+914222301092"
+                href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
                 className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
               >
                 CALL US
               </a>
               <a
-                href="https://maps.google.com/?q=Kitser+Coimbatore+Nava+India+Road"
+                href={`https://maps.google.com/?q=${encodeURIComponent(BRAND.name + " " + BRAND.location.full)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"

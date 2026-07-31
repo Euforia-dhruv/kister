@@ -91,7 +91,7 @@ export default function Footer() {
         <Reveal>
           <div className="border-t border-linen/4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="font-body text-[0.55rem] font-[300] text-ash/35">
-              © {new Date().getFullYear()} Kitser Retail Pvt Ltd. All rights reserved.
+              © {new Date().getFullYear()} {BRAND.legalName}. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link href="/contact" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Privacy</Link>
