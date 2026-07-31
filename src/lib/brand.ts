@@ -21,7 +21,7 @@ export const BRAND = {
     website: "kitser.in",
   },
   social: {
-    instagram: "https://instagram.com/kitserindia",
+    instagram: "https://instagram.com/kitser.in",
     facebook: "https://facebook.com/kitserindia",
     pinterest: "https://pinterest.com/kitserindia",
   },
@@ -246,7 +246,7 @@ export const TIMELINE = [
 
 export const KEY_BRANDS = [
   { name: "Scavolini", country: "Italy", since: 1961, category: "Cabinetry", logo: "/images/brands/scavolini/logo.png" },
-  { name: "Le Creuset", country: "France", since: 1925, category: "Cookware", logo: "/images/brands/le-creuset/logo.png" },
+  { name: "Le Creuset", country: "France", since: 1925, category: "Cookware", logo: "/images/cookware/06-hero.jpg" },
   { name: "Bosch", country: "Germany", since: 1886, category: "Appliances", logo: "/images/brands/bosch/logo.png" },
   { name: "Miele", country: "Germany", since: 1899, category: "Appliances", logo: "/images/brands/miele/logo.png" },
   { name: "Blum", country: "Austria", since: 1952, category: "Hardware", logo: "/images/brands/blum/logo.png" },

@@ -23,11 +23,11 @@ interface KitchenScene {
 }
 
 const SCENES: KitchenScene[] = [
-  { id: "entrance", image: "/images/showroom/01-interior.jpg", label: "ENTER", depth: 0, scale: 1.2, x: 50, y: 50, in: 0.0, peak: 0.1, out: 0.22 },
-  { id: "cabinets", image: "/images/cabinetry/04-hero.jpg", label: "CABINETRY", depth: 1, scale: 1.0, x: 35, y: 45, in: 0.16, peak: 0.28, out: 0.40 },
+  { id: "entrance", image: "/images/showroom/03-cookware.jpg", label: "ENTER", depth: 0, scale: 1.2, x: 50, y: 50, in: 0.0, peak: 0.1, out: 0.22 },
+  { id: "cabinets", image: "/images/cabinetry/03-integrated.jpg", label: "CABINETRY", depth: 1, scale: 1.0, x: 35, y: 45, in: 0.16, peak: 0.28, out: 0.40 },
   { id: "stone", image: "/images/materials/02-quartz-surface.jpg", label: "SURFACE", depth: 2, scale: 0.95, x: 60, y: 40, in: 0.34, peak: 0.46, out: 0.58 },
-  { id: "hardware", image: "/images/hardware/01-blum-hinge.jpg", label: "HARDWARE", depth: 3, scale: 0.9, x: 40, y: 55, in: 0.52, peak: 0.64, out: 0.76 },
-  { id: "light", image: "/images/kitchens/scavolini-delinea-brass.jpg", label: "DETAIL", depth: 4, scale: 0.85, x: 55, y: 45, in: 0.70, peak: 0.82, out: 0.94 },
+  { id: "hardware", image: "/images/hardware/03-pull-out.jpg", label: "HARDWARE", depth: 3, scale: 0.9, x: 40, y: 55, in: 0.52, peak: 0.64, out: 0.76 },
+  { id: "light", image: "/images/appliances/05-precision.jpg", label: "DETAIL", depth: 4, scale: 0.85, x: 55, y: 45, in: 0.70, peak: 0.82, out: 0.94 },
   { id: "kitchen", image: "/images/kitchens/scavolini-poetica-island.jpg", label: "KITCHEN", depth: 5, scale: 1.0, x: 50, y: 50, in: 0.88, peak: 0.95, out: 1.02 },
 ];
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
+import { BRAND } from "@/lib/brand";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -14,9 +15,9 @@ const LINKS = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com/kitserindia" },
-  { label: "Facebook", href: "https://facebook.com/kitserindia" },
-  { label: "Pinterest", href: "https://pinterest.com/kitserindia" },
+  { label: "Instagram", href: BRAND.social.instagram },
+  { label: "Facebook", href: BRAND.social.facebook },
+  { label: "Pinterest", href: BRAND.social.pinterest },
 ];
 
 export default function Footer() {
@@ -78,10 +79,10 @@ export default function Footer() {
           <StaggerItem className="md:col-span-4">
             <div className="flex flex-col gap-3">
               <span className="editorial-caption mb-1">CONTACT</span>
-              <span className="font-body text-[0.75rem] font-[300] text-smoke/45">No. 1, Nava India Road</span>
-              <span className="font-body text-[0.75rem] font-[300] text-smoke/45">Coimbatore — 641028</span>
-              <a href="tel:+914222301092" className="mt-1 font-body text-[0.75rem] font-[300] text-ember/60 transition-colors duration-600 hover:text-ember">+91 422 230 1092</a>
-              <a href="mailto:showroom@kitser.in" className="font-body text-[0.75rem] font-[300] text-smoke/45 transition-colors duration-600 hover:text-linen">showroom@kitser.in</a>
+              <span className="font-body text-[0.75rem] font-[300] text-smoke/45">{BRAND.location.address}</span>
+              <span className="font-body text-[0.75rem] font-[300] text-smoke/45">{BRAND.location.city} — {BRAND.location.pincode}</span>
+              <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="mt-1 font-body text-[0.75rem] font-[300] text-ember/60 transition-colors duration-600 hover:text-ember">{BRAND.contact.phone}</a>
+              <a href={`mailto:${BRAND.contact.email}`} className="font-body text-[0.75rem] font-[300] text-smoke/45 transition-colors duration-600 hover:text-linen">{BRAND.contact.email}</a>
             </div>
           </StaggerItem>
         </Stagger>

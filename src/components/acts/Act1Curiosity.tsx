@@ -129,14 +129,31 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
         ))}
       </motion.div>
 
-      {/* ── "Kitser curates materials that remember." at bottom ── */}
+      {/* ── Brand logos showcase ── */}
       <motion.div
-        className="absolute bottom-[12%] left-0 right-0 z-[25] flex flex-col items-center pointer-events-none"
-        style={{ opacity: useTransform(progress, [0.6, 0.7, 0.95, 1], [0, 0.7, 0.7, 0]) }}
+        className="absolute bottom-[clamp(60px,12vh,140px)] left-0 right-0 z-[25] flex flex-col items-center pointer-events-none"
+        style={{ opacity: useTransform(progress, [0.65, 0.75, 0.92, 1], [0, 0.6, 0.6, 0]) }}
       >
-        <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/50">
-          KITSER CURATES MATERIALS THAT REMEMBER
+        <div className="flex items-center gap-8 md:gap-12">
+          {["Scavolini", "Le Creuset", "Bosch", "Miele", "Blum", "BLANCO"].map((name, i) => (
+            <BrandLogo key={name} name={name} index={i} progress={progress} />
+          ))}
+        </div>
+        <span className="font-body text-[0.45rem] font-[300] tracking-[0.2em] text-smoke/20 mt-6">
+          35+ BRANDS. 12 COUNTRIES. ONE STANDARD.
         </span>
+      </motion.div>
+
+      {/* ── Kitser pillars (bottom) ── */}
+      <motion.div
+        className="absolute bottom-[clamp(16px,3vh,40px)] left-0 right-0 z-[25] flex justify-center gap-8 pointer-events-none"
+        style={{ opacity: useTransform(progress, [0.75, 0.85, 0.95, 1], [0, 0.4, 0.4, 0]) }}
+      >
+        {["CRAFT", "MATERIAL", "LIGHT", "PRECISION", "RITUAL", "WARMTH"].map((pillar) => (
+          <span key={pillar} className="font-body text-[0.4rem] font-[300] tracking-[0.2em] text-linen/15">
+            {pillar}
+          </span>
+        ))}
       </motion.div>
 
       {/* Vignette */}
@@ -221,5 +238,24 @@ function FloatingMaterialCard({
         />
       </div>
     </motion.div>
+  );
+}
+
+/* ─── BRAND LOGO (text-based, treated as art) ────────────── */
+
+function BrandLogo({ name, index, progress }: { name: string; index: number; progress: MotionValue<number> }) {
+  const delay = index * 0.04;
+  const opacity = useTransform(progress, (v) => {
+    const t = Math.min(Math.max((v - 0.72 - delay) / 0.1, 0), 1);
+    return Math.min(t * 2, 1) * 0.5;
+  });
+
+  return (
+    <motion.span
+      className="font-display text-[clamp(0.55rem,0.9vw,0.8rem)] font-[200] tracking-[0.15em] text-linen/30"
+      style={{ opacity }}
+    >
+      {name}
+    </motion.span>
   );
 }

@@ -27,7 +27,7 @@ interface Stage {
 const STAGES: Stage[] = [
   {
     id: "heritage",
-    image: "/images/showroom/01-interior.jpg",
+    image: "/images/lifestyle/hero.jpg",
     title: "Heritage",
     subtitle: "SINCE 1989",
     description: `${BRAND.yearsOfExperience} years. One showroom in Coimbatore. One conviction: that premium kitchen essentials should be accessible to anyone willing to invest in quality.`,
@@ -39,7 +39,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "curation",
-    image: "/images/kitchens/scavolini-poetica-hero.jpg",
+    image: "/images/kitchens/04-modular-hero.jpg",
     title: "Curation",
     subtitle: "ONE STANDARD",
     description: `${BRAND.brandPartners}+ brand partnerships. ${BRAND.countriesSourced} countries. We don't chase brand names. We chase quality. If a product doesn't meet our standard, it doesn't enter our showroom.`,
@@ -51,7 +51,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "material-truth",
-    image: "/images/cookware/01-cast-iron.jpg",
+    image: "/images/cookware/04-flatlay.jpg",
     title: "Material Truth",
     subtitle: "THE SIX PILLARS",
     description: "Cast iron remembers your meals. Copper ages with grace. Stone holds the temperature of your intention. We choose materials that deserve the name.",
@@ -63,7 +63,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "hands",
-    image: "/images/artisan-hands-v2.jpg",
+    image: "/images/textures/artisan.jpg",
     title: "The Hands",
     subtitle: "CRAFTSMANSHIP",
     description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop. The hands behind the kitchen.",
@@ -75,7 +75,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "space",
-    image: "/images/showroom/02-display.jpg",
+    image: "/images/showroom/miele-experience-center.jpg",
     title: "The Space",
     subtitle: "SHOWROOM",
     description: "3,000 sq ft. Twelve brands. One room designed to help you feel the difference before you commit. Cast iron in your hand. The weight of a Blum drawer. The warmth of walnut.",
@@ -87,7 +87,7 @@ const STAGES: Stage[] = [
   },
   {
     id: "destination",
-    image: "/images/kitchens/scavolini-delinea-hero.jpg",
+    image: "/images/kitchens/scavolini-carattere-hero.jpg",
     title: "Your Kitchen",
     subtitle: BRAND.location.city.toUpperCase(),
     description: `No. 1, Nava India Road, Coimbatore — 641028. Walk in, call, or begin online. However you reach us, we're ready to listen.`,
