@@ -5,8 +5,11 @@ import Image from "next/image";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
 import { fade, vignette, IMAGE_FILTERS } from "@/lib/motion";
+import { BRAND, TIMELINE } from "@/lib/brand";
 
-/* ─── ACT 3: MANUFACTURING ──────────────────────────────── */
+/* ─── ACT 3: THE KITSER STANDARD ────────────────────────── */
+/* Heritage → Curation → Material Truth → Craft → Space →     */
+/* Destination. Tells Kitser's 36-year story.                 */
 
 interface Stage {
   id: string;
@@ -22,12 +25,78 @@ interface Stage {
 }
 
 const STAGES: Stage[] = [
-  { id: "steel", image: "/images/materials/05-steel-finish.jpg", title: "Raw Material", subtitle: "STEEL SELECTION", description: "Every kitchen begins as a sheet of steel. We source 18/10 German stainless — the same grade used in surgical instruments.", stat: "18/10", statLabel: "CHROME/NICKEL RATIO", in: 0.0, peak: 0.1, out: 0.20 },
-  { id: "laser", image: "/images/hardware/05-detail.jpg", title: "Precision Cut", subtitle: "LASER TECHNOLOGY", description: "Fiber laser cutting at ±0.05mm tolerance. Every cabinet panel, every drawer front — cut with light.", stat: "±0.05", statLabel: "MILLIMETRE TOLERANCE", in: 0.16, peak: 0.28, out: 0.38 },
-  { id: "bend", image: "/images/hardware/02-drawer-system.jpg", title: "Formation", subtitle: "CNC BENDING", description: "CNC press brakes fold each panel with mathematical precision. The same technique used in aerospace manufacturing.", stat: "0.1°", statLabel: "ANGLE PRECISION", in: 0.34, peak: 0.46, out: 0.56 },
-  { id: "coat", image: "/images/cabinetry/06-finish.jpg", title: "Surface", subtitle: "POWDER COATING", description: "Electrostatic powder coating. 200°C cure. The finish that resists fingerprints, stains, and UV for decades.", stat: "200°C", statLabel: "CURE TEMPERATURE", in: 0.52, peak: 0.64, out: 0.74 },
-  { id: "assemble", image: "/images/artisan-hands-v2.jpg", title: "Assembly", subtitle: "HAND ASSEMBLY", description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop.", stat: "80K", statLabel: "CYCLE TESTS PER HINGE", in: 0.70, peak: 0.82, out: 0.92 },
-  { id: "install", image: "/images/kitchens/scavolini-delinea-hero.jpg", title: "Installation", subtitle: "YOUR KITCHEN", description: "Our team installs your kitchen like furniture — not construction. Clean. Precise. Done in days, not weeks.", stat: "5-7", statLabel: "DAYS TO INSTALL", in: 0.88, peak: 0.95, out: 1.02 },
+  {
+    id: "heritage",
+    image: "/images/showroom/01-interior.jpg",
+    title: "Heritage",
+    subtitle: "SINCE 1989",
+    description: `${BRAND.yearsOfExperience} years. One showroom in Coimbatore. One conviction: that premium kitchen essentials should be accessible to anyone willing to invest in quality.`,
+    stat: `${BRAND.yearsOfExperience}`,
+    statLabel: "YEARS OF CURATION",
+    in: 0.0,
+    peak: 0.1,
+    out: 0.20,
+  },
+  {
+    id: "curation",
+    image: "/images/kitchens/scavolini-poetica-hero.jpg",
+    title: "Curation",
+    subtitle: "ONE STANDARD",
+    description: `${BRAND.brandPartners}+ brand partnerships. ${BRAND.countriesSourced} countries. We don't chase brand names. We chase quality. If a product doesn't meet our standard, it doesn't enter our showroom.`,
+    stat: `${BRAND.brandPartners}+`,
+    statLabel: "BRAND PARTNERS",
+    in: 0.16,
+    peak: 0.28,
+    out: 0.38,
+  },
+  {
+    id: "material-truth",
+    image: "/images/cookware/01-cast-iron.jpg",
+    title: "Material Truth",
+    subtitle: "THE SIX PILLARS",
+    description: "Cast iron remembers your meals. Copper ages with grace. Stone holds the temperature of your intention. We choose materials that deserve the name.",
+    stat: "6",
+    statLabel: "PILLARS OF CRAFT",
+    in: 0.34,
+    peak: 0.46,
+    out: 0.56,
+  },
+  {
+    id: "hands",
+    image: "/images/artisan-hands-v2.jpg",
+    title: "The Hands",
+    subtitle: "CRAFTSMANSHIP",
+    description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop. The hands behind the kitchen.",
+    stat: "80K",
+    statLabel: "CYCLE TESTS PER HINGE",
+    in: 0.52,
+    peak: 0.64,
+    out: 0.74,
+  },
+  {
+    id: "space",
+    image: "/images/showroom/02-display.jpg",
+    title: "The Space",
+    subtitle: "SHOWROOM",
+    description: "3,000 sq ft. Twelve brands. One room designed to help you feel the difference before you commit. Cast iron in your hand. The weight of a Blum drawer. The warmth of walnut.",
+    stat: "3,000",
+    statLabel: "SQ FT OF EXPERIENCE",
+    in: 0.70,
+    peak: 0.82,
+    out: 0.92,
+  },
+  {
+    id: "destination",
+    image: "/images/kitchens/scavolini-delinea-hero.jpg",
+    title: "Your Kitchen",
+    subtitle: BRAND.location.city.toUpperCase(),
+    description: `No. 1, Nava India Road, Coimbatore — 641028. Walk in, call, or begin online. However you reach us, we're ready to listen.`,
+    stat: "1989",
+    statLabel: "YEAR FOUNDED",
+    in: 0.88,
+    peak: 0.95,
+    out: 1.02,
+  },
 ];
 
 interface Act3Props {
@@ -50,7 +119,7 @@ export default function Act3Manufacturing({ scrollProgress, actStart, actEnd }: 
         <StageBackground key={stage.id} stage={stage} progress={progress} />
       ))}
 
-      {/* ── Manufacturing overlay — horizontal progress line ── */}
+      {/* ── Progress line with markers ── */}
       <div className="absolute top-1/2 left-0 right-0 z-[15] -translate-y-1/2">
         <div className="relative mx-auto max-w-[1200px] px-8">
           <div className="relative h-[1px] bg-linen/8">
@@ -58,26 +127,31 @@ export default function Act3Manufacturing({ scrollProgress, actStart, actEnd }: 
               className="absolute top-0 left-0 h-full bg-ember/40"
               style={{ width: useTransform(progress, (v) => `${v * 100}%`) }}
             />
-            {STAGES.map((stage) => {
-              return (
-                <StageMarker key={stage.id} stage={stage} progress={progress} />
-              );
-            })}
+            {STAGES.map((stage) => (
+              <StageMarker key={stage.id} stage={stage} progress={progress} />
+            ))}
           </div>
         </div>
       </div>
 
       {/* ── Stage content ── */}
-      <div
-        className="absolute inset-0 z-[20] flex flex-col justify-end"
-        style={{
-          padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
-        }}
-      >
+      <div className="absolute inset-0 z-[20] flex flex-col justify-end">
         {STAGES.map((stage) => (
           <StageContent key={stage.id} stage={stage} progress={progress} />
         ))}
       </div>
+
+      {/* ── Timeline milestones (bottom right) ── */}
+      <motion.div
+        className="absolute bottom-[12%] right-[5%] z-[20] hidden lg:flex flex-col items-end gap-1"
+        style={{ opacity: useTransform(progress, [0, 0.05, 0.95, 1], [0, 0.5, 0.5, 0]) }}
+      >
+        {TIMELINE.slice(0, 4).map((t, i) => (
+          <span key={t.year} className="font-body text-[0.45rem] font-[300] tracking-[0.15em] text-smoke/20">
+            {t.year} — {t.title}
+          </span>
+        ))}
+      </motion.div>
 
       {/* ── Vignette ── */}
       <div
@@ -91,27 +165,15 @@ export default function Act3Manufacturing({ scrollProgress, actStart, actEnd }: 
 /* ─── STAGE BACKGROUND ─────────────────────────────────── */
 
 function StageBackground({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const opacity = useTransform(
-    progress,
-    (v) => fade(v, stage.in, stage.peak, stage.out)
-  );
-  const scale = useTransform(
-    progress,
-    (v) => {
-      const localP = Math.min(Math.max((v - stage.in) / (stage.out - stage.in), 0), 1);
-      return 1 + Math.sin(localP * Math.PI) * 0.03;
-    }
-  );
+  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
+  const scale = useTransform(progress, (v) => {
+    const localP = Math.min(Math.max((v - stage.in) / (stage.out - stage.in), 0), 1);
+    return 1 + Math.sin(localP * Math.PI) * 0.03;
+  });
 
   return (
-    <motion.div
-      className="absolute inset-0"
-      style={{ opacity }}
-    >
-      <motion.div
-        className="absolute inset-[-5%] will-change-transform"
-        style={{ scale }}
-      >
+    <motion.div className="absolute inset-0" style={{ opacity }}>
+      <motion.div className="absolute inset-[-5%] will-change-transform" style={{ scale }}>
         <Image
           src={stage.image}
           alt={stage.title}
@@ -130,10 +192,7 @@ function StageBackground({ stage, progress }: { stage: Stage; progress: MotionVa
 
 function StageMarker({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
   const isPast = useTransform(progress, (v) => v > stage.peak);
-  const opacity = useTransform(
-    progress,
-    (v) => fade(v, stage.in, stage.peak, stage.out)
-  );
+  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
   const isActive = useTransform(opacity, (v) => v > 0.01);
 
   return (
@@ -147,11 +206,10 @@ function StageMarker({ stage, progress }: { stage: Stage; progress: MotionValue<
 }
 
 function StageMarkerDot({ isActive, isPast }: { isActive: MotionValue<boolean>; isPast: MotionValue<boolean> }) {
-  const backgroundColor = useTransform(
-    isActive,
-    (active): string => active ? "#c45a2c" : "rgba(245,240,235,0.08)"
+  const backgroundColor = useTransform(isActive, (active): string =>
+    active ? "#c45a2c" : "rgba(245,240,235,0.08)"
   );
-  const scale = useTransform(isActive, (v): number => v ? 1.5 : 1);
+  const scale = useTransform(isActive, (v): number => (v ? 1.5 : 1));
 
   return (
     <motion.div
@@ -166,7 +224,7 @@ function StageMarkerDot({ isActive, isPast }: { isActive: MotionValue<boolean>; 
 function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
   const numericValue = useMemo(() => {
     const raw = stage.stat;
-    const cleaned = raw.replace(/[±°CK%]/g, "");
+    const cleaned = raw.replace(/[±°CK%+]/g, "");
     const num = parseFloat(cleaned);
     if (isNaN(num)) return null;
     const hasK = raw.includes("K");
@@ -176,14 +234,12 @@ function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue
   const prefix = useMemo(() => {
     const raw = stage.stat;
     if (raw.startsWith("±")) return "±";
-    if (raw.startsWith("0.") && !raw.startsWith("0.0")) return "";
     return "";
   }, [stage.stat]);
 
   const suffix = useMemo(() => {
     const raw = stage.stat;
-    if (raw.endsWith("°C")) return "°C";
-    if (raw.endsWith("°")) return "°";
+    if (raw.endsWith("+")) return "+";
     if (raw.endsWith("K")) return "K";
     return "";
   }, [stage.stat]);
@@ -196,18 +252,10 @@ function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue
       const display = Math.round(localP * (numericValue / 1000));
       return `${prefix}${display}K`;
     }
-    if (stage.stat.includes("/")) {
-      return stage.stat;
+    if (suffix === "+") {
+      return `${prefix}${current}+`;
     }
-    if (stage.stat === "5-7") {
-      return `${prefix}${Math.round(localP * 5)}-${Math.round(localP * 7)}`;
-    }
-    if (suffix === "°C") {
-      return `${prefix}${Math.round(localP * numericValue)}°C`;
-    }
-    if (suffix === "°") {
-      return `${prefix}${localP * numericValue}${suffix}`;
-    }
+    if (stage.stat.includes("/")) return stage.stat;
     return `${prefix}${current}`;
   });
 
@@ -221,17 +269,11 @@ function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue
 /* ─── STAGE CONTENT ────────────────────────────────────── */
 
 function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const opacity = useTransform(
-    progress,
-    (v) => fade(v, stage.in, stage.peak, stage.out)
-  );
-  const slideY = useTransform(
-    progress,
-    (v) => {
-      const contentProgress = Math.min(Math.max((v - stage.peak + 0.05) / 0.1, 0), 1);
-      return (1 - contentProgress) * 20;
-    }
-  );
+  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
+  const slideY = useTransform(progress, (v) => {
+    const contentProgress = Math.min(Math.max((v - stage.peak + 0.05) / 0.1, 0), 1);
+    return (1 - contentProgress) * 20;
+  });
   const visible = useTransform(opacity, (v) => v > 0.01);
 
   return (
@@ -241,7 +283,7 @@ function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue
         padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
         opacity,
         y: slideY,
-        display: useTransform(visible, (v): string => v ? "block" : "none"),
+        display: useTransform(visible, (v): string => (v ? "block" : "none")),
       }}
     >
       <div className="flex items-end gap-12">

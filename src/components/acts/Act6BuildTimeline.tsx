@@ -5,6 +5,7 @@ import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
 import { fade, vignette } from "@/lib/motion";
 import { MotionText } from "@/components/site/MotionText";
+import { BUILD_LAYERS } from "@/lib/brand";
 
 /* ─── ACT 6: BUILD TIMELINE ─────────────────────────────── */
 
@@ -19,16 +20,16 @@ interface BuildLayer {
   out: number;
 }
 
-const LAYERS: BuildLayer[] = [
-  { id: "floor", label: "FLOOR", image: "/images/materials/06-natural-finish.jpg", description: "Every kitchen starts with the foundation.", z: 0, in: 0.0, peak: 0.08, out: 0.18 },
-  { id: "framework", label: "FRAMEWORK", image: "/images/cabinetry/01-scavolini-modular.jpg", description: "The skeleton that holds everything.", z: 1, in: 0.12, peak: 0.22, out: 0.32 },
-  { id: "electrical", label: "ELECTRICAL", image: "/images/hardware/04-hero.jpg", description: "Power where you need it. Hidden where you don't.", z: 2, in: 0.26, peak: 0.36, out: 0.46 },
-  { id: "plumbing", label: "PLUMBING", image: "/images/hardware/sinks-hero.jpg", description: "Water in. Waste out. Precision matters.", z: 3, in: 0.40, peak: 0.50, out: 0.60 },
-  { id: "cabinets", label: "CABINETS", image: "/images/cabinetry/02-handleless-design.jpg", description: "Scavolini. Italian engineering. Decades of use.", z: 4, in: 0.54, peak: 0.64, out: 0.74 },
-  { id: "countertop", label: "COUNTERTOP", image: "/images/materials/01-marble-countertop.jpg", description: "Dekton. The surface that outlasts everything.", z: 5, in: 0.68, peak: 0.78, out: 0.88 },
-  { id: "accessories", label: "ACCESSORIES", image: "/images/hardware/01-blum-hinge.jpg", description: "Blum hardware. The invisible backbone.", z: 6, in: 0.80, peak: 0.88, out: 0.96 },
-  { id: "lighting", label: "LIGHTING", image: "/images/kitchens/scavolini-poetica-hero.jpg", description: "Light that makes materials sing.", z: 7, in: 0.90, peak: 0.96, out: 1.02 },
-];
+const LAYERS: BuildLayer[] = BUILD_LAYERS.map((layer, i) => ({
+  id: layer.id,
+  label: layer.label,
+  image: layer.image,
+  description: layer.description,
+  z: i,
+  in: i * 0.12,
+  peak: i * 0.12 + 0.08,
+  out: i * 0.12 + 0.18,
+}));
 
 interface Act6Props {
   scrollProgress: MotionValue<number>;

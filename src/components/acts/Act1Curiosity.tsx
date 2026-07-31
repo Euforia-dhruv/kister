@@ -1,19 +1,21 @@
 "use client";
 
-import { useMemo } from "react";
 import Image from "next/image";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
-import { easeInOutCubic, stagger, vignette } from "@/lib/motion";
+import { stagger, vignette } from "@/lib/motion";
+import { BRAND, MATERIALS } from "@/lib/brand";
 
-/* ─── ACT 1: CURIOSITY ──────────────────────────────────── */
-/* A stainless steel panel slowly separates, revealing         */
-/* floating materials — wood, stone, glass, hardware.         */
+/* ─── ACT 1: CURIOSITY — THE KITSER OPENING ─────────────── */
+/* Darkness. A line of light. The brand name. Then six real   */
+/* Kitser materials emerge — cast iron, copper, stone, wood,  */
+/* brass, steel — each from Kitser's actual product range.    */
 
 interface FloatingMaterial {
   id: string;
   image: string;
   label: string;
+  brand: string;
   x: number;
   y: number;
   z: number;
@@ -22,13 +24,13 @@ interface FloatingMaterial {
   scale: number;
 }
 
-const MATERIALS: FloatingMaterial[] = [
-  { id: "walnut", image: "/images/cabinetry/02-handleless-design.jpg", label: "WALNUT", x: 15, y: 25, z: 80, rotateX: 12, rotateY: -8, scale: 0.9 },
-  { id: "marble", image: "/images/materials/01-marble-countertop.jpg", label: "MARBLE", x: 72, y: 20, z: 120, rotateX: -5, rotateY: 15, scale: 1.1 },
-  { id: "brass", image: "/images/materials/03-brass-detail.jpg", label: "BRASS", x: 28, y: 65, z: 60, rotateX: 8, rotateY: 12, scale: 0.75 },
-  { id: "glass", image: "/images/materials/06-natural-finish.jpg", label: "GLASS", x: 78, y: 60, z: 100, rotateX: -10, rotateY: -5, scale: 0.85 },
-  { id: "steel", image: "/images/materials/05-steel-finish.jpg", label: "STEEL", x: 50, y: 40, z: 140, rotateX: 3, rotateY: -12, scale: 1.0 },
-  { id: "copper", image: "/images/materials/04-copper-patina.jpg", label: "COPPER", x: 40, y: 75, z: 70, rotateX: -8, rotateY: 6, scale: 0.8 },
+const FLOATING_MATERIALS: FloatingMaterial[] = [
+  { id: "cast-iron", image: MATERIALS[0].image, label: "CAST IRON", brand: MATERIALS[0].brand, x: 12, y: 22, z: 80, rotateX: 12, rotateY: -8, scale: 0.9 },
+  { id: "copper", image: MATERIALS[1].image, label: "COPPER", brand: MATERIALS[1].brand, x: 75, y: 18, z: 120, rotateX: -5, rotateY: 15, scale: 1.1 },
+  { id: "stone", image: MATERIALS[2].image, label: "STONE", brand: MATERIALS[2].brand, x: 25, y: 62, z: 60, rotateX: 8, rotateY: 12, scale: 0.75 },
+  { id: "walnut", image: MATERIALS[3].image, label: "WALNUT", brand: MATERIALS[3].brand, x: 80, y: 58, z: 100, rotateX: -10, rotateY: -5, scale: 0.85 },
+  { id: "brass", image: MATERIALS[4].image, label: "BRASS", brand: MATERIALS[4].brand, x: 50, y: 38, z: 140, rotateX: 3, rotateY: -12, scale: 1.0 },
+  { id: "steel", image: MATERIALS[5].image, label: "STEEL", brand: MATERIALS[5].brand, x: 38, y: 75, z: 70, rotateX: -8, rotateY: 6, scale: 0.8 },
 ];
 
 interface Act1Props {
@@ -40,157 +42,109 @@ interface Act1Props {
 export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
 
-  // Derived values — all MotionValues, no React re-renders
-  const panelOffset = useTransform(progress, (v) => Math.min(Math.max((v - 0.05) / 0.55, 0), 1));
-  const eased = useTransform(panelOffset, (v) => easeInOutCubic(v));
-  const materialsOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.4));
-  const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.15) / 0.2));
+  /* ── Timing phases ── */
+  // 0.00–0.05: Darkness, light slit appears
+  // 0.05–0.15: Brand name reveals
+  // 0.15–0.25: Brand voice quote
+  // 0.25–1.00: Material cards float in
 
-  // Panel transforms
-  const topPanelY = useTransform(eased, (v) => `translateY(${-v * 55}%)`);
-  const bottomPanelY = useTransform(eased, (v) => `translateY(${v * 55}%)`);
+  const lightLineOpacity = useTransform(progress, [0, 0.02, 0.05, 0.12], [0, 0, 1, 0.6]);
+  const lightLineScaleX = useTransform(progress, [0, 0.05], [0, 1]);
+  const lightLineScaleY = useTransform(progress, [0.05, 0.1], [1, 40]);
 
-  // Materials visibility
-  const containerOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.4));
+  const brandOpacity = useTransform(progress, [0.06, 0.1, 0.18, 0.22], [0, 1, 1, 0]);
+  const brandY = useTransform(progress, [0.06, 0.1], [20, 0]);
+
+  const quoteOpacity = useTransform(progress, [0.14, 0.18, 0.28, 0.32], [0, 1, 1, 0]);
+  const quoteY = useTransform(progress, [0.14, 0.18], [15, 0]);
+
+  const materialsContainerOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.28) / 0.12));
+
+  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
 
   return (
     <motion.div
       className="absolute inset-0 overflow-hidden bg-void"
-      style={{ opacity: useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]) }}
+      style={{ opacity: containerOpacity }}
     >
-      {/* ── Floating materials (revealed as panel opens) ── */}
-      <div
-        className="absolute inset-0"
+      {/* ── Light slit (Threshold) ── */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 z-[10] pointer-events-none"
+        style={{
+          width: "60vw",
+          height: "1px",
+          marginLeft: "-30vw",
+          marginTop: "-0.5px",
+          opacity: lightLineOpacity,
+          scaleX: lightLineScaleX,
+          scaleY: lightLineScaleY,
+          background: "linear-gradient(90deg, transparent 0%, rgba(196,90,44,0.6) 30%, rgba(196,90,44,0.8) 50%, rgba(196,90,44,0.6) 70%, transparent 100%)",
+          boxShadow: "0 0 30px rgba(196,90,44,0.3), 0 0 60px rgba(196,90,44,0.15)",
+        }}
+      />
+
+      {/* ── Brand name reveal ── */}
+      <motion.div
+        className="absolute inset-0 z-[20] flex flex-col items-center justify-center pointer-events-none"
+        style={{ opacity: brandOpacity, y: brandY }}
+      >
+        <h1
+          className="font-display text-[clamp(2.5rem,8vw,6rem)] font-[100] tracking-[0.2em] text-linen"
+          style={{ letterSpacing: "0.2em" }}
+        >
+          {BRAND.name.toUpperCase()}
+        </h1>
+        <span className="font-body text-[0.6rem] font-[300] tracking-[0.25em] text-ember/70 mt-4">
+          {BRAND.tagline.toUpperCase()}
+        </span>
+      </motion.div>
+
+      {/* ── Brand voice quote ── */}
+      <motion.div
+        className="absolute inset-0 z-[20] flex flex-col items-center justify-center pointer-events-none px-8"
+        style={{ opacity: quoteOpacity, y: quoteY }}
+      >
+        <p className="font-body text-[clamp(0.9rem,2vw,1.4rem)] font-[300] leading-[1.8] text-linen/70 text-center max-w-[520px]">
+          Some things <em className="text-ember/90 not-italic font-[400]">cannot be rushed</em>. A knife learns your hand.
+          Iron remembers your meals. Stone holds the temperature of your intention.
+        </p>
+      </motion.div>
+
+      {/* ── Floating material cards ── */}
+      <motion.div
+        className="absolute inset-0 z-[15]"
         style={{
           perspective: "1200px",
           perspectiveOrigin: "50% 50%",
+          opacity: materialsContainerOpacity,
         }}
       >
-        {MATERIALS.map((mat, i) => {
-          return (
-            <FloatingMaterialCard
-              key={mat.id}
-              mat={mat}
-              index={i}
-              progress={progress}
-              eased={eased}
-            />
-          );
-        })}
-      </div>
+        {FLOATING_MATERIALS.map((mat, i) => (
+          <FloatingMaterialCard
+            key={mat.id}
+            mat={mat}
+            index={i}
+            progress={progress}
+          />
+        ))}
+      </motion.div>
 
-      {/* ── Steel panels (separate on scroll) ── */}
-      <div
-        className="absolute inset-0 z-[20] pointer-events-none"
-        style={{ perspective: "800px" }}
-      >
-        {/* Top panel */}
-        <motion.div
-          className="absolute top-0 left-0 right-0 overflow-hidden"
-          style={{
-            height: "50%",
-            transformOrigin: "center bottom",
-            y: useTransform(eased, (v) => -v * 55),
-          }}
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background: "linear-gradient(180deg, #1a1a1a 0%, #222 40%, #1e1e1e 100%)",
-            }}
-          />
-          <div
-            className="absolute inset-0 opacity-[0.15]"
-            style={{
-              backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)`,
-            }}
-          />
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[1px]"
-            style={{
-              background: "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 50%, transparent 90%)",
-            }}
-          />
-        </motion.div>
-
-        {/* Bottom panel */}
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 overflow-hidden"
-          style={{
-            height: "50%",
-            transformOrigin: "center top",
-            y: useTransform(eased, (v) => v * 55),
-          }}
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background: "linear-gradient(0deg, #1a1a1a 0%, #222 40%, #1e1e1e 100%)",
-            }}
-          />
-          <div
-            className="absolute inset-0 opacity-[0.15]"
-            style={{
-              backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)`,
-            }}
-          />
-          <div
-            className="absolute top-0 left-0 right-0 h-[1px]"
-            style={{
-              background: "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 50%, transparent 90%)",
-            }}
-          />
-        </motion.div>
-      </div>
-
-      {/* ── Content overlay ── */}
+      {/* ── "Kitser curates materials that remember." at bottom ── */}
       <motion.div
-        className="absolute inset-0 z-[30] flex flex-col items-center justify-center pointer-events-none"
-        style={{ opacity: contentOpacity }}
+        className="absolute bottom-[12%] left-0 right-0 z-[25] flex flex-col items-center pointer-events-none"
+        style={{ opacity: useTransform(progress, [0.6, 0.7, 0.95, 1], [0, 0.7, 0.7, 0]) }}
       >
-        <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60 mb-6">
-          WHAT LIES BENEATH
+        <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/50">
+          KITSER CURATES MATERIALS THAT REMEMBER
         </span>
-        <h1 className="font-display text-[clamp(2rem,6vw,5rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen text-center max-w-[600px]">
-          <StaggeredReveal text="Every kitchen starts with a material." progress={progress} />
-        </h1>
       </motion.div>
 
       {/* Vignette */}
       <div
-        className="absolute inset-0 z-[25] pointer-events-none"
+        className="absolute inset-0 z-[22] pointer-events-none"
         style={{ background: vignette(30, 0.6) }}
       />
     </motion.div>
-  );
-}
-
-/* ─── STAGGERED TEXT REVEAL ────────────────────────────── */
-
-function StaggeredReveal({ text, progress }: { text: string; progress: MotionValue<number> }) {
-  const words = text.split(" ");
-  return (
-    <>
-      {words.map((word, i) => {
-        const wordOpacity = useTransform(progress, (v: number) => {
-          const delay = stagger(i, words.length, 0.12);
-          return Math.min(Math.max((v - (0.15 + delay)) / 0.1, 0), 1);
-        });
-        const wordY = useTransform(progress, (v: number) => {
-          const delay = stagger(i, words.length, 0.12);
-          const t = Math.min(Math.max((v - (0.15 + delay)) / 0.1, 0), 1);
-          return (1 - t) * 12;
-        });
-        return (
-          <span key={i} className="inline-block">
-            <motion.span style={{ opacity: wordOpacity, y: wordY }} className="inline-block">
-              {word}
-            </motion.span>
-            {i === 1 ? <br /> : i < words.length - 1 ? " " : ""}
-          </span>
-        );
-      })}
-    </>
   );
 }
 
@@ -200,29 +154,28 @@ function FloatingMaterialCard({
   mat,
   index,
   progress,
-  eased,
 }: {
   mat: FloatingMaterial;
   index: number;
   progress: MotionValue<number>;
-  eased: MotionValue<number>;
 }) {
   const matProgress = useTransform(
     progress,
-    (v) => Math.max(0, (v - 0.3 - index * 0.08) / 0.35)
+    (v) => Math.max(0, (v - 0.3 - index * 0.06) / 0.3)
   );
   const matOpacity = useTransform(matProgress, (v) => Math.min(v * 2, 1));
+  const matScale = useTransform(matProgress, (v) => 0.8 + Math.min(v, 1) * 0.2);
   const floatY = useTransform(
     progress,
     (v) => Math.sin(v * Math.PI * 2 + index) * 8
   );
 
-  // Combine transforms
   const transform = useTransform(
-    [eased, floatY],
+    [matProgress, floatY, matScale],
     (values: number[]) => {
-      const [e, fy] = values;
-      return `translateZ(${mat.z * e}px) rotateX(${mat.rotateX * e}deg) rotateY(${mat.rotateY * e}deg) scale(${mat.scale}) translateY(${fy}px)`;
+      const [p, fy, s] = values;
+      const e = Math.min(p, 1);
+      return `translateZ(${mat.z * e}px) rotateX(${mat.rotateX * e}deg) rotateY(${mat.rotateY * e}deg) scale(${s}) translateY(${fy}px)`;
     }
   );
 
@@ -243,18 +196,21 @@ function FloatingMaterialCard({
       <div className="relative w-full h-full overflow-hidden group">
         <Image
           src={mat.image}
-          alt={mat.label}
+          alt={`${mat.label} — ${mat.brand}`}
           fill
           className="object-cover transition-transform duration-1000 group-hover:scale-110"
           style={{
-            filter: "saturate(0.8) contrast(1.1) brightness(0.85)",
+            filter: "saturate(0.85) contrast(1.1) brightness(0.85)",
           }}
           sizes="200px"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
-        <div className="absolute bottom-3 left-3">
-          <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-linen/40">
+        <div className="absolute inset-0 bg-gradient-to-t from-void/70 via-void/10 to-transparent" />
+        <div className="absolute bottom-3 left-3 right-3">
+          <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-linen/50 block">
             {mat.label}
+          </span>
+          <span className="font-body text-[0.45rem] font-[300] tracking-[0.15em] text-ember/50 block mt-0.5">
+            {mat.brand}
           </span>
         </div>
         <div
