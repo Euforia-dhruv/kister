@@ -2,7 +2,7 @@
 
 import { lazy, Suspense } from "react";
 
-const HeroScene = lazy(() => import("@/components/hero/HeroScene"));
+const HeroCanvas = lazy(() => import("@/components/hero/HeroCanvas"));
 const ActOrchestrator = lazy(
   () => import("@/components/acts/ActOrchestrator")
 );
@@ -14,9 +14,9 @@ function CanvasLoader({ height }: { height: string }) {
 export default function Home() {
   return (
     <main className="relative bg-void">
-      {/* ─── HERO SCENE 01 — "ENTER THE WORLD OF KITSER" ─── */}
-      <Suspense fallback={<CanvasLoader height="120vh" />}>
-        <HeroScene />
+      {/* ─── HERO VIDEO — SCROLL-DRIVEN FRAME SEQUENCE ─── */}
+      <Suspense fallback={<CanvasLoader height="300vh" />}>
+        <HeroCanvas />
       </Suspense>
 
       {/* ─── ACT-ORCHESTRATED CINEMATIC EXPERIENCE (680vh) ─── */}

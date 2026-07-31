@@ -1,0 +1,10 @@
+{
+  "frames": 240,
+  "fps": 30,
+  "width": 2560,
+  "height": 1072,
+  "duration": 8.021,
+  "framePath": "/assets/hero/frames/",
+  "framePrefix": "frame_",
+  "frameExt": ".webp"
+}
