@@ -1,0 +1,4 @@
+# Hero video frames — track with git-lfs or keep in repo
+public/assets/hero/frames/*.webp binary
+public/assets/hero/hero-cropped.mp4 binary
+public/*.mp4 binary

@@ -91,6 +91,7 @@ export default function HeroCanvas() {
   /* ── Initialize GSAP ScrollTrigger ── */
   useEffect(() => {
     let st: ScrollTrigger | null = null;
+    let exitSt: ScrollTrigger | null = null;
 
     const init = async () => {
       const res = await fetch("/assets/hero/manifest.json");
@@ -117,6 +118,7 @@ export default function HeroCanvas() {
       const fade = fadeRef.current;
       if (!container || !fade) return;
 
+      // Main: pin canvas and map scroll → frame
       st = ScrollTrigger.create({
         trigger: container,
         start: "top top",
@@ -135,7 +137,7 @@ export default function HeroCanvas() {
             drawFrame(frameIndex);
           }
 
-          // Fade to black in last 5% of scroll
+          // Fade to black in last 8% of scroll
           if (self.progress > 0.92) {
             const fadeProgress = (self.progress - 0.92) / 0.08;
             fade.style.opacity = String(Math.min(fadeProgress, 1));
@@ -144,12 +146,21 @@ export default function HeroCanvas() {
           }
         },
       });
+
+      // Exit: dismiss overlay when hero scrolls out of view
+      exitSt = ScrollTrigger.create({
+        trigger: container,
+        start: "bottom top",
+        onEnterBack: () => { fade.style.opacity = "1"; },
+        onLeave: () => { fade.style.opacity = "0"; },
+      });
     };
 
     init();
 
     return () => {
       if (st) st.kill();
+      if (exitSt) exitSt.kill();
     };
   }, [loadFrames, drawFrame]);
 
