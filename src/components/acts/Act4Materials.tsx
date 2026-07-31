@@ -34,18 +34,19 @@ const MATERIALS: MaterialDef[] = [
 function Monolith({ material, index, activeIndex }: {
   material: MaterialDef;
   index: number;
-  activeIndex: number;
+  activeIndex: MotionValue<number>;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const isActive = activeIndex === index;
-  const isNearActive = Math.abs(activeIndex - index) <= 1;
 
   useFrame((state) => {
     if (!meshRef.current) return;
     const t = state.clock.elapsedTime;
+    const currentIdx = Math.round(activeIndex.get());
+    const isActive = currentIdx === index;
+    const isNearActive = Math.abs(currentIdx - index) <= 1;
+
     meshRef.current.rotation.y = Math.sin(t * 0.3 + index * 0.5) * 0.1;
     meshRef.current.rotation.x = Math.cos(t * 0.2 + index * 0.3) * 0.05;
-    meshRef.current.rotation.z = index * 0.15 * 0.1;
     const targetY = isActive ? 0.5 : isNearActive ? 0 : -0.3;
     meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.05;
   });
@@ -77,14 +78,6 @@ function Monolith({ material, index, activeIndex }: {
             metalness={0.5}
           />
         </mesh>
-        {isActive && (
-          <group position={[0, -1.6, 0]}>
-            <mesh>
-              <planeGeometry args={[1.2, 0.15]} />
-              <meshBasicMaterial color="#c45a2c" transparent opacity={0.3} />
-            </mesh>
-          </group>
-        )}
       </group>
     </Float>
   );
@@ -131,10 +124,11 @@ function Particles() {
 
 /* ─── SCENE ─────────────────────────────────────────────── */
 
-function Scene({ activeIndex }: { activeIndex: number }) {
+function Scene({ activeIndex }: { activeIndex: MotionValue<number> }) {
   const { camera } = useThree();
   useFrame(() => {
-    const targetX = activeIndex >= 0 ? MATERIALS[activeIndex].position[0] : 1;
+    const idx = Math.round(activeIndex.get());
+    const targetX = idx >= 0 ? MATERIALS[idx].position[0] : 1;
     const diff = targetX - camera.position.x;
     if (Math.abs(diff) > 0.001) {
       camera.position.x += diff * 0.03;
@@ -193,7 +187,7 @@ export default function Act4Materials({ scrollProgress, actStart, actEnd }: Act4
           style={{ background: "#0a0a0a" }}
         >
           <Suspense fallback={null}>
-            <SceneWrapper activeIndex={activeIndex} />
+            <Scene activeIndex={activeIndex} />
           </Suspense>
         </Canvas>
       </div>
@@ -232,17 +226,6 @@ export default function Act4Materials({ scrollProgress, actStart, actEnd }: Act4
       />
     </motion.div>
   );
-}
-
-/* ─── SCENE WRAPPER (subscribes to MotionValue) ─────────── */
-
-function SceneWrapper({ activeIndex }: { activeIndex: MotionValue<number> }) {
-  const ref = useRef<number>(0);
-  useFrame(() => {
-    ref.current = activeIndex.get();
-  });
-  // The actual activeIndex is read in the Scene's useFrame
-  return <Scene activeIndex={Math.round(ref.current)} />;
 }
 
 /* ─── MATERIAL LABEL ────────────────────────────────────── */

@@ -52,7 +52,6 @@ export default function Act6BuildTimeline({ scrollProgress, actStart, actEnd }: 
   });
 
   const buildComplete = useTransform(progress, (v) => v > 0.95);
-  const activeLabel = useTransform(activeLayerIndex, (i) => LAYERS[i].label);
   const activeDescription = useTransform(activeLayerIndex, (i) => LAYERS[i].description);
   const layerCount = useTransform(activeLayerIndex, (i) => `Layer ${i + 1} of ${LAYERS.length}`);
 
