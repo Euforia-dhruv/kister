@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { motion, useTransform, type MotionValue } from "motion/react";
+import { useActProgress } from "./ActOrchestrator";
 import { easeInOutCubic, vignette } from "@/lib/motion";
 
 /* ─── ACT 1: CURIOSITY ──────────────────────────────────── */
@@ -29,76 +31,50 @@ const MATERIALS: FloatingMaterial[] = [
   { id: "copper", image: "/images/materials/04-copper-patina.jpg", label: "COPPER", x: 40, y: 75, z: 70, rotateX: -8, rotateY: 6, scale: 0.8 },
 ];
 
-export default function Act1Curiosity({ progress }: { progress: number }) {
-  const panelOffset = Math.min(progress / 0.6, 1);
-  const materialsOpacity = Math.max(0, (progress - 0.3) / 0.4);
-  const contentOpacity = Math.max(0, (progress - 0.15) / 0.2);
+interface Act1Props {
+  scrollProgress: MotionValue<number>;
+  actStart: number;
+  actEnd: number;
+}
 
-  const eased = useMemo(() => easeInOutCubic(panelOffset), [panelOffset]);
+export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1Props) {
+  const progress = useActProgress(scrollProgress, actStart, actEnd);
+
+  // Derived values — all MotionValues, no React re-renders
+  const panelOffset = useTransform(progress, (v) => Math.min(v / 0.6, 1));
+  const eased = useTransform(panelOffset, (v) => easeInOutCubic(v));
+  const materialsOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.4));
+  const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.15) / 0.2));
+
+  // Panel transforms
+  const topPanelY = useTransform(eased, (v) => `translateY(${-v * 55}%)`);
+  const bottomPanelY = useTransform(eased, (v) => `translateY(${v * 55}%)`);
+
+  // Materials visibility
+  const containerOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.4));
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-void">
+    <motion.div
+      className="absolute inset-0 overflow-hidden bg-void"
+      style={{ opacity: useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]) }}
+    >
       {/* ── Floating materials (revealed as panel opens) ── */}
       <div
         className="absolute inset-0"
         style={{
           perspective: "1200px",
           perspectiveOrigin: "50% 50%",
-          opacity: materialsOpacity,
         }}
       >
         {MATERIALS.map((mat, i) => {
-          const delay = i * 0.08;
-          const matProgress = Math.max(0, (progress - 0.3 - delay) / 0.35);
-          const floatY = Math.sin(progress * Math.PI * 2 + i) * 8;
-          const matOpacity = Math.min(matProgress * 2, 1);
-
           return (
-            <div
+            <FloatingMaterialCard
               key={mat.id}
-              className="absolute"
-              style={{
-                left: `${mat.x}%`,
-                top: `${mat.y}%`,
-                width: "clamp(100px, 14vw, 180px)",
-                height: "clamp(100px, 14vw, 180px)",
-                transform: `
-                  translateZ(${mat.z * eased}px)
-                  rotateX(${mat.rotateX * eased}deg)
-                  rotateY(${mat.rotateY * eased}deg)
-                  scale(${mat.scale})
-                  translateY(${floatY}px)
-                `,
-                opacity: matOpacity,
-                willChange: "transform, opacity",
-              }}
-            >
-              <div className="relative w-full h-full overflow-hidden group">
-                <Image
-                  src={mat.image}
-                  alt={mat.label}
-                  fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                  style={{
-                    filter: "saturate(0.8) contrast(1.1) brightness(0.85)",
-                  }}
-                  sizes="200px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-3">
-                  <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-linen/40">
-                    {mat.label}
-                  </span>
-                </div>
-                {/* Light reflection overlay */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: `linear-gradient(${135 + mat.rotateY}deg, rgba(255,255,255,0.08) 0%, transparent 50%)`,
-                  }}
-                />
-              </div>
-            </div>
+              mat={mat}
+              index={i}
+              progress={progress}
+              eased={eased}
+            />
           );
         })}
       </div>
@@ -109,12 +85,12 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
         style={{ perspective: "800px" }}
       >
         {/* Top panel */}
-        <div
+        <motion.div
           className="absolute top-0 left-0 right-0 overflow-hidden"
           style={{
             height: "50%",
-            transform: `translateY(${-eased * 55}%)`,
             transformOrigin: "center bottom",
+            y: useTransform(eased, (v) => -v * 55),
           }}
         >
           <div
@@ -123,29 +99,27 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
               background: "linear-gradient(180deg, #1a1a1a 0%, #222 40%, #1e1e1e 100%)",
             }}
           />
-          {/* Brushed steel texture */}
           <div
             className="absolute inset-0 opacity-[0.15]"
             style={{
               backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)`,
             }}
           />
-          {/* Edge highlight */}
           <div
             className="absolute bottom-0 left-0 right-0 h-[1px]"
             style={{
               background: "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 50%, transparent 90%)",
             }}
           />
-        </div>
+        </motion.div>
 
         {/* Bottom panel */}
-        <div
+        <motion.div
           className="absolute bottom-0 left-0 right-0 overflow-hidden"
           style={{
             height: "50%",
-            transform: `translateY(${eased * 55}%)`,
             transformOrigin: "center top",
+            y: useTransform(eased, (v) => v * 55),
           }}
         >
           <div
@@ -160,18 +134,17 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
               backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)`,
             }}
           />
-          {/* Edge highlight */}
           <div
             className="absolute top-0 left-0 right-0 h-[1px]"
             style={{
               background: "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 50%, transparent 90%)",
             }}
           />
-        </div>
+        </motion.div>
       </div>
 
       {/* ── Content overlay ── */}
-      <div
+      <motion.div
         className="absolute inset-0 z-[30] flex flex-col items-center justify-center pointer-events-none"
         style={{ opacity: contentOpacity }}
       >
@@ -181,13 +154,86 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
         <h1 className="font-display text-[clamp(2rem,6vw,5rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen text-center max-w-[600px]">
           Every kitchen<br />starts with a material.
         </h1>
-      </div>
+      </motion.div>
 
       {/* Vignette */}
       <div
         className="absolute inset-0 z-[25] pointer-events-none"
         style={{ background: vignette(30, 0.6) }}
       />
-    </div>
+    </motion.div>
+  );
+}
+
+/* ─── FLOATING MATERIAL CARD ───────────────────────────── */
+
+function FloatingMaterialCard({
+  mat,
+  index,
+  progress,
+  eased,
+}: {
+  mat: FloatingMaterial;
+  index: number;
+  progress: MotionValue<number>;
+  eased: MotionValue<number>;
+}) {
+  const matProgress = useTransform(
+    progress,
+    (v) => Math.max(0, (v - 0.3 - index * 0.08) / 0.35)
+  );
+  const matOpacity = useTransform(matProgress, (v) => Math.min(v * 2, 1));
+  const floatY = useTransform(
+    progress,
+    (v) => Math.sin(v * Math.PI * 2 + index) * 8
+  );
+
+  // Combine transforms
+  const transform = useTransform(
+    [eased, floatY],
+    (values: number[]) => {
+      const [e, fy] = values;
+      return `translateZ(${mat.z * e}px) rotateX(${mat.rotateX * e}deg) rotateY(${mat.rotateY * e}deg) scale(${mat.scale}) translateY(${fy}px)`;
+    }
+  );
+
+  return (
+    <motion.div
+      className="absolute"
+      style={{
+        left: `${mat.x}%`,
+        top: `${mat.y}%`,
+        width: "clamp(100px, 14vw, 180px)",
+        height: "clamp(100px, 14vw, 180px)",
+        transform,
+        opacity: matOpacity,
+        willChange: "transform, opacity",
+      }}
+    >
+      <div className="relative w-full h-full overflow-hidden group">
+        <Image
+          src={mat.image}
+          alt={mat.label}
+          fill
+          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+          style={{
+            filter: "saturate(0.8) contrast(1.1) brightness(0.85)",
+          }}
+          sizes="200px"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
+        <div className="absolute bottom-3 left-3">
+          <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-linen/40">
+            {mat.label}
+          </span>
+        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `linear-gradient(${135 + mat.rotateY}deg, rgba(255,255,255,0.08) 0%, transparent 50%)`,
+          }}
+        />
+      </div>
+    </motion.div>
   );
 }

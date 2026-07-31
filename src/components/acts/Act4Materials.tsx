@@ -4,10 +4,10 @@ import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, MeshReflectorMaterial } from "@react-three/drei";
 import * as THREE from "three";
-import { motion } from "motion/react";
+import { motion, useTransform, type MotionValue } from "motion/react";
+import { useActProgress } from "./ActOrchestrator";
 
 /* ─── ACT 4: MATERIALS ──────────────────────────────────── */
-/* Six floating monoliths. Each reacts to light differently.  */
 
 interface MaterialDef {
   id: string;
@@ -42,12 +42,8 @@ function Monolith({ material, index, activeIndex }: {
   useFrame((state) => {
     if (!meshRef.current) return;
     const t = state.clock.elapsedTime;
-
-    // Subtle rotation
     meshRef.current.rotation.y = Math.sin(t * 0.3 + index * 0.5) * 0.1;
     meshRef.current.rotation.x = Math.cos(t * 0.2 + index * 0.3) * 0.05;
-
-    // Active monolith rises
     const targetY = isActive ? 0.5 : isNearActive ? 0 : -0.3;
     meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.05;
   });
@@ -55,7 +51,6 @@ function Monolith({ material, index, activeIndex }: {
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
       <group position={material.position}>
-        {/* Main monolith */}
         <mesh ref={meshRef} castShadow receiveShadow>
           <boxGeometry args={[1.2, 2.4, 0.8]} />
           <meshStandardMaterial
@@ -65,13 +60,11 @@ function Monolith({ material, index, activeIndex }: {
             envMapIntensity={material.envMapIntensity}
           />
         </mesh>
-
-        {/* Ground reflection */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.2, 0]}>
           <planeGeometry args={[3, 3]} />
           <MeshReflectorMaterial
             blur={[300, 100]}
-            resolution={1024}
+            resolution={512}
             mixBlur={1}
             mixStrength={40}
             roughness={1}
@@ -82,8 +75,6 @@ function Monolith({ material, index, activeIndex }: {
             metalness={0.5}
           />
         </mesh>
-
-        {/* Label */}
         {isActive && (
           <group position={[0, -1.6, 0]}>
             <mesh>
@@ -101,30 +92,24 @@ function Monolith({ material, index, activeIndex }: {
 
 function Scene({ activeIndex }: { activeIndex: number }) {
   const { camera } = useThree();
-
   useFrame(() => {
-    // Camera tracks active monolith
     const targetX = activeIndex >= 0 ? MATERIALS[activeIndex].position[0] : 1;
-    camera.position.x += (targetX - camera.position.x) * 0.03;
+    const diff = targetX - camera.position.x;
+    if (Math.abs(diff) > 0.001) {
+      camera.position.x += diff * 0.03;
+    }
     camera.lookAt(targetX, 0, 0);
   });
 
   return (
     <>
       <ambientLight intensity={0.3} />
-      <directionalLight
-        position={[5, 8, 5]}
-        intensity={1.5}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-      />
+      <directionalLight position={[5, 8, 5]} intensity={1.5} castShadow shadow-mapSize={[1024, 1024]} />
       <pointLight position={[-3, 3, 2]} intensity={0.8} color="#ffeedd" />
       <pointLight position={[3, 2, -2]} intensity={0.5} color="#ddeeff" />
-
       {MATERIALS.map((mat, i) => (
         <Monolith key={mat.id} material={mat} index={i} activeIndex={activeIndex} />
       ))}
-
       <Environment preset="studio" />
       <fog attach="fog" args={["#0a0a0a", 8, 25]} />
     </>
@@ -133,63 +118,53 @@ function Scene({ activeIndex }: { activeIndex: number }) {
 
 /* ─── MAIN ──────────────────────────────────────────────── */
 
-export default function Act4Materials({ progress }: { progress: number }) {
-  const activeIndex = useMemo(() => {
-    const p = Math.min(Math.max(progress, 0), 0.99);
-    return Math.floor(p * MATERIALS.length);
-  }, [progress]);
+interface Act4Props {
+  scrollProgress: MotionValue<number>;
+  actStart: number;
+  actEnd: number;
+}
 
-  const contentOpacity = Math.max(0, (progress - 0.05) / 0.15);
+export default function Act4Materials({ scrollProgress, actStart, actEnd }: Act4Props) {
+  const progress = useActProgress(scrollProgress, actStart, actEnd);
+  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.05) / 0.15));
+
+  // Active index derived from progress (no React re-render)
+  const activeIndex = useTransform(progress, (v) => {
+    const p = Math.min(Math.max(v, 0), 0.99);
+    return Math.floor(p * MATERIALS.length);
+  });
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-void">
+    <motion.div
+      className="absolute inset-0 overflow-hidden bg-void"
+      style={{ opacity: containerOpacity }}
+    >
       {/* ── 3D Canvas ── */}
       <div className="absolute inset-0">
         <Canvas
           camera={{ position: [1, 1, 8], fov: 45 }}
           shadows
           gl={{ antialias: true, alpha: false }}
+          dpr={[1, 1.5]}
+          frameloop="demand"
           style={{ background: "#0a0a0a" }}
         >
           <Suspense fallback={null}>
-            <Scene activeIndex={activeIndex} />
+            <SceneWrapper activeIndex={activeIndex} />
           </Suspense>
         </Canvas>
       </div>
 
       {/* ── Material labels ── */}
       <div className="absolute inset-0 z-[10] pointer-events-none">
-        {MATERIALS.map((mat, i) => {
-          const isActive = i === activeIndex;
-          return (
-            <motion.div
-              key={mat.id}
-              className="absolute"
-              style={{
-                left: `${10 + (i / (MATERIALS.length - 1)) * 80}%`,
-                bottom: "clamp(60px, 12vh, 140px)",
-                transform: "translateX(-50%)",
-              }}
-              animate={{
-                opacity: isActive ? 1 : 0.2,
-                y: isActive ? -8 : 0,
-              }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span
-                className={`font-body text-[0.5rem] font-[400] tracking-[0.2em] transition-colors duration-500 ${
-                  isActive ? "text-ember" : "text-linen/30"
-                }`}
-              >
-                {mat.label}
-              </span>
-            </motion.div>
-          );
-        })}
+        {MATERIALS.map((mat, i) => (
+          <MaterialLabel key={mat.id} mat={mat} index={i} activeIndex={activeIndex} />
+        ))}
       </div>
 
       {/* ── Content overlay ── */}
-      <div
+      <motion.div
         className="absolute inset-0 z-[20] flex flex-col justify-start pointer-events-none"
         style={{
           padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
@@ -206,15 +181,60 @@ export default function Act4Materials({ progress }: { progress: number }) {
           Quartz reflects. Wood absorbs. Glass refracts.
           Metal scratches. Each material tells its own story through light.
         </p>
-      </div>
+      </motion.div>
 
       {/* ── Vignette ── */}
       <div
         className="absolute inset-0 z-[15] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 20%, rgba(5,5,5,0.6) 100%)",
-        }}
+        style={{ background: "radial-gradient(ellipse at center, transparent 20%, rgba(5,5,5,0.6) 100%)" }}
       />
-    </div>
+    </motion.div>
+  );
+}
+
+/* ─── SCENE WRAPPER (subscribes to MotionValue) ─────────── */
+
+function SceneWrapper({ activeIndex }: { activeIndex: MotionValue<number> }) {
+  const ref = useRef<number>(0);
+  useFrame(() => {
+    ref.current = activeIndex.get();
+  });
+  // The actual activeIndex is read in the Scene's useFrame
+  return <Scene activeIndex={Math.round(ref.current)} />;
+}
+
+/* ─── MATERIAL LABEL ────────────────────────────────────── */
+
+function MaterialLabel({ mat, index, activeIndex }: {
+  mat: MaterialDef;
+  index: number;
+  activeIndex: MotionValue<number>;
+}) {
+  const isActive = useTransform(activeIndex, (v) => v === index);
+  const opacity = useTransform(isActive, (v): number => v ? 1 : 0.2);
+  const y = useTransform(isActive, (v): number => v ? -8 : 0);
+
+  return (
+    <motion.div
+      className="absolute"
+      style={{
+        left: `${10 + (index / (MATERIALS.length - 1)) * 80}%`,
+        bottom: "clamp(60px, 12vh, 140px)",
+        transform: "translateX(-50%)",
+        opacity,
+        y,
+      }}
+    >
+      <motion.span
+        className={`font-body text-[0.5rem] font-[400] tracking-[0.2em] transition-colors duration-500 ${
+          "" // color handled by motion
+        }`}
+        style={{
+          color: useTransform(isActive, (v): string => v ? "#c45a2c" : "rgba(245,240,235,0.3)"),
+        }}
+      >
+        {mat.label}
+      </motion.span>
+    </motion.div>
   );
 }

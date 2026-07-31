@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useTransform, type MotionValue } from "motion/react";
+import { useActProgress } from "./ActOrchestrator";
+import { MotionText } from "@/components/site/MotionText";
 
 /* ─── ACT 2: ANATOMY ────────────────────────────────────── */
-/* Kitchen exploded into parts. Hover isolates. Click zooms. */
 
 interface Part {
   id: string;
@@ -44,7 +45,7 @@ const PARTS: Part[] = [
 
 const CATEGORIES = [...new Set(PARTS.map((p) => p.category))];
 
-/* ─── COMPONENT PANEL ──────────────────────────────────── */
+/* ─── DETAIL PANEL ──────────────────────────────────────── */
 
 function DetailPanel({ part, onClose }: { part: Part; onClose: () => void }) {
   return (
@@ -63,7 +64,6 @@ function DetailPanel({ part, onClose }: { part: Part; onClose: () => void }) {
           >
             <span className="text-[10px]">×</span>
           </button>
-
           <span className="block font-body text-[8px] font-[400] tracking-[0.2em] text-ember/60 uppercase mb-2">
             {part.brand}
           </span>
@@ -73,7 +73,6 @@ function DetailPanel({ part, onClose }: { part: Part; onClose: () => void }) {
           <p className="font-body text-[12px] font-[300] leading-[1.75] text-smoke/50 mt-6">
             {part.detail}
           </p>
-
           <div className="mt-8 pt-6 border-t border-linen/4">
             <span className="font-body text-[8px] font-[400] tracking-[0.15em] text-smoke/30 uppercase">
               Category
@@ -90,22 +89,28 @@ function DetailPanel({ part, onClose }: { part: Part; onClose: () => void }) {
 
 /* ─── MAIN ──────────────────────────────────────────────── */
 
-export default function Act2Anatomy({ progress }: { progress: number }) {
+interface Act2Props {
+  scrollProgress: MotionValue<number>;
+  actStart: number;
+  actEnd: number;
+}
+
+export default function Act2Anatomy({ scrollProgress, actStart, actEnd }: Act2Props) {
+  const progress = useActProgress(scrollProgress, actStart, actEnd);
   const [hovered, setHovered] = useState<string | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
 
-  const explodeAmount = useMemo(() => Math.min(progress / 0.5, 1), [progress]);
-  const contentOpacity = Math.max(0, (progress - 0.05) / 0.15);
-  const labelOpacity = Math.max(0, (progress - 0.3) / 0.15);
+  const explodeAmount = useTransform(progress, (v) => Math.min(v / 0.5, 1));
+  const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.05) / 0.15));
+  const labelOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.15));
+  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const headlineText = useTransform(explodeAmount, (v) =>
+    v < 0.5 ? "Every kitchen\nhas a skeleton." : "Hover to isolate.\nClick to enter."
+  );
 
   const handlePartHover = useCallback((id: string | null) => setHovered(id), []);
-
-  const handlePartClick = useCallback((id: string) => {
-    setActive(id);
-    setPanelOpen(true);
-  }, []);
-
+  const handlePartClick = useCallback((id: string) => { setActive(id); setPanelOpen(true); }, []);
   const handleClose = useCallback(() => {
     setPanelOpen(false);
     setTimeout(() => setActive(null), 500);
@@ -114,7 +119,10 @@ export default function Act2Anatomy({ progress }: { progress: number }) {
   const activePart = active ? PARTS.find((p) => p.id === active) : null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-void">
+    <motion.div
+      className="absolute inset-0 overflow-hidden bg-void"
+      style={{ opacity: containerOpacity }}
+    >
       {/* ── Background kitchen image ── */}
       <div className="absolute inset-0">
         <Image
@@ -124,7 +132,6 @@ export default function Act2Anatomy({ progress }: { progress: number }) {
           className="object-cover"
           style={{
             filter: "saturate(0.7) sepia(0.08) contrast(1.05) brightness(0.7)",
-            opacity: 0.4 + explodeAmount * 0.2,
           }}
           sizes="100vw"
         />
@@ -133,107 +140,40 @@ export default function Act2Anatomy({ progress }: { progress: number }) {
 
       {/* ── Exploded parts ── */}
       <div className="absolute inset-0 z-[10]">
-        {PARTS.map((part) => {
-          const tx = part.explodeX * explodeAmount;
-          const ty = part.explodeY * explodeAmount;
-          const isHovered = hovered === part.id;
-          const isActive = active === part.id;
-          const somethingHovered = hovered !== null;
-          const dimmed = somethingHovered && !isHovered;
-
-          return (
-            <motion.div
-              key={part.id}
-              className="absolute cursor-pointer"
-              style={{
-                left: `${part.x}%`,
-                top: `${part.y}%`,
-                width: `${part.w}%`,
-                height: `${part.h}%`,
-              }}
-              animate={{
-                x: tx,
-                y: ty,
-                opacity: dimmed ? 0.15 : 1,
-              }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              onMouseEnter={() => handlePartHover(part.id)}
-              onMouseLeave={() => handlePartHover(null)}
-              onClick={() => handlePartClick(part.id)}
-            >
-              {/* Part boundary */}
-              <div
-                className="absolute inset-0 border transition-all duration-500"
-                style={{
-                  borderColor: isHovered || isActive
-                    ? "rgba(196,90,44,0.4)"
-                    : "rgba(255,255,255,0.04)",
-                  backgroundColor: isHovered
-                    ? "rgba(196,90,44,0.06)"
-                    : "transparent",
-                }}
-              />
-
-              {/* Part label */}
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <span className="font-body text-[8px] font-[400] tracking-[0.2em] text-ember/80 uppercase whitespace-nowrap">
-                      {part.label}
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          );
-        })}
+        {PARTS.map((part) => (
+          <ExplodedPart
+            key={part.id}
+            part={part}
+            explodeAmount={explodeAmount}
+            hovered={hovered}
+            active={active}
+            onHover={handlePartHover}
+            onClick={handlePartClick}
+          />
+        ))}
 
         {/* ── Connection lines ── */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-[5]">
-          {explodeAmount > 0.2 && PARTS.map((part) => {
-            const cx = part.x + part.w / 2;
-            const cy = part.y + part.h / 2;
-            const tx = cx + part.explodeX * explodeAmount * 0.4;
-            const ty = cy + part.explodeY * explodeAmount * 0.4;
-            return (
-              <line
-                key={`line-${part.id}`}
-                x1={`${cx}%`}
-                y1={`${cy}%`}
-                x2={`${tx}%`}
-                y2={`${ty}%`}
-                stroke="rgba(196,90,44,0.08)"
-                strokeWidth="0.5"
-                strokeDasharray="4 4"
-              />
-            );
-          })}
+          {PARTS.map((part) => (
+            <ConnectionLine key={`line-${part.id}`} part={part} explodeAmount={explodeAmount} />
+          ))}
         </svg>
       </div>
 
       {/* ── Category legend ── */}
-      <div
+      <motion.div
         className="absolute top-8 right-8 z-[30] flex flex-col gap-2"
         style={{ opacity: labelOpacity }}
       >
         {CATEGORIES.map((cat) => (
-          <span
-            key={cat}
-            className="font-body text-[0.5rem] font-[400] tracking-[0.15em] text-linen/20"
-          >
+          <span key={cat} className="font-body text-[0.5rem] font-[400] tracking-[0.15em] text-linen/20">
             {cat}
           </span>
         ))}
-      </div>
+      </motion.div>
 
       {/* ── Content ── */}
-      <div
+      <motion.div
         className="absolute inset-0 z-[30] flex flex-col justify-end pointer-events-none"
         style={{
           padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
@@ -244,18 +184,14 @@ export default function Act2Anatomy({ progress }: { progress: number }) {
           ANATOMY
         </span>
         <h2 className="font-display text-[clamp(1.8rem,4.5vw,3.5rem)] font-[200] leading-[0.94] tracking-[-0.02em] text-linen max-w-[500px]">
-          {explodeAmount < 0.5
-            ? "Every kitchen\nhas a skeleton."
-            : "Hover to isolate.\nClick to enter."}
+          <MotionText value={headlineText} style={{ whiteSpace: "pre-line" }} />
         </h2>
-      </div>
+      </motion.div>
 
       {/* ── Vignette ── */}
       <div
         className="absolute inset-0 z-[25] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 25%, rgba(5,5,5,0.5) 100%)",
-        }}
+        style={{ background: "radial-gradient(ellipse at center, transparent 25%, rgba(5,5,5,0.5) 100%)" }}
       />
 
       {/* ── Detail panel ── */}
@@ -264,6 +200,87 @@ export default function Act2Anatomy({ progress }: { progress: number }) {
           <DetailPanel part={activePart} onClose={handleClose} />
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
+  );
+}
+
+/* ─── EXPLODED PART ─────────────────────────────────────── */
+
+function ExplodedPart({ part, explodeAmount, hovered, active, onHover, onClick }: {
+  part: Part;
+  explodeAmount: MotionValue<number>;
+  hovered: string | null;
+  active: string | null;
+  onHover: (id: string | null) => void;
+  onClick: (id: string) => void;
+}) {
+  const tx = useTransform(explodeAmount, (v) => part.explodeX * v);
+  const ty = useTransform(explodeAmount, (v) => part.explodeY * v);
+  const isHovered = hovered === part.id;
+  const isActive = active === part.id;
+  const dimmed = hovered !== null && !isHovered;
+
+  return (
+    <motion.div
+      className="absolute cursor-pointer"
+      style={{
+        left: `${part.x}%`,
+        top: `${part.y}%`,
+        width: `${part.w}%`,
+        height: `${part.h}%`,
+        x: tx,
+        y: ty,
+        opacity: dimmed ? 0.15 : 1,
+      }}
+      onMouseEnter={() => onHover(part.id)}
+      onMouseLeave={() => onHover(null)}
+      onClick={() => onClick(part.id)}
+    >
+      <div
+        className="absolute inset-0 border transition-all duration-500"
+        style={{
+          borderColor: isHovered || isActive ? "rgba(196,90,44,0.4)" : "rgba(255,255,255,0.04)",
+          backgroundColor: isHovered ? "rgba(196,90,44,0.06)" : "transparent",
+        }}
+      />
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span className="font-body text-[8px] font-[400] tracking-[0.2em] text-ember/80 uppercase whitespace-nowrap">
+              {part.label}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+/* ─── CONNECTION LINE ───────────────────────────────────── */
+
+function ConnectionLine({ part, explodeAmount }: { part: Part; explodeAmount: MotionValue<number> }) {
+  const cx = part.x + part.w / 2;
+  const cy = part.y + part.h / 2;
+  const tx = useTransform(explodeAmount, (v) => cx + part.explodeX * v * 0.4);
+  const ty = useTransform(explodeAmount, (v) => cy + part.explodeY * v * 0.4);
+  const visible = useTransform(explodeAmount, (v) => v > 0.2);
+
+  return (
+    <motion.line
+      x1={`${cx}%`}
+      y1={`${cy}%`}
+      x2={`${tx}%`}
+      y2={`${ty}%`}
+      stroke="rgba(196,90,44,0.08)"
+      strokeWidth="0.5"
+      strokeDasharray="4 4"
+      style={{ display: useTransform(visible, (v): string => v ? "block" : "none") }}
+    />
   );
 }

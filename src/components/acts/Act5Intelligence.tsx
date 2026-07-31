@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useTransform, type MotionValue } from "motion/react";
+import { useActProgress } from "./ActOrchestrator";
 
 /* ─── ACT 5: KITCHEN INTELLIGENCE ───────────────────────── */
-/* Click a system. See everything connected.                  */
 
 interface System {
   id: string;
@@ -38,11 +38,18 @@ const SYSTEMS: System[] = [
   { id: "backsplash", label: "BACKSPLASH", x: 38, y: 30, icon: "▥", connections: ["countertop"], details: { structural: "Dekton — heat resistant. Seamless." } },
 ];
 
-export default function Act5Intelligence({ progress }: { progress: number }) {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [hovered, setHovered] = useState<string | null>(null);
+interface Act5Props {
+  scrollProgress: MotionValue<number>;
+  actStart: number;
+  actEnd: number;
+}
 
-  const contentOpacity = Math.max(0, (progress - 0.05) / 0.15);
+export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: Act5Props) {
+  const progress = useActProgress(scrollProgress, actStart, actEnd);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.05) / 0.15));
+  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
 
   const handleSelect = useCallback((id: string) => {
     setSelected((prev) => (prev === id ? null : id));
@@ -58,7 +65,10 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
   }, [selected]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-void">
+    <motion.div
+      className="absolute inset-0 overflow-hidden bg-void"
+      style={{ opacity: containerOpacity }}
+    >
       {/* ── Dark background ── */}
       <div
         className="absolute inset-0"
@@ -127,10 +137,7 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
               }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleSelect(system.id)}
-              onMouseEnter={() => setHovered(system.id)}
-              onMouseLeave={() => setHovered(null)}
             >
-              {/* Node circle */}
               <div
                 className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${
                   isSelected
@@ -147,7 +154,6 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
                 </span>
               </div>
 
-              {/* Label */}
               <motion.span
                 className="absolute top-full left-1/2 -translate-x-1/2 mt-2 font-body text-[0.45rem] font-[400] tracking-[0.15em] whitespace-nowrap"
                 animate={{
@@ -157,7 +163,6 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
                 {system.label}
               </motion.span>
 
-              {/* Pulse on select */}
               <AnimatePresence>
                 {isSelected && (
                   <motion.div
@@ -240,7 +245,7 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
       </AnimatePresence>
 
       {/* ── Header content ── */}
-      <div
+      <motion.div
         className="absolute top-0 left-0 right-0 z-[20] flex flex-col pointer-events-none"
         style={{
           padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
@@ -257,7 +262,7 @@ export default function Act5Intelligence({ progress }: { progress: number }) {
           A kitchen is a machine. Every component connects to every other.
           Click to explore the system.
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

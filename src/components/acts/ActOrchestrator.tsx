@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
 import Act1Curiosity from "./Act1Curiosity";
 import Act2Anatomy from "./Act2Anatomy";
@@ -11,23 +11,45 @@ import Act5Intelligence from "./Act5Intelligence";
 import Act6BuildTimeline from "./Act6BuildTimeline";
 import Act7BeforeAfter from "./Act7BeforeAfter";
 import Act8FinalReveal from "./Act8FinalReveal";
+import { MotionText } from "@/components/site/MotionText";
 
 /* ─── ACT TIMING ───────────────────────────────────────── */
 
-const ACTS = [
-  { id: "curiosity", component: Act1Curiosity, start: 0, end: 0.125 },
-  { id: "anatomy", component: Act2Anatomy, start: 0.125, end: 0.3125 },
-  { id: "manufacturing", component: Act3Manufacturing, start: 0.3125, end: 0.4375 },
-  { id: "materials", component: Act4Materials, start: 0.4375, end: 0.5625 },
-  { id: "intelligence", component: Act5Intelligence, start: 0.5625, end: 0.6875 },
-  { id: "build", component: Act6BuildTimeline, start: 0.6875, end: 0.8125 },
-  { id: "beforeafter", component: Act7BeforeAfter, start: 0.8125, end: 0.90625 },
-  { id: "reveal", component: Act8FinalReveal, start: 0.90625, end: 1.0 },
+export const ACTS = [
+  { id: "curiosity", start: 0, end: 0.125 },
+  { id: "anatomy", start: 0.125, end: 0.3125 },
+  { id: "manufacturing", start: 0.3125, end: 0.4375 },
+  { id: "materials", start: 0.4375, end: 0.5625 },
+  { id: "intelligence", start: 0.5625, end: 0.6875 },
+  { id: "build", start: 0.6875, end: 0.8125 },
+  { id: "beforeafter", start: 0.8125, end: 0.90625 },
+  { id: "reveal", start: 0.90625, end: 1.0 },
 ];
 
-function getActProgress(globalProgress: number, act: typeof ACTS[number]): number {
-  if (globalProgress < act.start || globalProgress > act.end) return -1;
-  return (globalProgress - act.start) / (act.end - act.start);
+const LABELS: Record<string, string> = {
+  curiosity: "I · CURIOSITY",
+  anatomy: "II · ANATOMY",
+  manufacturing: "III · MANUFACTURING",
+  materials: "IV · MATERIALS",
+  intelligence: "V · INTELLIGENCE",
+  build: "VI · BUILD",
+  beforeafter: "VII · TRANSFORM",
+  reveal: "VIII · REVEAL",
+};
+
+/* ─── HOOK: USE ACT PROGRESS ───────────────────────────── */
+
+export function useActProgress(
+  scrollProgress: MotionValue<number>,
+  actStart: number,
+  actEnd: number
+): MotionValue<number> {
+  return useTransform(
+    scrollProgress,
+    [actStart, actEnd],
+    [0, 1],
+    { clamp: true }
+  );
 }
 
 /* ─── FILM GRAIN ───────────────────────────────────────── */
@@ -44,14 +66,15 @@ function Grain() {
   );
 }
 
-/* ─── PROGRESS BAR ─────────────────────────────────────── */
+/* ─── PROGRESS BAR (MotionValue-driven) ────────────────── */
 
-function ProgressBar({ progress }: { progress: number }) {
+function ProgressBar({ progress }: { progress: MotionValue<number> }) {
+  const width = useTransform(progress, (v) => `${v * 100}%`);
   return (
     <div className="fixed top-0 left-0 right-0 z-[9999] h-[2px] bg-linen/5">
-      <div
-        className="h-full bg-ember/60 transition-none"
-        style={{ width: `${progress * 100}%` }}
+      <motion.div
+        className="h-full bg-ember/60"
+        style={{ width }}
       />
     </div>
   );
@@ -59,25 +82,15 @@ function ProgressBar({ progress }: { progress: number }) {
 
 /* ─── ACT INDICATOR ────────────────────────────────────── */
 
-function ActIndicator({ progress }: { progress: number }) {
-  const current = ACTS.find((a) => progress >= a.start && progress <= a.end);
-  if (!current) return null;
-
-  const labels: Record<string, string> = {
-    curiosity: "I · CURIOSITY",
-    anatomy: "II · ANATOMY",
-    manufacturing: "III · MANUFACTURING",
-    materials: "IV · MATERIALS",
-    intelligence: "V · INTELLIGENCE",
-    build: "VI · BUILD",
-    beforeafter: "VII · TRANSFORM",
-    reveal: "VIII · REVEAL",
-  };
-
+function ActIndicator({ progress }: { progress: MotionValue<number> }) {
+  const label = useTransform(progress, (v) => {
+    const current = ACTS.find((a) => v >= a.start && v <= a.end);
+    return current ? LABELS[current.id] : "";
+  });
   return (
     <div className="fixed bottom-8 left-8 z-[9999]">
       <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-linen/20">
-        {labels[current.id]}
+        <MotionText value={label} />
       </span>
     </div>
   );
@@ -85,33 +98,44 @@ function ActIndicator({ progress }: { progress: number }) {
 
 /* ─── ORCHESTRATOR ─────────────────────────────────────── */
 
+const ACT_COMPONENTS = {
+  curiosity: Act1Curiosity,
+  anatomy: Act2Anatomy,
+  manufacturing: Act3Manufacturing,
+  materials: Act4Materials,
+  intelligence: Act5Intelligence,
+  build: Act6BuildTimeline,
+  beforeafter: Act7BeforeAfter,
+  reveal: Act8FinalReveal,
+};
+
 export default function ActOrchestrator() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setProgress(v);
-  });
-
   return (
     <div ref={containerRef} className="relative z-10" style={{ height: "680vh" }}>
       <div className="sticky top-0 h-screen overflow-hidden bg-void">
         {ACTS.map((act) => {
-          const actProgress = getActProgress(progress, act);
-          if (actProgress < 0) return null;
-          const ActComponent = act.component;
-          return <ActComponent key={act.id} progress={actProgress} />;
+          const ActComponent = ACT_COMPONENTS[act.id as keyof typeof ACT_COMPONENTS];
+          return (
+            <ActComponent
+              key={act.id}
+              scrollProgress={scrollYProgress}
+              actStart={act.start}
+              actEnd={act.end}
+            />
+          );
         })}
       </div>
 
       <Grain />
-      <ProgressBar progress={progress} />
-      <ActIndicator progress={progress} />
+      <ProgressBar progress={scrollYProgress} />
+      <ActIndicator progress={scrollYProgress} />
     </div>
   );
 }
