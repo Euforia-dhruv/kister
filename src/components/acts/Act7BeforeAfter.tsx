@@ -15,7 +15,7 @@ interface Act7Props {
 
 export default function Act7BeforeAfter({ scrollProgress, actStart, actEnd }: Act7Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   const wipeProgress = useTransform(progress, (v) => clamp(v, 0, 1));
   const eased = useTransform(wipeProgress, (v) => easeInOutCubic(v));

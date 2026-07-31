@@ -45,7 +45,7 @@ interface Act8Props {
 
 export default function Act8FinalReveal({ scrollProgress, actStart, actEnd }: Act8Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
   const contentOpacity = useTransform(progress, (v) => contentReveal(v, 0.05, 0.15));
   const isComplete = useTransform(progress, (v) => v > 0.95);
   const vignetteOpacity = useTransform(progress, [0.8, 1.0], [0.6, 0.8]);
@@ -228,28 +228,41 @@ function SceneDot({ scene, progress }: { scene: KitchenScene; progress: MotionVa
 /* ─── CONTENT SECTION ───────────────────────────────────── */
 
 function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
+  const headlineScale = useTransform(isComplete, (v): number => v ? 1 : 0.97);
+  const headlineOpacity = useTransform(isComplete, (v): number => v ? 1 : 0.6);
+
   return (
     <>
-      <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60 mb-6">
+      <motion.span
+        className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60 mb-6 block"
+        style={{ opacity: headlineOpacity }}
+      >
         <MotionText value={useTransform(isComplete, (v) => v ? "YOUR KITCHEN AWAITS" : "REVEAL")} />
-      </span>
-      <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen max-w-[700px]">
+      </motion.span>
+      <motion.h2
+        className="font-display text-[clamp(2.5rem,8vw,7rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen max-w-[700px]"
+        style={{ scale: headlineScale, opacity: headlineOpacity }}
+      >
         <MotionText
           value={useTransform(isComplete, (v) =>
             v ? "The kitchen\nis where life\nhappens." : "Walk through\nyour kitchen."
           )}
           style={{ whiteSpace: "pre-line" }}
         />
-      </h2>
-      <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-10">
+      </motion.h2>
+      <motion.p
+        className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-10"
+        style={{ opacity: useTransform(isComplete, (v): number => v ? 1 : 0) }}
+      >
         <MotionText value={useTransform(isComplete, (v) =>
           v ? BRAND.location.full : "Scroll to move through the space. Every detail, every material, every system — alive and waiting."
         )} />
-      </p>
+      </motion.p>
       <motion.div
         className="mt-12 flex flex-wrap items-center justify-center gap-6 pointer-events-auto"
         style={{
           opacity: useTransform(isComplete, (v): number => v ? 1 : 0),
+          y: useTransform(isComplete, (v): number => v ? 0 : 12),
           pointerEvents: useTransform(isComplete, (v): string => v ? "auto" : "none"),
         }}
       >

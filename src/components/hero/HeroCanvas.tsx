@@ -7,7 +7,7 @@ import { gsap, ScrollTrigger } from "@/lib/engine/gsap";
 /* Canvas-only rendering. No <img> elements.                */
 /* GSAP ScrollTrigger pins and maps scroll → frame.         */
 /* Progressive loading: first 20 eager, rest lazy.          */
-/* Fade-to-black at end, then reveals Act 1.                */
+/* Film grain, vignette, breathing, fade-to-black.          */
 
 interface Manifest {
   frames: number;
@@ -20,6 +20,10 @@ interface Manifest {
   frameExt: string;
 }
 
+const IS_REDUCED_MOTION =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,6 +34,7 @@ export default function HeroCanvas() {
   const currentFrameRef = useRef(-1);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRevealed, setIsRevealed] = useState(false);
 
   /* ── Draw frame to canvas ── */
   const drawFrame = useCallback((index: number) => {
@@ -108,10 +113,20 @@ export default function HeroCanvas() {
 
       // Load all frames
       await loadFrames(manifest);
+
+      // Smooth transition from loader to first frame
       setIsLoading(false);
+      requestAnimationFrame(() => setIsRevealed(true));
 
       // Draw first frame
       drawFrame(0);
+
+      // If reduced motion, skip to end state
+      if (IS_REDUCED_MOTION) {
+        const fade = fadeRef.current;
+        if (fade) fade.style.opacity = "1";
+        return;
+      }
 
       // Set up ScrollTrigger
       const container = containerRef.current;
@@ -124,7 +139,7 @@ export default function HeroCanvas() {
         start: "top top",
         end: "bottom bottom",
         pin: canvas,
-        scrub: 0.3,
+        scrub: 0.5,
         onUpdate: (self) => {
           const frameIndex = Math.min(
             Math.floor(self.progress * manifest.frames),
@@ -177,6 +192,24 @@ export default function HeroCanvas() {
         style={{ background: "#0a0a0a" }}
       />
 
+      {/* ── Cinematic overlays (CSS only, over canvas) ── */}
+      <div className="fixed inset-0 z-[9989] pointer-events-none">
+        {/* Vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,5,5,0.45) 100%)",
+          }}
+        />
+        {/* Subtle warm bloom — very low opacity */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at 50% 40%, rgba(196,90,44,0.03) 0%, transparent 60%)",
+          }}
+        />
+      </div>
+
       {/* Fade-to-black overlay at end */}
       <div
         ref={fadeRef}
@@ -191,32 +224,38 @@ export default function HeroCanvas() {
             <h1 className="font-display text-[clamp(2rem,6vw,4rem)] font-[100] tracking-[0.2em] text-linen/80">
               KITSER
             </h1>
-            <span className="font-body text-[0.6rem] font-[300] tracking-[0.3em] text-ember/50 mt-2 block">
+            <span className="font-body text-[0.55rem] font-[300] tracking-[0.3em] text-ember/40 mt-3 block">
               ALL ABOUT KITCHENS
             </span>
           </div>
 
-          <div className="mt-12 w-[clamp(200px,30vw,300px)]">
-            <div className="h-[1px] bg-linen/5 relative overflow-hidden">
+          <div className="mt-14 w-[clamp(200px,30vw,300px)]">
+            <div className="h-[1px] bg-linen/[0.04] relative overflow-hidden">
               <div
-                className="h-full bg-ember/60"
+                className="h-full bg-ember/50"
                 style={{
                   width: `${progress}%`,
-                  transition: "width 0.3s ease-out",
+                  transition: "width 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
               />
             </div>
-            <div className="flex justify-between mt-3">
-              <span className="font-body text-[0.45rem] font-[300] tracking-[0.15em] text-linen/20">
-                LOADING
+            <div className="flex justify-between mt-4">
+              <span className="font-body text-[0.42rem] font-[300] tracking-[0.18em] text-linen/15">
+                PREPARING EXPERIENCE
               </span>
-              <span className="font-body text-[0.45rem] font-[300] tracking-[0.15em] text-linen/20">
+              <span className="font-body text-[0.42rem] font-[300] tracking-[0.18em] text-linen/15">
                 {progress}%
               </span>
             </div>
           </div>
         </div>
       )}
+
+      {/* Smooth reveal fade */}
+      <div
+        className="fixed inset-0 z-[9998] pointer-events-none bg-void transition-opacity duration-1000"
+        style={{ opacity: isRevealed ? 0 : 1 }}
+      />
     </div>
   );
 }

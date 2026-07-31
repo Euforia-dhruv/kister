@@ -49,7 +49,7 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
   const [selected, setSelected] = useState<string | null>(null);
 
   const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.05) / 0.15));
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   const handleSelect = useCallback((id: string) => {
     setSelected((prev) => (prev === id ? null : id));

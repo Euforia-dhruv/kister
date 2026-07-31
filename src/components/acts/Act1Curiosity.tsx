@@ -60,7 +60,7 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
 
   const materialsContainerOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.28) / 0.12));
 
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   return (
     <motion.div

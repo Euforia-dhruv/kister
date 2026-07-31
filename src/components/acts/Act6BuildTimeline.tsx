@@ -39,7 +39,7 @@ interface Act6Props {
 
 export default function Act6BuildTimeline({ scrollProgress, actStart, actEnd }: Act6Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   // Active layer index
   const activeLayerIndex = useTransform(progress, (v) => {

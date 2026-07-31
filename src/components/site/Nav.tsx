@@ -66,6 +66,13 @@ export default function Nav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
+  // Reduced motion: show nav immediately on homepage
+  useEffect(() => {
+    if (isHome && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+    }
+  }, [isHome]);
+
   useEffect(() => {
     let lastY = 0;
     let ticking = false;
@@ -74,10 +81,9 @@ export default function Nav() {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-          const vh = window.innerHeight;
 
-          // On homepage, show nav after ActOrchestrator intro (680vh)
-          const threshold = isHome ? vh * 0.85 : 80;
+          // On homepage, show nav only after cinematic experience ends (980vh total)
+          const threshold = isHome ? window.innerHeight * 9.5 : 80;
           const pastThreshold = y > threshold;
 
           setScrolled(y > 80);

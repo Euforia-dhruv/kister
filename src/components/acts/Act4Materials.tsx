@@ -42,7 +42,7 @@ interface Act4Props {
 
 export default function Act4Materials({ scrollProgress, actStart, actEnd }: Act4Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
   const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.05) / 0.15));
 
   return (

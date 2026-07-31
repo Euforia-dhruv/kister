@@ -66,6 +66,9 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .film-grain { display: none; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
 }
 
 :focus-visible {
@@ -288,6 +291,22 @@ select option { background: #0a0a0a; color: #f5f0eb; }
   .editorial-headline-sm { font-size: clamp(1.1rem, 5vw, 1.5rem); }
 
   .film-grain { opacity: 0.012; }
+}
+
+/* Prevent viewport jump on iOS when address bar shows/hides */
+html {
+  min-height: 100dvh;
+}
+
+/* Prevent overscroll bounce from showing body background */
+body {
+  overscroll-behavior: none;
+}
+
+/* Ensure canvas doesn't cause layout shift */
+canvas {
+  display: block;
+  max-width: 100%;
 }
 
 @media (hover: none) {

@@ -107,7 +107,7 @@ interface Act3Props {
 
 export default function Act3Manufacturing({ scrollProgress, actStart, actEnd }: Act3Props) {
   const progress = useActProgress(scrollProgress, actStart, actEnd);
-  const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
+  const containerOpacity = useTransform(progress, [0, 0.04, 0.96, 1], [0, 1, 1, 0]);
 
   return (
     <motion.div
