@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
-import { stagger, vignette } from "@/lib/motion";
+import { vignette } from "@/lib/motion";
 import { BRAND, MATERIALS } from "@/lib/brand";
 
 /* ─── ACT 1: CURIOSITY — THE KITSER OPENING ─────────────── */

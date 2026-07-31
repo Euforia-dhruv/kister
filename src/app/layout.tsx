@@ -9,7 +9,7 @@ import Cursor from "@/components/site/Cursor";
 import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kister.vercel.app"),
+  metadataBase: new URL("https://kitser.in"),
   title: `${BRAND.name} — Premium Kitchen Curation | ${BRAND.location.city}`,
   description:
     `Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in ${BRAND.location.city}.`,

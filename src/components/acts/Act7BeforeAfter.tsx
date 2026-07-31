@@ -67,11 +67,11 @@ export default function Act7BeforeAfter({ scrollProgress, actStart, actEnd }: Ac
         <div className="absolute inset-0 bg-void/10" />
       </motion.div>
 
-      {/* ── Wipe line ── */}
-      <div
+      {/* ── Wipe line (MotionValue-driven) ── */}
+      <motion.div
         className="absolute top-0 bottom-0 w-[2px] z-[10] pointer-events-none"
         style={{
-          left: `${wipeLeft.get()}%`,
+          left: wipeLeft,
           background: "linear-gradient(180deg, transparent 10%, rgba(196,90,44,0.6) 50%, transparent 90%)",
           boxShadow: "0 0 30px rgba(196,90,44,0.4), 0 0 80px rgba(196,90,44,0.15), inset 0 0 20px rgba(196,90,44,0.1)",
         }}

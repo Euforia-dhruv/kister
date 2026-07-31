@@ -22,8 +22,6 @@ export async function POST(request: NextRequest) {
     }
 
     // TODO: Integrate with email service (SendGrid, Resend, etc.)
-    // For now, log the inquiry
-    console.log("New inquiry:", { name, email, phone, interest, message, timestamp: new Date().toISOString() });
 
     return NextResponse.json(
       { success: true, message: "Inquiry received. We'll be in touch within 24 hours." },

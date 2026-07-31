@@ -127,6 +127,10 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
             <motion.div
               key={system.id}
               className="absolute cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label={`${system.label} system — click to explore connections`}
+              aria-pressed={isSelected}
               style={{
                 left: `${system.x}%`,
                 top: `${system.y}%`,
@@ -138,6 +142,12 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
               }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleSelect(system.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleSelect(system.id);
+                }
+              }}
             >
               <div
                 className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${
@@ -203,6 +213,7 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
                   </div>
                   <button
                     onClick={() => setSelected(null)}
+                    aria-label="Close system details"
                     className="w-7 h-7 border border-linen/8 flex items-center justify-center text-linen/30 hover:text-linen/60 transition-all duration-500 shrink-0"
                   >
                     <span className="text-[10px]">×</span>

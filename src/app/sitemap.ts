@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://kister.vercel.app";
+const BASE = "https://kitser.in";
 
 const routes = [
   "",
