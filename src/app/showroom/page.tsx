@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import ShowroomPage from "@/components/pages/ShowroomPage";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Showroom — Kitser | No. 1 Nava India Road, Coimbatore",
+  title: `Showroom — ${BRAND.name} | ${BRAND.location.full}`,
   description:
-    "Visit the Kitser showroom in Coimbatore. Experience premium kitchen materials, appliances, and design consultation. Open Mon–Sat, 10 AM – 7 PM.",
+    `Visit the ${BRAND.name} showroom in ${BRAND.location.city}. Experience premium kitchen materials, appliances, and design consultation. Open Mon–Sat, 10 AM – 7 PM.`,
   openGraph: {
-    title: "Showroom — Kitser",
-    description: "Experience the materials. No. 1 Nava India Road, Coimbatore.",
+    title: `Showroom — ${BRAND.name}`,
+    description: `Experience the materials. ${BRAND.location.full}`,
     images: ["/images/showroom/01-interior.jpg"],
   },
 };

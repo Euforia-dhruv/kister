@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import ProjectsPage from "@/components/pages/ProjectsPage";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Projects — Kitser",
-  description: "Kitchens we've brought to life. Case studies from Kitser — Coimbatore, Bangalore, Mumbai, Chennai. Premium kitchen design and curation.",
+  title: `Projects — ${BRAND.name}`,
+  description: `Kitchens we've brought to life. Case studies from ${BRAND.name} — ${BRAND.location.city}, Bangalore, Mumbai, Chennai. Premium kitchen design and curation.`,
   openGraph: {
-    title: "Projects — Kitser",
-    description: "Kitchens we've brought to life. Case studies from Kitser.",
+    title: `Projects — ${BRAND.name}`,
+    description: `Kitchens we've brought to life. Case studies from ${BRAND.name}.`,
     images: ["/images/kitchens/scavolini-poetica-island.jpg"],
   },
 };

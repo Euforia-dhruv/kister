@@ -6,14 +6,15 @@ import ScrollToTop from "@/components/site/ScrollToTop";
 import PageTransition from "@/components/site/PageTransition";
 import SmoothScroll from "@/components/site/SmoothScroll";
 import Cursor from "@/components/site/Cursor";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kister.vercel.app"),
-  title: "Kitser — Premium Kitchen Curation | Coimbatore",
+  title: `${BRAND.name} — Premium Kitchen Curation | ${BRAND.location.city}`,
   description:
-    "Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in Coimbatore.",
+    `Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in ${BRAND.location.city}.`,
   keywords: [
-    "kitchen showroom coimbatore",
+    `kitchen showroom ${BRAND.location.city.toLowerCase()}`,
     "premium kitchen appliances",
     "scavolini kitchens",
     "le creuset cookware",
@@ -21,8 +22,8 @@ export const metadata: Metadata = {
     "modular kitchen design",
   ],
   openGraph: {
-    title: "Kitser — Premium Kitchen Curation",
-    description: "Heritage meets innovation. Visit our showroom in Coimbatore.",
+    title: `${BRAND.name} — Premium Kitchen Curation`,
+    description: `Heritage meets innovation. Visit our showroom in ${BRAND.location.city}.`,
     images: ["/images/kitchens/scavolini-poetica-island.jpg"],
     type: "website",
   },
