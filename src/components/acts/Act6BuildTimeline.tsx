@@ -101,6 +101,15 @@ export default function Act6BuildTimeline({ scrollProgress, actStart, actEnd }: 
         className="absolute inset-0 z-[15] pointer-events-none"
         style={{ background: vignette(25, 0.5) }}
       />
+
+      {/* Completion glow */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 z-[16] pointer-events-none h-[40%]"
+        style={{
+          opacity: useTransform(buildComplete, (v) => v ? 1 : 0),
+          boxShadow: "0 -40px 80px rgba(196,90,44,0.1)",
+        }}
+      />
     </motion.div>
   );
 }
@@ -139,7 +148,7 @@ function BuildLayerCard({ layer, index, progress, activeLayerIndex }: {
           fill
           className="object-cover"
           style={{
-            filter: `saturate(0.75) sepia(0.06) contrast(1.06) brightness(${0.65 + layer.z * 0.03})`,
+            filter: `saturate(0.75) sepia(0.06) contrast(1.06) brightness(${0.65 + layer.z * 0.03}) blur(${Math.min(layer.z * 0.3, 2)}px)`,
           }}
           sizes="80vw"
         />

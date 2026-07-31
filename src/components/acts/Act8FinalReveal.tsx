@@ -47,6 +47,7 @@ export default function Act8FinalReveal({ scrollProgress, actStart, actEnd }: Ac
   const containerOpacity = useTransform(progress, [0, 0.01, 0.99, 1], [0, 1, 1, 0]);
   const contentOpacity = useTransform(progress, (v) => contentReveal(v, 0.05, 0.15));
   const isComplete = useTransform(progress, (v) => v > 0.95);
+  const vignetteOpacity = useTransform(progress, [0.8, 1.0], [0.6, 0.8]);
 
   // Current scene label
   const currentLabel = useTransform(progress, (v) => {
@@ -99,9 +100,12 @@ export default function Act8FinalReveal({ scrollProgress, actStart, actEnd }: Ac
       </motion.div>
 
       {/* ── Vignette ── */}
-      <div
+      <motion.div
         className="absolute inset-0 z-[18] pointer-events-none"
-        style={{ background: vignette(20, 0.6) }}
+        style={{
+          background: vignette(20, 0.6),
+          opacity: vignetteOpacity,
+        }}
       />
     </motion.div>
   );
@@ -228,7 +232,7 @@ function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
       <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60 mb-6">
         <MotionText value={useTransform(isComplete, (v) => v ? "YOUR KITCHEN AWAITS" : "REVEAL")} />
       </span>
-      <h2 className="font-display text-[clamp(2rem,6vw,5rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen max-w-[700px]">
+      <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen max-w-[700px]">
         <MotionText
           value={useTransform(isComplete, (v) =>
             v ? "The kitchen\nis where life\nhappens." : "Walk through\nyour kitchen."
@@ -236,7 +240,7 @@ function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
           style={{ whiteSpace: "pre-line" }}
         />
       </h2>
-      <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[400px] mt-8">
+      <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[400px] mt-10">
         <MotionText value={useTransform(isComplete, (v) =>
           v ? "No. 1, Nava India Road, Coimbatore — 641028" : "Scroll to move through the space. Every detail, every material, every system — alive and waiting."
         )} />

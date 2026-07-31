@@ -22,12 +22,12 @@ interface Stage {
 }
 
 const STAGES: Stage[] = [
-  { id: "steel", image: "/images/materials/05-steel-finish.jpg", title: "Raw Material", subtitle: "STEEL SELECTION", description: "Every kitchen begins as a sheet of steel. We source 18/10 German stainless — the same grade used in surgical instruments.", stat: "18/10", statLabel: "CHROME/NICKEL RATIO", in: 0.0, peak: 0.1, out: 0.22 },
-  { id: "laser", image: "/images/hardware/05-detail.jpg", title: "Precision Cut", subtitle: "LASER TECHNOLOGY", description: "Fiber laser cutting at ±0.05mm tolerance. Every cabinet panel, every drawer front — cut with light.", stat: "±0.05", statLabel: "MILLIMETRE TOLERANCE", in: 0.18, peak: 0.28, out: 0.40 },
-  { id: "bend", image: "/images/hardware/02-drawer-system.jpg", title: "Formation", subtitle: "CNC BENDING", description: "CNC press brakes fold each panel with mathematical precision. The same technique used in aerospace manufacturing.", stat: "0.1°", statLabel: "ANGLE PRECISION", in: 0.36, peak: 0.46, out: 0.58 },
-  { id: "coat", image: "/images/cabinetry/06-finish.jpg", title: "Surface", subtitle: "POWDER COATING", description: "Electrostatic powder coating. 200°C cure. The finish that resists fingerprints, stains, and UV for decades.", stat: "200°C", statLabel: "CURE TEMPERATURE", in: 0.54, peak: 0.64, out: 0.76 },
-  { id: "assemble", image: "/images/artisan-hands-v2.jpg", title: "Assembly", subtitle: "HAND ASSEMBLY", description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop.", stat: "80K", statLabel: "CYCLE TESTS PER HINGE", in: 0.72, peak: 0.82, out: 0.94 },
-  { id: "install", image: "/images/kitchens/scavolini-delinea-hero.jpg", title: "Installation", subtitle: "YOUR KITCHEN", description: "Our team installs your kitchen like furniture — not construction. Clean. Precise. Done in days, not weeks.", stat: "5-7", statLabel: "DAYS TO INSTALL", in: 0.88, peak: 0.95, out: 1.02 },
+  { id: "steel", image: "/images/materials/05-steel-finish.jpg", title: "Raw Material", subtitle: "STEEL SELECTION", description: "Every kitchen begins as a sheet of steel. We source 18/10 German stainless — the same grade used in surgical instruments.", stat: "18/10", statLabel: "CHROME/NICKEL RATIO", in: 0.0, peak: 0.1, out: 0.18 },
+  { id: "laser", image: "/images/hardware/05-detail.jpg", title: "Precision Cut", subtitle: "LASER TECHNOLOGY", description: "Fiber laser cutting at ±0.05mm tolerance. Every cabinet panel, every drawer front — cut with light.", stat: "±0.05", statLabel: "MILLIMETRE TOLERANCE", in: 0.16, peak: 0.28, out: 0.36 },
+  { id: "bend", image: "/images/hardware/02-drawer-system.jpg", title: "Formation", subtitle: "CNC BENDING", description: "CNC press brakes fold each panel with mathematical precision. The same technique used in aerospace manufacturing.", stat: "0.1°", statLabel: "ANGLE PRECISION", in: 0.34, peak: 0.46, out: 0.54 },
+  { id: "coat", image: "/images/cabinetry/06-finish.jpg", title: "Surface", subtitle: "POWDER COATING", description: "Electrostatic powder coating. 200°C cure. The finish that resists fingerprints, stains, and UV for decades.", stat: "200°C", statLabel: "CURE TEMPERATURE", in: 0.52, peak: 0.64, out: 0.72 },
+  { id: "assemble", image: "/images/artisan-hands-v2.jpg", title: "Assembly", subtitle: "HAND ASSEMBLY", description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop.", stat: "80K", statLabel: "CYCLE TESTS PER HINGE", in: 0.70, peak: 0.82, out: 0.90 },
+  { id: "install", image: "/images/kitchens/scavolini-delinea-hero.jpg", title: "Installation", subtitle: "YOUR KITCHEN", description: "Our team installs your kitchen like furniture — not construction. Clean. Precise. Done in days, not weeks.", stat: "5-7", statLabel: "DAYS TO INSTALL", in: 0.86, peak: 0.95, out: 1.02 },
 ];
 
 interface Act3Props {
@@ -99,7 +99,7 @@ function StageBackground({ stage, progress }: { stage: Stage; progress: MotionVa
     progress,
     (v) => {
       const localP = Math.min(Math.max((v - stage.in) / (stage.out - stage.in), 0), 1);
-      return 1 + localP * 0.05;
+      return 1 + Math.sin(localP * Math.PI) * 0.03;
     }
   );
 
@@ -161,6 +161,63 @@ function StageMarkerDot({ isActive, isPast }: { isActive: MotionValue<boolean>; 
   );
 }
 
+/* ─── ANIMATED STAT ────────────────────────────────────── */
+
+function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
+  const numericValue = useMemo(() => {
+    const raw = stage.stat;
+    const cleaned = raw.replace(/[±°CK%]/g, "");
+    const num = parseFloat(cleaned);
+    if (isNaN(num)) return null;
+    const hasK = raw.includes("K");
+    return hasK ? num * 1000 : num;
+  }, [stage.stat]);
+
+  const prefix = useMemo(() => {
+    const raw = stage.stat;
+    if (raw.startsWith("±")) return "±";
+    if (raw.startsWith("0.") && !raw.startsWith("0.0")) return "";
+    return "";
+  }, [stage.stat]);
+
+  const suffix = useMemo(() => {
+    const raw = stage.stat;
+    if (raw.endsWith("°C")) return "°C";
+    if (raw.endsWith("°")) return "°";
+    if (raw.endsWith("K")) return "K";
+    return "";
+  }, [stage.stat]);
+
+  const displayValue = useTransform(progress, (v) => {
+    const localP = Math.min(Math.max((v - stage.in) / (stage.peak - stage.in), 0), 1);
+    if (numericValue === null) return stage.stat;
+    const current = Math.round(localP * numericValue);
+    if (suffix === "K") {
+      const display = Math.round(localP * (numericValue / 1000));
+      return `${prefix}${display}K`;
+    }
+    if (stage.stat.includes("/")) {
+      return stage.stat;
+    }
+    if (stage.stat === "5-7") {
+      return `${prefix}${Math.round(localP * 5)}-${Math.round(localP * 7)}`;
+    }
+    if (suffix === "°C") {
+      return `${prefix}${Math.round(localP * numericValue)}°C`;
+    }
+    if (suffix === "°") {
+      return `${prefix}${localP * numericValue}${suffix}`;
+    }
+    return `${prefix}${current}`;
+  });
+
+  return (
+    <span className="font-display text-[clamp(2rem,4vw,3.5rem)] font-[100] text-ember/40 leading-none">
+      <motion.span>{displayValue}</motion.span>
+    </span>
+  );
+}
+
 /* ─── STAGE CONTENT ────────────────────────────────────── */
 
 function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
@@ -200,9 +257,7 @@ function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue
           </p>
         </div>
         <div className="hidden md:block text-right shrink-0">
-          <span className="font-display text-[clamp(2rem,4vw,3.5rem)] font-[100] text-ember/40 leading-none">
-            {stage.stat}
-          </span>
+          <AnimatedStat stage={stage} progress={progress} />
           <span className="block font-body text-[0.5rem] font-[400] tracking-[0.15em] text-smoke/25 mt-2">
             {stage.statLabel}
           </span>

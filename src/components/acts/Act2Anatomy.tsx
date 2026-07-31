@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
@@ -111,9 +111,18 @@ export default function Act2Anatomy({ scrollProgress, actStart, actEnd }: Act2Pr
 
   const handlePartHover = useCallback((id: string | null) => setHovered(id), []);
   const handlePartClick = useCallback((id: string) => { setActive(id); setPanelOpen(true); }, []);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const handleClose = useCallback(() => {
     setPanelOpen(false);
-    setTimeout(() => setActive(null), 500);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setActive(null), 500);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
 
   const activePart = active ? PARTS.find((p) => p.id === active) : null;
@@ -232,15 +241,24 @@ function ExplodedPart({ part, explodeAmount, hovered, active, onHover, onClick }
         y: ty,
         opacity: dimmed ? 0.15 : 1,
       }}
+      tabIndex={0}
+      role="button"
       onMouseEnter={() => onHover(part.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(part.id)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick(part.id);
+        }
+      }}
     >
       <div
         className="absolute inset-0 border transition-all duration-500"
         style={{
           borderColor: isHovered || isActive ? "rgba(196,90,44,0.4)" : "rgba(255,255,255,0.04)",
           backgroundColor: isHovered ? "rgba(196,90,44,0.06)" : "transparent",
+          boxShadow: isHovered ? "0 0 20px rgba(196,90,44,0.15), inset 0 0 20px rgba(196,90,44,0.05)" : "none",
         }}
       />
       <AnimatePresence>

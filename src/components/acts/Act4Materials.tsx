@@ -17,15 +17,16 @@ interface MaterialDef {
   metalness: number;
   envMapIntensity: number;
   position: [number, number, number];
+  size: [number, number, number];
 }
 
 const MATERIALS: MaterialDef[] = [
-  { id: "quartz", label: "QUARTZ", color: "#e8e4de", roughness: 0.15, metalness: 0.0, envMapIntensity: 1.5, position: [-4, 0, 0] },
-  { id: "granite", label: "GRANITE", color: "#3a3530", roughness: 0.7, metalness: 0.0, envMapIntensity: 0.5, position: [-2, 0, 0] },
-  { id: "laminate", label: "LAMINATE", color: "#8a7560", roughness: 0.5, metalness: 0.0, envMapIntensity: 0.8, position: [0, 0, 0] },
-  { id: "acrylic", label: "ACRYLIC", color: "#f5f0eb", roughness: 0.05, metalness: 0.1, envMapIntensity: 2.0, position: [2, 0, 0] },
-  { id: "brass", label: "BRASS", color: "#b87333", roughness: 0.25, metalness: 0.9, envMapIntensity: 1.8, position: [4, 0, 0] },
-  { id: "glass", label: "GLASS", color: "#a8c8d8", roughness: 0.0, metalness: 0.0, envMapIntensity: 2.5, position: [6, 0, 0] },
+  { id: "quartz", label: "QUARTZ", color: "#e8e4de", roughness: 0.15, metalness: 0.0, envMapIntensity: 1.5, position: [-4, 0, 0], size: [1.2, 2.4, 0.8] },
+  { id: "granite", label: "GRANITE", color: "#3a3530", roughness: 0.7, metalness: 0.0, envMapIntensity: 0.5, position: [-2, 0, 0], size: [1.0, 2.0, 0.9] },
+  { id: "laminate", label: "LAMINATE", color: "#8a7560", roughness: 0.5, metalness: 0.0, envMapIntensity: 0.8, position: [0, 0, 0], size: [1.1, 2.2, 0.7] },
+  { id: "acrylic", label: "ACRYLIC", color: "#f5f0eb", roughness: 0.05, metalness: 0.1, envMapIntensity: 2.0, position: [2, 0, 0], size: [0.9, 2.6, 0.6] },
+  { id: "brass", label: "BRASS", color: "#b87333", roughness: 0.25, metalness: 0.9, envMapIntensity: 1.8, position: [4, 0, 0], size: [0.8, 2.8, 0.6] },
+  { id: "glass", label: "GLASS", color: "#a8c8d8", roughness: 0.0, metalness: 0.0, envMapIntensity: 2.5, position: [6, 0, 0], size: [1.3, 2.1, 0.5] },
 ];
 
 /* ─── MONOLITH ──────────────────────────────────────────── */
@@ -44,6 +45,7 @@ function Monolith({ material, index, activeIndex }: {
     const t = state.clock.elapsedTime;
     meshRef.current.rotation.y = Math.sin(t * 0.3 + index * 0.5) * 0.1;
     meshRef.current.rotation.x = Math.cos(t * 0.2 + index * 0.3) * 0.05;
+    meshRef.current.rotation.z = index * 0.15 * 0.1;
     const targetY = isActive ? 0.5 : isNearActive ? 0 : -0.3;
     meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.05;
   });
@@ -52,7 +54,7 @@ function Monolith({ material, index, activeIndex }: {
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
       <group position={material.position}>
         <mesh ref={meshRef} castShadow receiveShadow>
-          <boxGeometry args={[1.2, 2.4, 0.8]} />
+          <boxGeometry args={material.size} />
           <meshStandardMaterial
             color={material.color}
             roughness={material.roughness}
@@ -88,6 +90,45 @@ function Monolith({ material, index, activeIndex }: {
   );
 }
 
+/* ─── PARTICLES ─────────────────────────────────────────── */
+
+function Particles() {
+  const particles = useMemo(() => {
+    return Array.from({ length: 20 }, (_, i) => ({
+      key: i,
+      x: (Math.random() - 0.5) * 16,
+      y: (Math.random() - 0.5) * 8,
+      z: (Math.random() - 0.5) * 10,
+      speed: 0.02 + Math.random() * 0.03,
+      offset: Math.random() * Math.PI * 2,
+    }));
+  }, []);
+
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    const t = state.clock.elapsedTime;
+    groupRef.current.children.forEach((child, i) => {
+      const p = particles[i];
+      if (!p) return;
+      const mesh = child as THREE.Mesh;
+      mesh.position.y = p.y + ((t * p.speed + p.offset) % 10) - 5;
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {particles.map((p) => (
+        <mesh key={p.key} position={[p.x, p.y, p.z]}>
+          <sphereGeometry args={[0.01, 4, 4]} />
+          <meshBasicMaterial color="#e8e4de" transparent opacity={0.15} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 /* ─── SCENE ─────────────────────────────────────────────── */
 
 function Scene({ activeIndex }: { activeIndex: number }) {
@@ -110,6 +151,7 @@ function Scene({ activeIndex }: { activeIndex: number }) {
       {MATERIALS.map((mat, i) => (
         <Monolith key={mat.id} material={mat} index={i} activeIndex={activeIndex} />
       ))}
+      <Particles />
       <Environment preset="studio" />
       <fog attach="fog" args={["#0a0a0a", 8, 25]} />
     </>

@@ -35,6 +35,8 @@ export default function Act7BeforeAfter({ scrollProgress, actStart, actEnd }: Ac
     <motion.div
       className="absolute inset-0 overflow-hidden bg-void"
       style={{ opacity: containerOpacity }}
+      role="img"
+      aria-label="Before and after comparison: scroll to reveal the transformation"
     >
       {/* ── Before image (full) ── */}
       <div className="absolute inset-0">
@@ -71,7 +73,7 @@ export default function Act7BeforeAfter({ scrollProgress, actStart, actEnd }: Ac
         style={{
           left: `${wipeLeft.get()}%`,
           background: "linear-gradient(180deg, transparent 10%, rgba(196,90,44,0.6) 50%, transparent 90%)",
-          boxShadow: "0 0 20px rgba(196,90,44,0.3), 0 0 60px rgba(196,90,44,0.1)",
+          boxShadow: "0 0 30px rgba(196,90,44,0.4), 0 0 80px rgba(196,90,44,0.15), inset 0 0 20px rgba(196,90,44,0.1)",
         }}
       />
 

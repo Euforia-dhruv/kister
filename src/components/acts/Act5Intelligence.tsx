@@ -86,7 +86,7 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
               linear-gradient(rgba(245,240,235,0.3) 1px, transparent 1px),
               linear-gradient(90deg, rgba(245,240,235,0.3) 1px, transparent 1px)
             `,
-            backgroundSize: "60px 60px",
+            backgroundSize: "clamp(40px, 5vw, 60px) clamp(40px, 5vw, 60px)",
           }}
         />
       </div>
@@ -98,18 +98,19 @@ export default function Act5Intelligence({ scrollProgress, actStart, actEnd }: A
           const from = SYSTEMS.find((s) => s.id === selected);
           if (!from) return null;
           return (
-            <motion.line
+            <motion.path
               key={`conn-${system.id}`}
-              x1={`${from.x}%`}
-              y1={`${from.y}%`}
-              x2={`${system.x}%`}
-              y2={`${system.y}%`}
+              d={`M ${from.x}% ${from.y}% L ${system.x}% ${system.y}%`}
               stroke="rgba(196,90,44,0.3)"
               strokeWidth="1"
               strokeDasharray="6 4"
+              fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ pathLength: 1, opacity: [0.3, 0.6, 0.3] }}
+              transition={{
+                pathLength: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                opacity: { duration: 2, repeat: Infinity },
+              }}
             />
           );
         })}

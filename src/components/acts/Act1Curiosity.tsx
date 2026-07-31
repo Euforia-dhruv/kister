@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Image from "next/image";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
-import { easeInOutCubic, vignette } from "@/lib/motion";
+import { easeInOutCubic, stagger, vignette } from "@/lib/motion";
 
 /* ─── ACT 1: CURIOSITY ──────────────────────────────────── */
 /* A stainless steel panel slowly separates, revealing         */
@@ -41,7 +41,7 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
   const progress = useActProgress(scrollProgress, actStart, actEnd);
 
   // Derived values — all MotionValues, no React re-renders
-  const panelOffset = useTransform(progress, (v) => Math.min(v / 0.6, 1));
+  const panelOffset = useTransform(progress, (v) => Math.min(Math.max((v - 0.05) / 0.55, 0), 1));
   const eased = useTransform(panelOffset, (v) => easeInOutCubic(v));
   const materialsOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.3) / 0.4));
   const contentOpacity = useTransform(progress, (v) => Math.max(0, (v - 0.15) / 0.2));
@@ -152,7 +152,7 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
           WHAT LIES BENEATH
         </span>
         <h1 className="font-display text-[clamp(2rem,6vw,5rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen text-center max-w-[600px]">
-          Every kitchen<br />starts with a material.
+          <StaggeredReveal text="Every kitchen starts with a material." progress={progress} />
         </h1>
       </motion.div>
 
@@ -162,6 +162,35 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
         style={{ background: vignette(30, 0.6) }}
       />
     </motion.div>
+  );
+}
+
+/* ─── STAGGERED TEXT REVEAL ────────────────────────────── */
+
+function StaggeredReveal({ text, progress }: { text: string; progress: MotionValue<number> }) {
+  const words = text.split(" ");
+  return (
+    <>
+      {words.map((word, i) => {
+        const wordOpacity = useTransform(progress, (v: number) => {
+          const delay = stagger(i, words.length, 0.12);
+          return Math.min(Math.max((v - (0.15 + delay)) / 0.1, 0), 1);
+        });
+        const wordY = useTransform(progress, (v: number) => {
+          const delay = stagger(i, words.length, 0.12);
+          const t = Math.min(Math.max((v - (0.15 + delay)) / 0.1, 0), 1);
+          return (1 - t) * 12;
+        });
+        return (
+          <span key={i} className="inline-block">
+            <motion.span style={{ opacity: wordOpacity, y: wordY }} className="inline-block">
+              {word}
+            </motion.span>
+            {i === 1 ? <br /> : i < words.length - 1 ? " " : ""}
+          </span>
+        );
+      })}
+    </>
   );
 }
 
@@ -207,6 +236,7 @@ function FloatingMaterialCard({
         height: "clamp(100px, 14vw, 180px)",
         transform,
         opacity: matOpacity,
+        filter: `blur(${Math.min(mat.z * 0.003, 2)}px)`,
         willChange: "transform, opacity",
       }}
     >
