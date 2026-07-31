@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { fade, smoothstep, vignette, IMAGE_FILTERS } from "@/lib/motion";
 
 /* ─── ACT 3: MANUFACTURING ──────────────────────────────── */
 /* Scroll-driven construction documentary.                    */
@@ -83,23 +84,11 @@ const STAGES: Stage[] = [
   },
 ];
 
-function smoothstep(e0: number, e1: number, x: number): number {
-  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
-  return t * t * (3 - 2 * t);
-}
-
-function getStageOpacity(p: number, stage: Stage): number {
-  if (p < stage.in || p > stage.out) return 0;
-  const fadeIn = smoothstep(stage.in, stage.peak, p);
-  const fadeOut = 1 - smoothstep(stage.peak, stage.out, p);
-  return Math.min(fadeIn, fadeOut);
-}
-
 export default function Act3Manufacturing({ progress }: { progress: number }) {
   const currentStage = useMemo(() => {
     return STAGES.reduce((best, stage) => {
-      const op = getStageOpacity(progress, stage);
-      const bestOp = getStageOpacity(progress, best);
+      const op = fade(progress, stage.in, stage.peak, stage.out);
+      const bestOp = fade(progress, best.in, best.peak, best.out);
       return op > bestOp ? stage : best;
     }, STAGES[0]);
   }, [progress]);
@@ -108,7 +97,7 @@ export default function Act3Manufacturing({ progress }: { progress: number }) {
     <div className="absolute inset-0 overflow-hidden bg-void">
       {/* ── Background stages — cross-dissolve ── */}
       {STAGES.map((stage) => {
-        const opacity = getStageOpacity(progress, stage);
+        const opacity = fade(progress, stage.in, stage.peak, stage.out);
         if (opacity <= 0.001) return null;
 
         const localP = Math.min(Math.max((progress - stage.in) / (stage.out - stage.in), 0), 1);
@@ -129,9 +118,7 @@ export default function Act3Manufacturing({ progress }: { progress: number }) {
                 alt={stage.title}
                 fill
                 className="object-cover"
-                style={{
-                  filter: "saturate(0.65) sepia(0.1) contrast(1.08) brightness(0.72)",
-                }}
+                style={{ filter: IMAGE_FILTERS.cinematic }}
                 sizes="100vw"
               />
             </div>
@@ -183,7 +170,7 @@ export default function Act3Manufacturing({ progress }: { progress: number }) {
         }}
       >
         {STAGES.map((stage) => {
-          const opacity = getStageOpacity(progress, stage);
+          const opacity = fade(progress, stage.in, stage.peak, stage.out);
           if (opacity <= 0.01) return null;
 
           const contentProgress = Math.min(
@@ -233,9 +220,7 @@ export default function Act3Manufacturing({ progress }: { progress: number }) {
       {/* ── Vignette ── */}
       <div
         className="absolute inset-0 z-[25] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 25%, rgba(5,5,5,0.5) 100%)",
-        }}
+        style={{ background: vignette(25, 0.5) }}
       />
     </div>
   );

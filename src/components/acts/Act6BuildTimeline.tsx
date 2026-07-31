@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { fade, vignette, IMAGE_FILTERS } from "@/lib/motion";
 
 /* ─── ACT 6: BUILD TIMELINE ─────────────────────────────── */
 /* The kitchen slowly builds itself on scroll.                */
@@ -10,6 +11,7 @@ interface BuildLayer {
   id: string;
   label: string;
   image: string;
+  description: string;
   z: number;
   in: number;
   peak: number;
@@ -17,33 +19,21 @@ interface BuildLayer {
 }
 
 const LAYERS: BuildLayer[] = [
-  { id: "floor", label: "FLOOR", image: "/images/materials/06-natural-finish.jpg", z: 0, in: 0.0, peak: 0.08, out: 0.18 },
-  { id: "framework", label: "FRAMEWORK", image: "/images/cabinetry/01-scavolini-modular.jpg", z: 1, in: 0.12, peak: 0.22, out: 0.32 },
-  { id: "electrical", label: "ELECTRICAL", image: "/images/hardware/04-hero.jpg", z: 2, in: 0.26, peak: 0.36, out: 0.46 },
-  { id: "plumbing", label: "PLUMBING", image: "/images/hardware/sinks-hero.jpg", z: 3, in: 0.40, peak: 0.50, out: 0.60 },
-  { id: "cabinets", label: "CABINETS", image: "/images/cabinetry/02-handleless-design.jpg", z: 4, in: 0.54, peak: 0.64, out: 0.74 },
-  { id: "countertop", label: "COUNTERTOP", image: "/images/materials/01-marble-countertop.jpg", z: 5, in: 0.68, peak: 0.78, out: 0.88 },
-  { id: "accessories", label: "ACCESSORIES", image: "/images/hardware/01-blum-hinge.jpg", z: 6, in: 0.80, peak: 0.88, out: 0.96 },
-  { id: "lighting", label: "LIGHTING", image: "/images/kitchens/scavolini-poetica-hero.jpg", z: 7, in: 0.90, peak: 0.96, out: 1.02 },
+  { id: "floor", label: "FLOOR", image: "/images/materials/06-natural-finish.jpg", description: "Every kitchen starts with the foundation.", z: 0, in: 0.0, peak: 0.08, out: 0.18 },
+  { id: "framework", label: "FRAMEWORK", image: "/images/cabinetry/01-scavolini-modular.jpg", description: "The skeleton that holds everything.", z: 1, in: 0.12, peak: 0.22, out: 0.32 },
+  { id: "electrical", label: "ELECTRICAL", image: "/images/hardware/04-hero.jpg", description: "Power where you need it. Hidden where you don't.", z: 2, in: 0.26, peak: 0.36, out: 0.46 },
+  { id: "plumbing", label: "PLUMBING", image: "/images/hardware/sinks-hero.jpg", description: "Water in. Waste out. Precision matters.", z: 3, in: 0.40, peak: 0.50, out: 0.60 },
+  { id: "cabinets", label: "CABINETS", image: "/images/cabinetry/02-handleless-design.jpg", description: "Scavolini. Italian engineering. Decades of use.", z: 4, in: 0.54, peak: 0.64, out: 0.74 },
+  { id: "countertop", label: "COUNTERTOP", image: "/images/materials/01-marble-countertop.jpg", description: "Dekton. The surface that outlasts everything.", z: 5, in: 0.68, peak: 0.78, out: 0.88 },
+  { id: "accessories", label: "ACCESSORIES", image: "/images/hardware/01-blum-hinge.jpg", description: "Blum hardware. The invisible backbone.", z: 6, in: 0.80, peak: 0.88, out: 0.96 },
+  { id: "lighting", label: "LIGHTING", image: "/images/kitchens/scavolini-poetica-hero.jpg", description: "Light that makes materials sing.", z: 7, in: 0.90, peak: 0.96, out: 1.02 },
 ];
-
-function smoothstep(e0: number, e1: number, x: number): number {
-  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
-  return t * t * (3 - 2 * t);
-}
-
-function getLayerOpacity(p: number, layer: BuildLayer): number {
-  if (p < layer.in || p > layer.out) return 0;
-  const fadeIn = smoothstep(layer.in, layer.peak, p);
-  const fadeOut = 1 - smoothstep(layer.peak, layer.out, p);
-  return Math.min(fadeIn, fadeOut);
-}
 
 export default function Act6BuildTimeline({ progress }: { progress: number }) {
   const activeLayer = useMemo(() => {
     return LAYERS.reduce((best, layer) => {
-      const op = getLayerOpacity(progress, layer);
-      const bestOp = getLayerOpacity(progress, best);
+      const op = fade(progress, layer.in, layer.peak, layer.out);
+      const bestOp = fade(progress, best.in, best.peak, best.out);
       return op > bestOp ? layer : best;
     }, LAYERS[0]);
   }, [progress]);
@@ -58,12 +48,11 @@ export default function Act6BuildTimeline({ progress }: { progress: number }) {
         style={{ perspective: "1200px", perspectiveOrigin: "50% 40%" }}
       >
         {LAYERS.map((layer) => {
-          const opacity = getLayerOpacity(progress, layer);
+          const opacity = fade(progress, layer.in, layer.peak, layer.out);
           if (opacity <= 0.001) return null;
 
           const depth = layer.z * 15;
           const isActive = layer.id === activeLayer.id;
-          const localP = Math.min(Math.max((progress - layer.in) / (layer.out - layer.in), 0), 1);
 
           return (
             <div
@@ -152,23 +141,14 @@ export default function Act6BuildTimeline({ progress }: { progress: number }) {
             : `Layer ${activeLayer.z + 1} of ${LAYERS.length}`}
         </h2>
         <p className="font-body text-[clamp(0.75rem,0.9vw,0.9rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-6">
-          {activeLayer.label === "FLOOR" && "Every kitchen starts with the foundation."}
-          {activeLayer.label === "FRAMEWORK" && "The skeleton that holds everything."}
-          {activeLayer.label === "ELECTRICAL" && "Power where you need it. Hidden where you don't."}
-          {activeLayer.label === "PLUMBING" && "Water in. Waste out. Precision matters."}
-          {activeLayer.label === "CABINETS" && "Scavolini. Italian engineering. Decades of use."}
-          {activeLayer.label === "COUNTERTOP" && "Dekton. The surface that outlasts everything."}
-          {activeLayer.label === "ACCESSORIES" && "Blum hardware. The invisible backbone."}
-          {activeLayer.label === "LIGHTING" && "Light that makes materials sing."}
+          {activeLayer.description}
         </p>
       </div>
 
       {/* Vignette */}
       <div
         className="absolute inset-0 z-[15] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 25%, rgba(5,5,5,0.5) 100%)",
-        }}
+        style={{ background: vignette(25, 0.5) }}
       />
     </div>
   );

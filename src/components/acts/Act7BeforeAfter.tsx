@@ -2,20 +2,18 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { clamp, easeInOutCubic, contentReveal, vignette } from "@/lib/motion";
 
 /* ─── ACT 7: BEFORE / AFTER ─────────────────────────────── */
 /* Scroll transforms the room. Walls repaint.                 */
 /* Cabinets emerge. Lights turn on.                           */
 
 export default function Act7BeforeAfter({ progress }: { progress: number }) {
-  const wipeProgress = useMemo(() => Math.min(Math.max(progress, 0), 1), [progress]);
-  const eased = useMemo(() => {
-    const t = wipeProgress;
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  }, [wipeProgress]);
+  const wipeProgress = useMemo(() => clamp(progress, 0, 1), [progress]);
+  const eased = useMemo(() => easeInOutCubic(wipeProgress), [wipeProgress]);
 
-  const contentOpacity = Math.max(0, (progress - 0.05) / 0.15);
-  const labelOpacity = Math.max(0, Math.min((progress - 0.1) / 0.1, 1) * Math.min((1 - progress) / 0.1, 1));
+  const contentOpacity = contentReveal(progress, 0.05, 0.15);
+  const labelOpacity = contentReveal(progress, 0.1, 0.1) * contentReveal(1 - progress, 0.1, 0.1);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-void">
@@ -109,7 +107,7 @@ export default function Act7BeforeAfter({ progress }: { progress: number }) {
           TRANSFORM
         </span>
         <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-[200] leading-[0.94] tracking-[-0.02em] text-linen mt-3">
-          Drag to reveal<br />the transformation.
+          Scroll to reveal<br />the transformation.
         </h2>
         <p className="font-body text-[clamp(0.75rem,0.9vw,0.9rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-6">
           Scroll to witness the metamorphosis. Every surface replaced.
@@ -120,9 +118,7 @@ export default function Act7BeforeAfter({ progress }: { progress: number }) {
       {/* ── Vignette ── */}
       <div
         className="absolute inset-0 z-[12] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 30%, rgba(5,5,5,0.5) 100%)",
-        }}
+        style={{ background: vignette(30, 0.5) }}
       />
     </div>
   );

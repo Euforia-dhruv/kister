@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { easeInOutCubic, vignette } from "@/lib/motion";
 
 /* ─── ACT 1: CURIOSITY ──────────────────────────────────── */
 /* A stainless steel panel slowly separates, revealing         */
@@ -33,10 +34,7 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
   const materialsOpacity = Math.max(0, (progress - 0.3) / 0.4);
   const contentOpacity = Math.max(0, (progress - 0.15) / 0.2);
 
-  const eased = useMemo(() => {
-    const t = panelOffset;
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  }, [panelOffset]);
+  const eased = useMemo(() => easeInOutCubic(panelOffset), [panelOffset]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-void">
@@ -188,9 +186,7 @@ export default function Act1Curiosity({ progress }: { progress: number }) {
       {/* Vignette */}
       <div
         className="absolute inset-0 z-[25] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 30%, rgba(5,5,5,0.6) 100%)",
-        }}
+        style={{ background: vignette(30, 0.6) }}
       />
     </div>
   );

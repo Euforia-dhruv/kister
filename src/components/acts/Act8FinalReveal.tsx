@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { fade, vignette, IMAGE_FILTERS, clamp, contentReveal } from "@/lib/motion";
 
 /* ─── ACT 8: FINAL REVEAL ───────────────────────────────── */
 /* Walk through kitchens. Camera moves. Everything alive.     */
@@ -29,38 +30,31 @@ const SCENES: KitchenScene[] = [
   { id: "kitchen", image: "/images/kitchens/scavolini-poetica-island.jpg", label: "KITCHEN", depth: 5, scale: 1.0, x: 50, y: 50, in: 0.88, peak: 0.95, out: 1.02 },
 ];
 
-function smoothstep(e0: number, e1: number, x: number): number {
-  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
-  return t * t * (3 - 2 * t);
-}
-
-function getSceneOpacity(p: number, scene: KitchenScene): number {
-  if (p < scene.in || p > scene.out) return 0;
-  const fadeIn = smoothstep(scene.in, scene.peak, p);
-  const fadeOut = 1 - smoothstep(scene.peak, scene.out, p);
-  return Math.min(fadeIn, fadeOut);
-}
+const PARTICLES = Array.from({ length: 8 }, (_, i) => ({
+  x: 10 + i * 12,
+  phase: i * 0.5,
+}));
 
 export default function Act8FinalReveal({ progress }: { progress: number }) {
   const currentScene = useMemo(() => {
     return SCENES.reduce((best, scene) => {
-      const op = getSceneOpacity(progress, scene);
-      const bestOp = getSceneOpacity(progress, best);
+      const op = fade(progress, scene.in, scene.peak, scene.out);
+      const bestOp = fade(progress, best.in, best.peak, best.out);
       return op > bestOp ? scene : best;
     }, SCENES[0]);
   }, [progress]);
 
-  const contentOpacity = Math.max(0, (progress - 0.05) / 0.15);
+  const contentOpacity = contentReveal(progress, 0.05, 0.15);
   const isComplete = progress > 0.95;
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-void">
       {/* ── Parallax kitchen scenes ── */}
       {SCENES.map((scene) => {
-        const opacity = getSceneOpacity(progress, scene);
+        const opacity = fade(progress, scene.in, scene.peak, scene.out);
         if (opacity <= 0.001) return null;
 
-        const localP = Math.min(Math.max((progress - scene.in) / (scene.out - scene.in), 0), 1);
+        const localP = clamp((progress - scene.in) / (scene.out - scene.in), 0, 1);
         const depthZ = scene.depth * 20;
         const parallaxX = (scene.x - 50) * localP * 5;
         const parallaxY = (scene.y - 50) * localP * 3;
@@ -112,17 +106,16 @@ export default function Act8FinalReveal({ progress }: { progress: number }) {
               }}
             />
 
-            {/* Floating particles */}
-            {Array.from({ length: 8 }, (_, i) => {
-              const x = 10 + (i * 12);
-              const y = 20 + Math.sin(progress * Math.PI * 3 + i) * 15;
-              const particleOpacity = Math.sin(progress * Math.PI * 2 + i * 0.5) * 0.3 + 0.1;
+            {/* Floating particles — memoized positions, computed opacity */}
+            {PARTICLES.map((p) => {
+              const y = 20 + Math.sin(progress * Math.PI * 3 + p.x) * 15;
+              const particleOpacity = Math.sin(progress * Math.PI * 2 + p.phase) * 0.3 + 0.1;
               return (
                 <div
-                  key={i}
+                  key={p.x}
                   className="absolute w-[2px] h-[2px] rounded-full bg-ember/40"
                   style={{
-                    left: `${x}%`,
+                    left: `${p.x}%`,
                     top: `${y}%`,
                     opacity: Math.max(0, particleOpacity),
                   }}
@@ -211,9 +204,7 @@ export default function Act8FinalReveal({ progress }: { progress: number }) {
       {/* ── Vignette ── */}
       <div
         className="absolute inset-0 z-[18] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 20%, rgba(5,5,5,0.6) 100%)",
-        }}
+        style={{ background: vignette(20, 0.6) }}
       />
     </div>
   );
