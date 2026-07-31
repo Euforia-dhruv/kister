@@ -240,7 +240,7 @@ function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
           style={{ whiteSpace: "pre-line" }}
         />
       </h2>
-      <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[400px] mt-10">
+      <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[360px] mt-10">
         <MotionText value={useTransform(isComplete, (v) =>
           v ? "No. 1, Nava India Road, Coimbatore — 641028" : "Scroll to move through the space. Every detail, every material, every system — alive and waiting."
         )} />
@@ -262,7 +262,7 @@ function ContentSection({ isComplete }: { isComplete: MotionValue<boolean> }) {
         </Link>
         <Link
           href="/showroom"
-          className="font-body text-sm font-[300] text-smoke/50 hover:text-ember transition-colors duration-700"
+          className="font-body text-[0.65rem] font-[300] tracking-[0.12em] text-smoke/50 hover:text-ember transition-colors duration-700"
         >
           GET DIRECTIONS
         </Link>

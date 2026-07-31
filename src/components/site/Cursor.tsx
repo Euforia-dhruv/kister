@@ -3,6 +3,14 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
+const isTouchDevice =
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 interface CursorState {
   label: string;
   expand: boolean;
@@ -79,13 +87,7 @@ export default function Cursor() {
     };
   }, []);
 
-  // Don't render on touch devices
-  const [isTouch, setIsTouch] = useState(true);
-  useEffect(() => {
-    setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
-  }, []);
-
-  if (isTouch) return null;
+  if (isTouchDevice || prefersReducedMotion) return null;
 
   const size = state.expand ? 64 : 32;
   const dotSize = 6;

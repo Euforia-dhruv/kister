@@ -47,7 +47,7 @@ export default function Footer() {
           <StaggerItem className="md:col-span-5">
             <div className="flex flex-col gap-4">
               <span className="font-display text-sm font-[100] tracking-[0.25em] text-linen/50">KITSER</span>
-              <p className="font-body text-[0.85rem] font-[300] leading-[1.7] text-smoke/50 max-w-xs">
+              <p className="font-body text-[0.85rem] font-[300] leading-[1.75] text-smoke/50 max-w-xs">
                 Premium kitchen curation.<br />
                 Heritage meets innovation.<br />
                 Coimbatore, India.
@@ -93,8 +93,8 @@ export default function Footer() {
               © {new Date().getFullYear()} Kitser Retail Pvt Ltd. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Privacy</Link>
-              <Link href="/terms" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Terms</Link>
+              <Link href="/contact" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Privacy</Link>
+              <Link href="/contact" className="font-body text-[0.55rem] font-[300] text-ash/25 transition-colors duration-600 hover:text-smoke">Terms</Link>
             </div>
           </div>
         </Reveal>

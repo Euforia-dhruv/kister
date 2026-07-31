@@ -76,7 +76,7 @@ export default function Nav() {
           const vh = window.innerHeight;
 
           // On homepage, show nav after ActOrchestrator intro (680vh)
-          const threshold = isHome ? vh * 1.2 : 80;
+          const threshold = isHome ? vh * 0.85 : 80;
           const pastThreshold = y > threshold;
 
           setScrolled(y > 80);

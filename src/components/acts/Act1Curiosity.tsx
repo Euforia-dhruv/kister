@@ -148,7 +148,7 @@ export default function Act1Curiosity({ scrollProgress, actStart, actEnd }: Act1
         className="absolute inset-0 z-[30] flex flex-col items-center justify-center pointer-events-none"
         style={{ opacity: contentOpacity }}
       >
-        <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/50 mb-6">
+        <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60 mb-6">
           WHAT LIES BENEATH
         </span>
         <h1 className="font-display text-[clamp(2rem,6vw,5rem)] font-[100] leading-[0.9] tracking-[-0.03em] text-linen text-center max-w-[600px]">

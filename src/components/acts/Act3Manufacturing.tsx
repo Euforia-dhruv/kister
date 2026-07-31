@@ -252,7 +252,7 @@ function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue
           <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-[200] leading-[0.94] tracking-[-0.02em] text-linen mt-3">
             {stage.title}
           </h2>
-          <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/50 max-w-[420px] mt-6">
+          <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[420px] mt-6">
             {stage.description}
           </p>
         </div>

@@ -8,7 +8,7 @@ import SmoothScroll from "@/components/site/SmoothScroll";
 import Cursor from "@/components/site/Cursor";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kitser-v2.vercel.app"),
+  metadataBase: new URL("https://kister.vercel.app"),
   title: "Kitser — Premium Kitchen Curation | Coimbatore",
   description:
     "Curated kitchen essentials from Scavolini, Bosch, Le Creuset, and more. Heritage meets innovation. Visit our showroom in Coimbatore.",

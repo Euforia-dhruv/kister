@@ -74,7 +74,7 @@ function DetailPanel({ part, onClose }: { part: Part; onClose: () => void }) {
             {part.detail}
           </p>
           <div className="mt-8 pt-6 border-t border-linen/4">
-            <span className="font-body text-[8px] font-[400] tracking-[0.15em] text-smoke/30 uppercase">
+            <span className="font-body text-[8px] font-[400] tracking-[0.2em] text-smoke/30 uppercase">
               Category
             </span>
             <p className="font-body text-[11px] font-[300] text-linen/50 mt-1">
@@ -175,7 +175,7 @@ export default function Act2Anatomy({ scrollProgress, actStart, actEnd }: Act2Pr
         style={{ opacity: labelOpacity }}
       >
         {CATEGORIES.map((cat) => (
-          <span key={cat} className="font-body text-[0.5rem] font-[400] tracking-[0.15em] text-linen/20">
+          <span key={cat} className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-linen/20">
             {cat}
           </span>
         ))}
