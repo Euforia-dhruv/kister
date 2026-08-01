@@ -93,7 +93,7 @@ export default function ProjectsPage() {
                     />
                     <div className="absolute inset-0 img-warm img-vignette" />
                     <div className="absolute top-6 left-6 bg-void/60 backdrop-blur-sm px-4 py-2">
-                      <span className="font-body text-xs font-[400] tracking-wide-custom text-linen">
+                      <span className="editorial-label text-linen">
                         {project.year}
                       </span>
                     </div>

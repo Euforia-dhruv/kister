@@ -120,7 +120,7 @@ export default function AboutPage() {
                   <span className="font-body text-[0.68rem] font-[400] tracking-ultra text-ember/40">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-lg text-linen">{val.title}</h3>
+                  <h3 className="editorial-headline-xs text-linen">{val.title}</h3>
                   <p className="editorial-body">{val.desc}</p>
                 </div>
               </Reveal>
@@ -183,11 +183,11 @@ export default function AboutPage() {
               <Reveal key={item.year} delay={i * 80}>
                 <div className="flex gap-8 relative py-6">
                   <div className="absolute left-8 top-1/2 w-2 h-2 -translate-x-[3.5px] -translate-y-1/2 rounded-full bg-ember/50" />
-                  <span className="font-display text-sm tracking-wide-custom text-ember shrink-0 w-16 pl-12">
+                  <span className="editorial-headline-xs tracking-wide-custom text-ember shrink-0 w-16 pl-12">
                     {item.year}
                   </span>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-base text-linen">{item.title}</h3>
+                    <h3 className="editorial-headline-xs text-linen">{item.title}</h3>
                     <p className="editorial-body">{item.desc}</p>
                   </div>
                 </div>

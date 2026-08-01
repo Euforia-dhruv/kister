@@ -50,7 +50,7 @@ export default function Footer() {
           {/* Brand + description */}
           <StaggerItem className="md:col-span-4">
             <div className="flex flex-col gap-5">
-              <span className="font-display text-base tracking-[0.25em] text-linen/40">KITSER</span>
+              <span className="editorial-headline-xs tracking-[0.25em] text-linen/40">KITSER</span>
               <p className="font-body text-[0.85rem] font-[300] leading-[1.8] text-smoke/40 max-w-xs">
                 Premium kitchen curation from {BRAND.brandPartners}+ world-class brands.
                 Heritage meets innovation in {BRAND.location.city}, India.

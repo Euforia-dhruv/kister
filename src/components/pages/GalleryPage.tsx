@@ -270,7 +270,7 @@ export default function GalleryPage() {
                   <div className="absolute inset-0 img-warm img-vignette" />
                   <div className="absolute bottom-0 left-0 p-6">
                     <span className="editorial-caption">{item.category.toUpperCase()}</span>
-                    <h3 className="font-display text-base text-linen mt-1">
+                    <h3 className="editorial-headline-xs text-linen mt-1">
                       {item.title}
                     </h3>
                   </div>

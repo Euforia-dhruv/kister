@@ -84,7 +84,7 @@ export default function ShowroomPage() {
               <div className="flex flex-col gap-6">
                 <div>
                   <span className="editorial-caption">LOCATION</span>
-                  <h3 className="font-display text-lg text-linen mt-3">
+                  <h3 className="editorial-headline-xs text-linen mt-3">
                     {BRAND.location.address}
                   </h3>
                   <p className="editorial-body mt-2">
@@ -126,7 +126,7 @@ export default function ShowroomPage() {
                 </div>
                 <div>
                   <span className="editorial-caption">CONTACT</span>
-                  <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="block font-display text-lg text-linen mt-3 transition-colors duration-500 hover:text-ember">
+                  <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="block editorial-headline-xs text-linen mt-3 transition-colors duration-500 hover:text-ember">
                     {BRAND.contact.phone}
                   </a>
                   <a href={`mailto:${BRAND.contact.email}`} className="block font-body text-sm font-[300] text-smoke/50 mt-1 transition-colors duration-500 hover:text-linen">
@@ -181,7 +181,7 @@ export default function ShowroomPage() {
               <Reveal key={brand.name} delay={i * 30}>
                 <div className="group bg-void p-8 transition-colors duration-500 hover:bg-ember/[0.03]">
                   <div className="flex items-baseline justify-between">
-                    <span className="font-display text-base text-linen/55 group-hover:text-linen transition-colors duration-500">
+                    <span className="editorial-headline-xs text-linen/55 group-hover:text-linen transition-colors duration-500">
                       {brand.name}
                     </span>
                     <span className="font-body text-[0.68rem] font-[400] tracking-wide-custom text-smoke/35">

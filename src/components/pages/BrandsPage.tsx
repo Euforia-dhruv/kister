@@ -152,7 +152,7 @@ export default function BrandsPage() {
                       <span className="font-body text-[0.68rem] font-[400] tracking-ultra text-ember/40">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="font-display text-xl text-linen/65 group-hover:text-linen transition-colors duration-500">
+                      <h3 className="editorial-headline-sm text-linen/65 group-hover:text-linen transition-colors duration-500">
                         {brand.name}
                       </h3>
                     </div>

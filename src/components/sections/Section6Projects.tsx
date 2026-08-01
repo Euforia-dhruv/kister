@@ -131,7 +131,7 @@ function ProjectCard({
         <span className="editorial-caption block mb-1.5">
           {project.location.toUpperCase()}
         </span>
-        <h3 className="font-display text-[clamp(1.1rem,1.9vw,1.6rem)] font-[400] tracking-[0.02em] text-linen">
+        <h3 className="font-display text-[clamp(1.1rem,1.9vw,1.6rem)] tracking-[0.02em] text-linen">
           {project.title}
         </h3>
       </div>
