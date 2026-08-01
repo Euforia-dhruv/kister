@@ -7,7 +7,6 @@ import Reveal from "@/components/site/Reveal";
 
 /* ─── SECTION 6: PROJECTS ──────────────────────────────────── */
 /* Beautiful masonry gallery. Large images.                     */
-/* Hover reveals project name. Stagger animation.               */
 
 const PROJECTS = [
   {
@@ -56,22 +55,22 @@ const PROJECTS = [
 
 export default function Section6Projects() {
   return (
-    <section className="relative bg-void py-[clamp(80px,12vh,160px)]">
+    <section className="relative bg-void py-[clamp(100px,14vh,180px)]">
       <div className="max-w-[1400px] mx-auto" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
         {/* Header */}
         <Reveal>
-          <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/60 block mb-4">
+          <span className="editorial-caption block mb-4">
             PROJECTS
           </span>
         </Reveal>
         <Reveal delay={100}>
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-[100] tracking-[0.06em] text-linen">
+          <h2 className="editorial-headline">
             Kitchens we&apos;ve<br />brought to life.
           </h2>
         </Reveal>
 
         {/* Masonry grid */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-[clamp(8px,1vw,14px)] auto-rows-[clamp(200px,28vw,340px)]">
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 gap-[clamp(8px,1vw,14px)] auto-rows-[clamp(200px,28vw,340px)]">
           {PROJECTS.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
@@ -129,10 +128,10 @@ function ProjectCard({
 
       {/* Hover content */}
       <div className="absolute inset-0 flex flex-col justify-end p-[clamp(16px,2vw,28px)] opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">
-        <span className="font-body text-[0.42rem] font-[400] tracking-[0.2em] text-ember/60 block mb-1">
+        <span className="editorial-caption block mb-1">
           {project.location.toUpperCase()}
         </span>
-        <h3 className="font-display text-[clamp(1rem,1.8vw,1.5rem)] font-[200] tracking-[0.02em] text-linen">
+        <h3 className="font-display text-[clamp(1rem,1.8vw,1.5rem)] font-[400] tracking-[0.02em] text-linen">
           {project.title}
         </h3>
       </div>

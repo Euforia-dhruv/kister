@@ -6,7 +6,6 @@ import Reveal from "@/components/site/Reveal";
 
 /* ─── SECTION 5: BRANDS MARQUEE ────────────────────────────── */
 /* Infinite marquee. Slow. Elegant.                             */
-/* Black background. White logos. No borders.                    */
 
 const BRAND_LOGOS = [
   { name: "Scavolini", file: "scavolini.png" },
@@ -23,7 +22,6 @@ const BRAND_LOGOS = [
   { name: "Kesseböhmer", file: "kessebohmer.png" },
   { name: "Bergner", file: "bergner.png" },
   { name: "Meyer", file: "meyer.png" },
-  { name: "Mauviel", file: "" },
   { name: "Nachtmann", file: "nachtmann.png" },
   { name: "Dubblin", file: "dubblin.png" },
   { name: "Reginox", file: "reginox.png" },
@@ -32,16 +30,16 @@ const BRAND_LOGOS = [
 
 export default function Section5Brands() {
   return (
-    <section className="relative bg-void py-[clamp(60px,10vh,120px)] overflow-hidden">
+    <section className="relative bg-void py-[clamp(80px,12vh,160px)] overflow-hidden">
       {/* Header */}
-      <div className="max-w-[1400px] mx-auto mb-12" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
+      <div className="max-w-[1400px] mx-auto mb-14" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
         <Reveal>
-          <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/60 block mb-4">
+          <span className="editorial-caption block mb-4">
             BRANDS
           </span>
         </Reveal>
         <Reveal delay={100}>
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-[100] tracking-[0.06em] text-linen">
+          <h2 className="editorial-headline">
             35+ brands.<br />One standard.
           </h2>
         </Reveal>
@@ -68,7 +66,7 @@ export default function Section5Brands() {
           </motion.div>
         </div>
 
-        {/* Row 2 — right to left (reversed subset) */}
+        {/* Row 2 — right to left */}
         <div className="flex overflow-hidden">
           <motion.div
             className="flex items-center gap-[clamp(40px,6vw,80px)] shrink-0"
@@ -90,10 +88,8 @@ export default function Section5Brands() {
 }
 
 function BrandLogo({ brand }: { brand: (typeof BRAND_LOGOS)[number] }) {
-  if (!brand.file) return null;
-
   return (
-    <div className="relative w-[clamp(80px,10vw,140px)] h-[clamp(40px,5vw,60px)] shrink-0 opacity-30 hover:opacity-60 transition-opacity duration-700">
+    <div className="relative w-[clamp(80px,10vw,140px)] h-[clamp(40px,5vw,60px)] shrink-0 opacity-25 hover:opacity-55 transition-opacity duration-700">
       <Image
         src={`/images/brands/${brand.file}`}
         alt={`${brand.name} — Kitser brand partner`}

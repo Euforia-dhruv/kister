@@ -8,7 +8,6 @@ import Reveal from "@/components/site/Reveal";
 
 /* ─── SECTION 3: FEATURED KITCHENS ────────────────────────── */
 /* Premium portfolio. Alternating left/right layout.            */
-/* Huge photography. Small captions. Luxury typography.         */
 
 const KITCHENS = [
   {
@@ -39,37 +38,37 @@ const KITCHENS = [
 
 export default function Section3Kitchens() {
   return (
-    <section className="relative bg-void py-[clamp(80px,12vh,160px)]">
+    <section className="relative bg-void py-[clamp(100px,14vh,180px)]">
       <div className="max-w-[1400px] mx-auto" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
         {/* Header */}
         <Reveal>
-          <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/60 block mb-4">
+          <span className="editorial-caption block mb-4">
             KITCHENS
           </span>
         </Reveal>
         <Reveal delay={100}>
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-[100] tracking-[0.06em] text-linen">
+          <h2 className="editorial-headline">
             Featured collections.
           </h2>
         </Reveal>
       </div>
 
       {/* Kitchens */}
-      <div className="mt-16">
+      <div className="mt-20">
         {KITCHENS.map((kitchen, i) => (
           <KitchenRow key={kitchen.name} kitchen={kitchen} index={i} />
         ))}
       </div>
 
       {/* CTA */}
-      <div className="max-w-[1400px] mx-auto mt-16" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
+      <div className="max-w-[1400px] mx-auto mt-20" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
         <Reveal>
           <Link
             href="/collections"
-            className="group inline-flex items-center gap-3 border border-linen/15 px-8 py-3 font-body text-sm font-[300] tracking-[0.08em] text-linen/60 transition-all duration-500 hover:border-ember/40 hover:text-ember"
+            className="magnetic-btn"
           >
             VIEW ALL KITCHENS
-            <span className="block w-0 group-hover:w-5 h-[1px] bg-current transition-all duration-500" />
+            <span className="btn-arrow">→</span>
           </Link>
         </Reveal>
       </div>
@@ -135,17 +134,17 @@ function KitchenRow({
           }`}
         >
           <Reveal delay={200}>
-            <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-ember/50 block mb-3">
+            <span className="editorial-caption block mb-3">
               {kitchen.style.toUpperCase()}
             </span>
-            <h3 className="font-display text-[clamp(1.8rem,3.5vw,2.8rem)] font-[100] tracking-[0.04em] text-linen">
+            <h3 className="editorial-headline-sm">
               {kitchen.name}
             </h3>
-            <p className="font-body text-[0.55rem] font-[300] tracking-[0.1em] text-smoke/30 mt-2">
+            <p className="font-body text-[0.6rem] font-[300] tracking-wide-custom text-smoke/30 mt-3">
               {kitchen.series} — {kitchen.location}
             </p>
             <div className="h-[1px] w-10 bg-ember/25 mt-6" />
-            <p className="font-body text-[clamp(0.8rem,0.95vw,0.9rem)] font-[300] leading-[1.8] text-smoke/40 mt-6 max-w-[340px]">
+            <p className="editorial-body mt-6 max-w-[340px]">
               {kitchen.description}
             </p>
             <Link
@@ -153,7 +152,7 @@ function KitchenRow({
               className="inline-flex items-center gap-2 mt-8 font-body text-[0.6rem] font-[400] tracking-[0.15em] text-linen/40 transition-colors duration-500 hover:text-ember"
             >
               EXPLORE
-              <span className="w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+              <span className="w-0 hover:w-4 h-[1px] bg-current transition-all duration-500" />
             </Link>
           </Reveal>
         </div>
