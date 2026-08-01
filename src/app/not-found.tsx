@@ -11,10 +11,7 @@ export default function NotFound() {
           <span className="editorial-caption">404</span>
         </Reveal>
         <Reveal delay={100} blur>
-          <h1
-            style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}
-            className="font-display font-[200] tracking-[-0.025em] text-linen mt-6 leading-[0.94]"
-          >
+          <h1 className="editorial-headline mt-6">
             Lost in<br />the kitchen.
           </h1>
         </Reveal>
@@ -32,7 +29,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/contact"
-              className="font-body text-sm font-[300] tracking-wide-custom text-smoke/60 transition-colors duration-700 hover:text-ember"
+              className="font-body text-[0.85rem] font-[300] tracking-wide-custom text-smoke/60 transition-colors duration-500 hover:text-ember"
             >
               BOOK APPOINTMENT
             </Link>
