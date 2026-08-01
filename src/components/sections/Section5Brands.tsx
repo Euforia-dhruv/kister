@@ -1,0 +1,109 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "motion/react";
+import Reveal from "@/components/site/Reveal";
+
+/* ─── SECTION 5: BRANDS MARQUEE ────────────────────────────── */
+/* Infinite marquee. Slow. Elegant.                             */
+/* Black background. White logos. No borders.                    */
+
+const BRAND_LOGOS = [
+  { name: "Scavolini", file: "scavolini.png" },
+  { name: "Le Creuset", file: "le-creuset.png" },
+  { name: "Bosch", file: "bosch.png" },
+  { name: "Miele", file: "miele.png" },
+  { name: "Blum", file: "blum.png" },
+  { name: "BLANCO", file: "blanco.png" },
+  { name: "Franke", file: "franke.png" },
+  { name: "Smeg", file: "smeg.png" },
+  { name: "Siemens", file: "siemens.png" },
+  { name: "Dyson", file: "dyson.png" },
+  { name: "Hettich", file: "hettich.png" },
+  { name: "Kesseböhmer", file: "kessebohmer.png" },
+  { name: "Bergner", file: "bergner.png" },
+  { name: "Meyer", file: "meyer.png" },
+  { name: "Mauviel", file: "" },
+  { name: "Nachtmann", file: "nachtmann.png" },
+  { name: "Dubblin", file: "dubblin.png" },
+  { name: "Reginox", file: "reginox.png" },
+  { name: "Futura", file: "futura.png" },
+];
+
+export default function Section5Brands() {
+  return (
+    <section className="relative bg-void py-[clamp(60px,10vh,120px)] overflow-hidden">
+      {/* Header */}
+      <div className="max-w-[1400px] mx-auto mb-12" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
+        <Reveal>
+          <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/60 block mb-4">
+            BRANDS
+          </span>
+        </Reveal>
+        <Reveal delay={100}>
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-[100] tracking-[0.06em] text-linen">
+            35+ brands.<br />One standard.
+          </h2>
+        </Reveal>
+      </div>
+
+      {/* Marquee */}
+      <div className="relative">
+        {/* Gradient masks */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10" />
+
+        {/* Row 1 — left to right */}
+        <div className="flex overflow-hidden mb-6">
+          <motion.div
+            className="flex items-center gap-[clamp(40px,6vw,80px)] shrink-0"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              x: { repeat: Infinity, repeatType: "loop", duration: 40, ease: "linear" },
+            }}
+          >
+            {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, i) => (
+              <BrandLogo key={`${brand.name}-${i}`} brand={brand} />
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Row 2 — right to left (reversed subset) */}
+        <div className="flex overflow-hidden">
+          <motion.div
+            className="flex items-center gap-[clamp(40px,6vw,80px)] shrink-0"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{
+              x: { repeat: Infinity, repeatType: "loop", duration: 45, ease: "linear" },
+            }}
+          >
+            {[...BRAND_LOGOS.slice().reverse(), ...BRAND_LOGOS.slice().reverse()].map(
+              (brand, i) => (
+                <BrandLogo key={`rev-${brand.name}-${i}`} brand={brand} />
+              )
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BrandLogo({ brand }: { brand: (typeof BRAND_LOGOS)[number] }) {
+  if (!brand.file) return null;
+
+  return (
+    <div className="relative w-[clamp(80px,10vw,140px)] h-[clamp(40px,5vw,60px)] shrink-0 opacity-30 hover:opacity-60 transition-opacity duration-700">
+      <Image
+        src={`/images/brands/${brand.file}`}
+        alt={`${brand.name} — Kitser brand partner`}
+        fill
+        className="object-contain"
+        style={{
+          filter: "brightness(0) invert(1)",
+        }}
+        sizes="140px"
+      />
+    </div>
+  );
+}

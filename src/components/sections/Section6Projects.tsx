@@ -1,0 +1,144 @@
+"use client";
+
+import Image from "next/image";
+import { motion, useInView } from "motion/react";
+import { useRef } from "react";
+import Reveal from "@/components/site/Reveal";
+
+/* ─── SECTION 6: PROJECTS ──────────────────────────────────── */
+/* Beautiful masonry gallery. Large images.                     */
+/* Hover reveals project name. Stagger animation.               */
+
+const PROJECTS = [
+  {
+    id: 1,
+    title: "The Lakewood Residence",
+    location: "Coimbatore",
+    image: "/images/kitchens/scavolini-poetica-hero.jpg",
+    span: "tall",
+  },
+  {
+    id: 2,
+    title: "The Heritage Kitchen",
+    location: "Bangalore",
+    image: "/images/kitchens/scavolini-delinea-hero.jpg",
+    span: "wide",
+  },
+  {
+    id: 3,
+    title: "The Minimalist Studio",
+    location: "Mumbai",
+    image: "/images/kitchens/03-minimal-white.jpg",
+    span: "normal",
+  },
+  {
+    id: 4,
+    title: "The Chef's Kitchen",
+    location: "Chennai",
+    image: "/images/kitchens/scavolini-carattere-hero.jpg",
+    span: "tall",
+  },
+  {
+    id: 5,
+    title: "The Modern Family",
+    location: "Hyderabad",
+    image: "/images/kitchens/04-modular-hero.jpg",
+    span: "wide",
+  },
+  {
+    id: 6,
+    title: "The Urban Loft",
+    location: "Delhi NCR",
+    image: "/images/kitchens/scavolini-poetica-island.jpg",
+    span: "normal",
+  },
+];
+
+export default function Section6Projects() {
+  return (
+    <section className="relative bg-void py-[clamp(80px,12vh,160px)]">
+      <div className="max-w-[1400px] mx-auto" style={{ padding: "0 clamp(1.5rem, 5vw, 6rem)" }}>
+        {/* Header */}
+        <Reveal>
+          <span className="font-body text-[0.55rem] font-[400] tracking-[0.25em] text-ember/60 block mb-4">
+            PROJECTS
+          </span>
+        </Reveal>
+        <Reveal delay={100}>
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.8rem)] font-[100] tracking-[0.06em] text-linen">
+            Kitchens we&apos;ve<br />brought to life.
+          </h2>
+        </Reveal>
+
+        {/* Masonry grid */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-[clamp(8px,1vw,14px)] auto-rows-[clamp(200px,28vw,340px)]">
+          {PROJECTS.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof PROJECTS)[number];
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const spanClass =
+    project.span === "tall"
+      ? "row-span-2"
+      : project.span === "wide"
+      ? "col-span-2"
+      : "";
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`relative overflow-hidden group cursor-pointer ${spanClass}`}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.1,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+    >
+      <Image
+        src={project.image}
+        alt={`${project.title} — ${project.location}`}
+        fill
+        className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+        style={{
+          filter: "saturate(0.85) contrast(1.05) brightness(0.75)",
+        }}
+        sizes="(max-width: 768px) 50vw, 33vw"
+      />
+
+      {/* Default overlay */}
+      <div className="absolute inset-0 bg-void/15 transition-opacity duration-700 group-hover:opacity-0" />
+
+      {/* Hover overlay */}
+      <div className="absolute inset-0 bg-void/60 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+      {/* Hover content */}
+      <div className="absolute inset-0 flex flex-col justify-end p-[clamp(16px,2vw,28px)] opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">
+        <span className="font-body text-[0.42rem] font-[400] tracking-[0.2em] text-ember/60 block mb-1">
+          {project.location.toUpperCase()}
+        </span>
+        <h3 className="font-display text-[clamp(1rem,1.8vw,1.5rem)] font-[200] tracking-[0.02em] text-linen">
+          {project.title}
+        </h3>
+      </div>
+
+      {/* Corner accent */}
+      <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-linen/0 group-hover:border-linen/15 transition-all duration-700" />
+    </motion.div>
+  );
+}

@@ -1,78 +1,39 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { BRAND } from "@/lib/brand";
 
+/* ─── GLASSMORPHISM NAVBAR ────────────────────────────────── */
+/* Floating. Blur. Rounded. Minimal.                           */
+/* Hides while scrolling down. Returns while scrolling up.      */
+/* Hidden during cinematic intro.                               */
+
 const LINKS = [
-  { href: "/about", label: "Story" },
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
   { href: "/collections", label: "Collections" },
   { href: "/brands", label: "Brands" },
-  { href: "/showroom", label: "Showroom" },
-  { href: "/contact", label: "Inquire" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
-
-function MagneticLink({ href, label, isActive }: { href: string; label: string; isActive: boolean }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const handleMouse = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.12);
-    y.set((e.clientY - centerY) * 0.12);
-  };
-
-  const reset = () => { x.set(0); y.set(0); };
-
-  return (
-    <motion.div style={{ x: springX, y: springY }}>
-      <Link
-        ref={ref}
-        href={href}
-        onMouseMove={handleMouse}
-        onMouseLeave={reset}
-        className="relative px-3 py-1.5 group"
-        data-cursor-magnetic
-      >
-        <span className={`font-body text-[0.6rem] font-[300] tracking-[0.14em] transition-colors duration-500 ${
-          isActive ? "text-ember" : "text-linen/40 group-hover:text-linen/80"
-        }`}>
-          {label.toUpperCase()}
-        </span>
-        {isActive && (
-          <motion.div
-            layoutId="nav-pill-indicator"
-            className="absolute inset-0 rounded-full bg-ember/[0.06] border border-ember/15"
-            transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          />
-        )}
-      </Link>
-    </motion.div>
-  );
-}
 
 export default function Nav() {
   const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  // Reduced motion: show nav immediately on homepage
-  useEffect(() => {
-    if (isHome && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true);
-    }
-  }, [isHome]);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  // Scroll-based show/hide
   useEffect(() => {
     let lastY = 0;
     let ticking = false;
@@ -82,11 +43,9 @@ export default function Nav() {
         requestAnimationFrame(() => {
           const y = window.scrollY;
 
-          // On homepage, show nav only after cinematic experience ends (980vh total)
-          const threshold = isHome ? window.innerHeight * 6.9 : 80;
+          // On homepage, show nav only after hero video ends (300vh)
+          const threshold = isHome ? window.innerHeight * 2.8 : 80;
           const pastThreshold = y > threshold;
-
-          setScrolled(y > 80);
 
           // Show/hide logic
           const scrollingUp = y < lastY;
@@ -111,19 +70,18 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  const closeMenu = useCallback(() => setMenuOpen(false), []);
-
+  // Reduced motion: show nav immediately
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
+    if (isHome && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+    }
+  }, [isHome]);
 
-  // Always show on non-home pages after initial load
   const navVisible = isHome ? visible || menuOpen : true;
 
   return (
     <>
-      {/* ─── GLASS FLOATING PILL ─── */}
+      {/* ─── FLOATING GLASS NAVBAR ─── */}
       <motion.header
         className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
         initial={false}
@@ -135,36 +93,66 @@ export default function Nav() {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
-        <nav className="relative flex items-center gap-1 px-2 py-1.5 rounded-full border border-linen/[0.06]"
+        <nav
+          className="flex items-center gap-0.5 px-2 py-1.5 rounded-full"
           style={{
-            backdropFilter: "blur(20px) saturate(1.3)",
-            WebkitBackdropFilter: "blur(20px) saturate(1.3)",
-            backgroundColor: scrolled ? "rgba(10,10,10,0.65)" : "rgba(10,10,10,0.4)",
-            boxShadow: scrolled
-              ? "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,240,235,0.03)"
-              : "0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(245,240,235,0.02)",
+            backdropFilter: "blur(24px) saturate(1.4)",
+            WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+            backgroundColor: "rgba(10,10,10,0.55)",
+            border: "1px solid rgba(245,240,235,0.06)",
+            boxShadow:
+              "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,240,235,0.03)",
           }}
         >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5 px-3 py-1.5 group" data-cursor-magnetic>
+          {/* Logo — left */}
+          <Link href="/" className="flex items-center px-4 py-1.5 group">
             <span className="font-display text-[0.65rem] font-[100] tracking-[0.2em] text-linen/70 group-hover:text-linen transition-colors duration-500">
               KITSER
             </span>
           </Link>
 
           {/* Divider */}
-          <div className="w-px h-3 bg-linen/[0.06]" />
+          <div className="w-px h-3 bg-linen/[0.06] mx-1" />
 
-          {/* Nav links */}
+          {/* Center links */}
           <div className="hidden items-center md:flex">
             {LINKS.map((link) => (
-              <MagneticLink
+              <Link
                 key={link.href}
                 href={link.href}
-                label={link.label}
-                isActive={pathname === link.href}
-              />
+                className="relative px-3 py-1.5 group"
+              >
+                <span
+                  className={`font-body text-[0.55rem] font-[300] tracking-[0.12em] transition-colors duration-500 ${
+                    pathname === link.href
+                      ? "text-ember"
+                      : "text-linen/35 group-hover:text-linen/70"
+                  }`}
+                >
+                  {link.label.toUpperCase()}
+                </span>
+                {pathname === link.href && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-3 right-3 h-[1px] bg-ember/40"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </Link>
             ))}
+          </div>
+
+          {/* Divider */}
+          <div className="hidden md:block w-px h-3 bg-linen/[0.06] mx-1" />
+
+          {/* CTA — right */}
+          <div className="hidden md:block">
+            <Link
+              href="/contact"
+              className="flex items-center px-4 py-1.5 font-body text-[0.5rem] font-[400] tracking-[0.12em] text-ember/70 hover:text-ember transition-colors duration-500"
+            >
+              BOOK CONSULTATION
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
@@ -173,7 +161,6 @@ export default function Nav() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            data-cursor-magnetic
           >
             <motion.span
               className="absolute block h-[1px] w-4 bg-linen/60"
@@ -229,9 +216,11 @@ export default function Nav() {
                       whileHover={{ width: 16 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     />
-                    <span className={`font-display text-2xl font-[200] tracking-[0.06em] transition-colors duration-500 ${
-                      pathname === link.href ? "text-ember" : "text-linen/40 group-hover:text-linen"
-                    }`}>
+                    <span
+                      className={`font-display text-2xl font-[200] tracking-[0.06em] transition-colors duration-500 ${
+                        pathname === link.href ? "text-ember" : "text-linen/40 group-hover:text-linen"
+                      }`}
+                    >
                       {link.label}
                     </span>
                   </Link>
@@ -245,9 +234,12 @@ export default function Nav() {
                 transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-4"
               >
-                <Link href="/contact" onClick={closeMenu} className="magnetic-btn" data-cursor="BOOK">
+                <Link
+                  href="/contact"
+                  onClick={closeMenu}
+                  className="inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-[0.08em] text-ember transition-all duration-500 hover:bg-ember hover:text-void"
+                >
                   BOOK CONSULTATION
-                  <span className="btn-arrow h-[1px] bg-current" />
                 </Link>
               </motion.div>
             </div>
