@@ -19,8 +19,8 @@ export default function Home() {
         <HeroCanvas />
       </Suspense>
 
-      {/* ─── ACT-ORCHESTRATED CINEMATIC EXPERIENCE (680vh) ─── */}
-      <Suspense fallback={<CanvasLoader height="680vh" />}>
+      {/* ─── 3 ACTS — CRAFT, MATERIAL, HOME (400vh) ─── */}
+      <Suspense fallback={<CanvasLoader height="400vh" />}>
         <ActOrchestrator />
       </Suspense>
     </main>

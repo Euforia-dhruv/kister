@@ -106,16 +106,3 @@ export const TIMELINE = [
   { year: 2015, title: "Showroom Redesign", description: "The Nava India Road showroom is reimagined as an architectural experience — not a store." },
   { year: 2025, title: "Today", description: "36 years. 35+ brand partnerships. One philosophy: build kitchens that last generations." },
 ] as const;
-
-/* ─── BUILD LAYERS (for Act6) ───────────────────────────── */
-
-export const BUILD_LAYERS = [
-  { id: "floor", label: "FLOOR", description: "Every great kitchen starts with intention.", image: "/images/materials/06-natural-finish.jpg" },
-  { id: "framework", label: "FRAMEWORK", description: "Scavolini. Italian engineering since 1961. Decades of use.", image: "/images/cabinetry/01-scavolini-modular.jpg", brand: "Scavolini" },
-  { id: "electrical", label: "ELECTRICAL", description: "Bosch. German precision. Quiet, efficient, built to outlast.", image: "/images/hardware/04-hero.jpg", brand: "Bosch" },
-  { id: "plumbing", label: "PLUMBING", description: "BLANCO. SILGRANIT. 80% granite. The sink that outlasts everything.", image: "/images/hardware/sinks-hero.jpg", brand: "BLANCO" },
-  { id: "cabinets", label: "CABINETS", description: "Scavolini DeLinea. Handleless. Push-to-open. Italian design.", image: "/images/cabinetry/02-handleless-design.jpg", brand: "Scavolini" },
-  { id: "countertop", label: "COUNTERTOP", description: "Dekton. Ultra-compact. Scratch-proof. Stain-proof.", image: "/images/materials/01-marble-countertop.jpg", brand: "Dekton" },
-  { id: "accessories", label: "ACCESSORIES", description: "Blum. The invisible backbone. 80,000 cycles tested.", image: "/images/hardware/01-blum-hinge.jpg", brand: "Blum" },
-  { id: "lighting", label: "LIGHTING", description: "Hafele. LED 3000K. CRI 95+. Light that makes materials sing.", image: "/images/kitchens/scavolini-poetica-hero.jpg", brand: "Hafele" },
-] as const;

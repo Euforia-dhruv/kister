@@ -28,6 +28,7 @@ export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const loadedCountRef = useRef(0);
   const manifestRef = useRef<Manifest | null>(null);
@@ -131,6 +132,7 @@ export default function HeroCanvas() {
       // Set up ScrollTrigger
       const container = containerRef.current;
       const fade = fadeRef.current;
+      const text = textRef.current;
       if (!container || !fade) return;
 
       // Main: pin canvas and map scroll → frame
@@ -150,6 +152,24 @@ export default function HeroCanvas() {
           if (frameIndex !== currentFrameRef.current) {
             currentFrameRef.current = frameIndex;
             drawFrame(frameIndex);
+          }
+
+          // Typography: fade in 0-15%, hold 15-60%, fade out 60-75%
+          if (text) {
+            if (self.progress < 0.15) {
+              const t = self.progress / 0.15;
+              text.style.opacity = String(t);
+              text.style.transform = `translateY(${(1 - t) * 20}px)`;
+            } else if (self.progress < 0.6) {
+              text.style.opacity = "1";
+              text.style.transform = "translateY(0)";
+            } else if (self.progress < 0.75) {
+              const t = 1 - (self.progress - 0.6) / 0.15;
+              text.style.opacity = String(t);
+              text.style.transform = `translateY(${(1 - t) * -10}px)`;
+            } else {
+              text.style.opacity = "0";
+            }
           }
 
           // Fade to black in last 8% of scroll
@@ -208,6 +228,36 @@ export default function HeroCanvas() {
             background: "radial-gradient(ellipse at 50% 40%, rgba(196,90,44,0.03) 0%, transparent 60%)",
           }}
         />
+      </div>
+
+      {/* ── Typography overlay ── */}
+      <div
+        ref={textRef}
+        className="fixed inset-0 z-[9988] flex flex-col items-center justify-center pointer-events-none"
+        style={{ opacity: 0 }}
+      >
+        <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] font-[100] tracking-[0.2em] text-linen/90 text-center">
+          KITSER
+        </h1>
+        <div className="mt-6 text-center">
+          <p className="font-display text-[clamp(1rem,2.5vw,1.8rem)] font-[200] tracking-[0.04em] text-linen/70">
+            Crafted Kitchens.
+          </p>
+          <p className="font-display text-[clamp(1rem,2.5vw,1.8rem)] font-[200] tracking-[0.04em] text-linen/50 mt-1">
+            Designed Around Living.
+          </p>
+        </div>
+        <div className="mt-10 flex flex-col items-center gap-1.5">
+          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
+            Italian precision.
+          </p>
+          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
+            Exceptional materials.
+          </p>
+          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
+            Timeless craftsmanship.
+          </p>
+        </div>
       </div>
 
       {/* Fade-to-black overlay at end */}

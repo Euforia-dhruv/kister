@@ -1,101 +1,78 @@
 "use client";
 
-import { useMemo } from "react";
 import Image from "next/image";
 import { motion, useTransform, type MotionValue } from "motion/react";
 import { useActProgress } from "./ActOrchestrator";
-import { fade, vignette, IMAGE_FILTERS } from "@/lib/motion";
-import { BRAND, TIMELINE } from "@/lib/brand";
+import { vignette, IMAGE_FILTERS } from "@/lib/motion";
 
-/* ─── ACT 3: THE KITSER STANDARD ────────────────────────── */
-/* Heritage → Curation → Material Truth → Craft → Space →     */
-/* Destination. Tells Kitser's 36-year story.                 */
+/* ─── ACT 3: PROJECTS THAT FEEL LIKE HOME ────────────────── */
+/* Masonry project gallery. Immersive hover effects.           */
+/* Smooth scroll-driven reveals. Real Kitser project imagery.  */
 
-interface Stage {
+interface Project {
   id: string;
   image: string;
   title: string;
-  subtitle: string;
+  location: string;
+  style: string;
   description: string;
-  stat: string;
-  statLabel: string;
-  in: number;
-  peak: number;
-  out: number;
+  span: "tall" | "wide" | "normal";
 }
 
-const STAGES: Stage[] = [
+const PROJECTS: Project[] = [
   {
-    id: "heritage",
-    image: "/images/lifestyle/hero.jpg",
-    title: "Heritage",
-    subtitle: "SINCE 1989",
-    description: `${BRAND.yearsOfExperience} years. One showroom in Coimbatore. One conviction: that premium kitchen essentials should be accessible to anyone willing to invest in quality.`,
-    stat: `${BRAND.yearsOfExperience}`,
-    statLabel: "YEARS OF CURATION",
-    in: 0.0,
-    peak: 0.1,
-    out: 0.20,
+    id: "poetica",
+    image: "/images/kitchens/scavolini-poetica-hero.jpg",
+    title: "Poetica",
+    location: "Coimbatore",
+    style: "Contemporary Italian",
+    description: "Scavolini Poetica — where tradition meets contemporary. Handleless facades. Warm walnut internals.",
+    span: "tall",
   },
   {
-    id: "curation",
-    image: "/images/kitchens/04-modular-hero.jpg",
-    title: "Curation",
-    subtitle: "ONE STANDARD",
-    description: `${BRAND.brandPartners}+ brand partnerships. ${BRAND.countriesSourced} countries. We don't chase brand names. We chase quality. If a product doesn't meet our standard, it doesn't enter our showroom.`,
-    stat: `${BRAND.brandPartners}+`,
-    statLabel: "BRAND PARTNERS",
-    in: 0.16,
-    peak: 0.28,
-    out: 0.38,
+    id: "delinea",
+    image: "/images/kitchens/scavolini-delinea-hero.jpg",
+    title: "DeLinea",
+    location: "Bangalore",
+    style: "Minimalist Handleless",
+    description: "Scavolini DeLinea — the art of disappearance. Push-to-open. Seamless surfaces. Pure form.",
+    span: "wide",
   },
   {
-    id: "material-truth",
-    image: "/images/cookware/04-flatlay.jpg",
-    title: "Material Truth",
-    subtitle: "THE SIX PILLARS",
-    description: "Cast iron remembers your meals. Copper ages with grace. Stone holds the temperature of your intention. We choose materials that deserve the name.",
-    stat: "6",
-    statLabel: "PILLARS OF CRAFT",
-    in: 0.34,
-    peak: 0.46,
-    out: 0.56,
-  },
-  {
-    id: "hands",
-    image: "/images/textures/artisan.jpg",
-    title: "The Hands",
-    subtitle: "CRAFTSMANSHIP",
-    description: "Every joint checked by hand. Every hinge tested 80,000 times. Every drawer opened and closed before it leaves the workshop. The hands behind the kitchen.",
-    stat: "80K",
-    statLabel: "CYCLE TESTS PER HINGE",
-    in: 0.52,
-    peak: 0.64,
-    out: 0.74,
-  },
-  {
-    id: "space",
-    image: "/images/showroom/miele-experience-center.jpg",
-    title: "The Space",
-    subtitle: "SHOWROOM",
-    description: "3,000 sq ft. Twelve brands. One room designed to help you feel the difference before you commit. Cast iron in your hand. The weight of a Blum drawer. The warmth of walnut.",
-    stat: "3,000",
-    statLabel: "SQ FT OF EXPERIENCE",
-    in: 0.70,
-    peak: 0.82,
-    out: 0.92,
-  },
-  {
-    id: "destination",
+    id: "carattere",
     image: "/images/kitchens/scavolini-carattere-hero.jpg",
-    title: "Your Kitchen",
-    subtitle: BRAND.location.city.toUpperCase(),
-    description: `${BRAND.location.full}. Walk in, call ${BRAND.contact.phone}, or begin online. However you reach us, we're ready to listen.`,
-    stat: "1989",
-    statLabel: "YEAR FOUNDED",
-    in: 0.88,
-    peak: 0.95,
-    out: 1.02,
+    title: "Carattere",
+    location: "Chennai",
+    style: "Bold Italian",
+    description: "Scavolini Carattere — bold lines, confident materials. A kitchen with personality.",
+    span: "normal",
+  },
+  {
+    id: "modular",
+    image: "/images/kitchens/04-modular-hero.jpg",
+    title: "Modular Kitchen",
+    location: "Hyderabad",
+    style: "Premium Modular",
+    description: "Full modular system. Blum hardware throughout. Dekton countertops. Bosch appliances.",
+    span: "tall",
+  },
+  {
+    id: "freestanding",
+    image: "/images/kitchens/06-freestanding-hero.jpg",
+    title: "Freestanding",
+    location: "Mumbai",
+    style: "Industrial Heritage",
+    description: "Freestanding units. Professional-grade surfaces. The kitchen as a room, not a corridor.",
+    span: "wide",
+  },
+  {
+    id: "flexspace",
+    image: "/images/kitchens/03-flexspace-hero.jpg",
+    title: "Flexspace",
+    location: "Delhi NCR",
+    style: "Adaptive Living",
+    description: "Kitchen, dining, living — one continuous space. Designed for how you actually live.",
+    span: "normal",
   },
 ];
 
@@ -114,194 +91,145 @@ export default function Act3Manufacturing({ scrollProgress, actStart, actEnd }: 
       className="absolute inset-0 overflow-hidden bg-void"
       style={{ opacity: containerOpacity }}
     >
-      {/* ── Background stages — cross-dissolve ── */}
-      {STAGES.map((stage) => (
-        <StageBackground key={stage.id} stage={stage} progress={progress} />
-      ))}
+      {/* ── Section header ── */}
+      <SectionHeader progress={progress} />
 
-      {/* ── Progress line with markers ── */}
-      <div className="absolute top-1/2 left-0 right-0 z-[15] -translate-y-1/2">
-        <div className="relative mx-auto max-w-[1200px] px-8">
-          <div className="relative h-[1px] bg-linen/8">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-ember/40"
-              style={{ width: useTransform(progress, (v) => `${v * 100}%`) }}
-            />
-            {STAGES.map((stage) => (
-              <StageMarker key={stage.id} stage={stage} progress={progress} />
-            ))}
-          </div>
+      {/* ── Project grid ── */}
+      <div className="absolute inset-0 z-[15] flex items-center justify-center">
+        <div className="w-full max-w-[1400px] h-[70vh] px-[clamp(24px,4vw,60px)] grid grid-cols-3 grid-rows-2 gap-[clamp(8px,1.2vw,16px)]">
+          {PROJECTS.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} progress={progress} />
+          ))}
         </div>
       </div>
 
-      {/* ── Stage content ── */}
-      <div className="absolute inset-0 z-[20] flex flex-col justify-end">
-        {STAGES.map((stage) => (
-          <StageContent key={stage.id} stage={stage} progress={progress} />
-        ))}
-      </div>
-
-      {/* ── Timeline milestones (bottom right) ── */}
+      {/* ── CTA at end ── */}
       <motion.div
-        className="absolute bottom-[12%] right-[5%] z-[20] hidden lg:flex flex-col items-end gap-1"
-        style={{ opacity: useTransform(progress, [0, 0.05, 0.95, 1], [0, 0.5, 0.5, 0]) }}
+        className="absolute bottom-[clamp(24px,4vh,60px)] left-0 right-0 z-[30] flex flex-col items-center pointer-events-none"
+        style={{ opacity: useTransform(progress, [0.85, 0.95, 1, 1], [0, 0.5, 0.5, 0]) }}
       >
-        {TIMELINE.slice(0, 4).map((t, i) => (
-          <span key={t.year} className="font-body text-[0.45rem] font-[300] tracking-[0.15em] text-smoke/20">
-            {t.year} — {t.title}
-          </span>
-        ))}
+        <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-ember/40 mb-2">
+          CONTINUE
+        </span>
+        <div className="w-[1px] h-8 bg-ember/20" />
       </motion.div>
 
       {/* ── Vignette ── */}
       <div
-        className="absolute inset-0 z-[25] pointer-events-none"
+        className="absolute inset-0 z-[35] pointer-events-none"
         style={{ background: vignette(25, 0.5) }}
       />
     </motion.div>
   );
 }
 
-/* ─── STAGE BACKGROUND ─────────────────────────────────── */
+/* ─── SECTION HEADER ────────────────────────────────────── */
 
-function StageBackground({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
-  const scale = useTransform(progress, (v) => {
-    const localP = Math.min(Math.max((v - stage.in) / (stage.out - stage.in), 0), 1);
-    return 1 + Math.sin(localP * Math.PI) * 0.03;
-  });
+function SectionHeader({ progress }: { progress: MotionValue<number> }) {
+  const opacity = useTransform(progress, [0, 0.05, 0.15, 0.22], [0, 1, 1, 0]);
+  const y = useTransform(progress, [0, 0.05], [25, 0]);
+  const lineWidth = useTransform(progress, [0.02, 0.08], [0, 1]);
 
   return (
-    <motion.div className="absolute inset-0" style={{ opacity }}>
-      <motion.div className="absolute inset-[-5%] will-change-transform" style={{ scale }}>
-        <Image
-          src={stage.image}
-          alt={stage.title}
-          fill
-          className="object-cover"
-          style={{ filter: IMAGE_FILTERS.cinematic }}
-          sizes="100vw"
-        />
-      </motion.div>
-      <div className="absolute inset-0 bg-void/50" />
+    <motion.div
+      className="absolute top-0 left-0 right-0 z-[25] flex flex-col items-center pt-[clamp(50px,10vh,120px)] pointer-events-none"
+      style={{ opacity, y }}
+    >
+      <span className="font-body text-[0.5rem] font-[400] tracking-[0.25em] text-ember/50 mb-4">
+        03
+      </span>
+      <h2 className="font-display text-[clamp(1.8rem,4.5vw,3.8rem)] font-[100] tracking-[0.12em] text-linen/90 text-center">
+        PROJECTS THAT<br />FEEL LIKE HOME
+      </h2>
+      <motion.div
+        className="mx-auto mt-4 h-[1px] bg-ember/30"
+        style={{ width: useTransform(lineWidth, (v) => `${v * 80}px`) }}
+      />
+      <p className="font-body text-[clamp(0.7rem,1vw,0.9rem)] font-[300] tracking-[0.04em] text-smoke/35 mt-5 text-center max-w-[400px]">
+        Every kitchen. Every home. Every story.
+      </p>
     </motion.div>
   );
 }
 
-/* ─── STAGE MARKER ─────────────────────────────────────── */
+/* ─── PROJECT CARD ──────────────────────────────────────── */
 
-function StageMarker({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const isPast = useTransform(progress, (v) => v > stage.peak);
-  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
-  const isActive = useTransform(opacity, (v) => v > 0.01);
+function ProjectCard({
+  project,
+  index,
+  progress,
+}: {
+  project: Project;
+  index: number;
+  progress: MotionValue<number>;
+}) {
+  const cardStart = 0.14 + index * 0.12;
+  const cardPeak = cardStart + 0.08;
+  const cardEnd = cardStart + 0.18;
 
-  return (
-    <div
-      className="absolute top-1/2 -translate-y-1/2"
-      style={{ left: `${stage.peak * 100}%` }}
-    >
-      <StageMarkerDot isActive={isActive} isPast={isPast} />
-    </div>
-  );
-}
+  const opacity = useTransform(progress, (v) => {
+    if (v < cardStart || v > cardEnd) return 0;
+    if (v < cardPeak) return (v - cardStart) / (cardPeak - cardStart);
+    return 1 - (v - cardPeak) / (cardEnd - cardPeak);
+  });
 
-function StageMarkerDot({ isActive, isPast }: { isActive: MotionValue<boolean>; isPast: MotionValue<boolean> }) {
-  const backgroundColor = useTransform(isActive, (active): string =>
-    active ? "#c45a2c" : "rgba(245,240,235,0.08)"
-  );
-  const scale = useTransform(isActive, (v): number => (v ? 1.5 : 1));
+  const scale = useTransform(progress, (v) => {
+    const localP = Math.min(Math.max((v - cardStart) / (cardEnd - cardStart), 0), 1);
+    return 0.92 + Math.sin(localP * Math.PI) * 0.08;
+  });
+
+  const spanClass =
+    project.span === "tall"
+      ? "row-span-2"
+      : project.span === "wide"
+      ? "col-span-2"
+      : "";
 
   return (
     <motion.div
-      className="w-2 h-2 rounded-full transition-all duration-500"
-      style={{ backgroundColor, scale }}
-    />
-  );
-}
-
-/* ─── ANIMATED STAT ────────────────────────────────────── */
-
-function AnimatedStat({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const numericValue = useMemo(() => {
-    const raw = stage.stat;
-    const cleaned = raw.replace(/[±°CK%+]/g, "");
-    const num = parseFloat(cleaned);
-    if (isNaN(num)) return null;
-    const hasK = raw.includes("K");
-    return hasK ? num * 1000 : num;
-  }, [stage.stat]);
-
-  const prefix = useMemo(() => {
-    const raw = stage.stat;
-    if (raw.startsWith("±")) return "±";
-    return "";
-  }, [stage.stat]);
-
-  const suffix = useMemo(() => {
-    const raw = stage.stat;
-    if (raw.endsWith("+")) return "+";
-    if (raw.endsWith("K")) return "K";
-    return "";
-  }, [stage.stat]);
-
-  const displayValue = useTransform(progress, (v) => {
-    const localP = Math.min(Math.max((v - stage.in) / (stage.peak - stage.in), 0), 1);
-    if (numericValue === null) return stage.stat;
-    const current = Math.round(localP * numericValue);
-    if (suffix === "K") {
-      const display = Math.round(localP * (numericValue / 1000));
-      return `${prefix}${display}K`;
-    }
-    if (suffix === "+") {
-      return `${prefix}${current}+`;
-    }
-    if (stage.stat.includes("/")) return stage.stat;
-    return `${prefix}${current}`;
-  });
-
-  return (
-    <span className="font-display text-[clamp(2rem,4vw,3.5rem)] font-[100] text-ember/40 leading-none">
-      <motion.span>{displayValue}</motion.span>
-    </span>
-  );
-}
-
-/* ─── STAGE CONTENT ────────────────────────────────────── */
-
-function StageContent({ stage, progress }: { stage: Stage; progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, (v) => fade(v, stage.in, stage.peak, stage.out));
-  const slideY = useTransform(progress, (v) => {
-    const contentProgress = Math.min(Math.max((v - stage.peak + 0.05) / 0.1, 0), 1);
-    return (1 - contentProgress) * 20;
-  });
-  const visible = useTransform(opacity, (v) => v > 0.01);
-
-  return (
-    <motion.div
-      className="absolute bottom-0 left-0"
-      style={{
-        padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 72px)",
-        opacity,
-        y: slideY,
-        display: useTransform(visible, (v): string => (v ? "block" : "none")),
-      }}
+      className={`relative overflow-hidden group cursor-pointer ${spanClass}`}
+      style={{ opacity, scale }}
     >
-      <div className="flex items-end gap-12">
-        <div>
-          <span className="font-body text-[0.55rem] font-[400] tracking-[0.2em] text-ember/60">
-            {stage.subtitle}
-          </span>
-          <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-[200] leading-[0.94] tracking-[-0.02em] text-linen mt-3">
-            {stage.title}
-          </h2>
-          <p className="font-body text-[clamp(0.8rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/40 max-w-[420px] mt-6">
-            {stage.description}
-          </p>
-        </div>
-        <div className="hidden md:block text-right shrink-0">
-          <AnimatedStat stage={stage} progress={progress} />
-          <span className="block font-body text-[0.5rem] font-[400] tracking-[0.15em] text-smoke/25 mt-2">
-            {stage.statLabel}
+      <Image
+        src={project.image}
+        alt={`${project.title} — ${project.location}`}
+        fill
+        className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+        style={{ filter: IMAGE_FILTERS.cinematic }}
+        sizes="(max-width: 768px) 100vw, 33vw"
+      />
+
+      {/* Default overlay */}
+      <div className="absolute inset-0 bg-void/20 transition-opacity duration-700 group-hover:opacity-0" />
+
+      {/* Hover overlay */}
+      <div className="absolute inset-0 bg-void/60 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+      {/* Default: bottom info */}
+      <div className="absolute bottom-0 left-0 right-0 p-[clamp(12px,2vw,24px)] transition-opacity duration-700 group-hover:opacity-0">
+        <span className="font-body text-[0.42rem] font-[400] tracking-[0.2em] text-linen/40 block">
+          {project.location.toUpperCase()}
+        </span>
+        <h3 className="font-display text-[clamp(0.9rem,1.8vw,1.4rem)] font-[200] tracking-[0.02em] text-linen mt-1">
+          {project.title}
+        </h3>
+      </div>
+
+      {/* Hover: full details */}
+      <div className="absolute inset-0 flex flex-col justify-end p-[clamp(16px,2.5vw,32px)] opacity-0 transition-all duration-700 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+        <span className="font-body text-[0.42rem] font-[400] tracking-[0.2em] text-ember/60 block mb-2">
+          {project.style.toUpperCase()}
+        </span>
+        <h3 className="font-display text-[clamp(1.1rem,2vw,1.6rem)] font-[200] tracking-[0.02em] text-linen">
+          {project.title}
+        </h3>
+        <p className="font-body text-[clamp(0.7rem,0.85vw,0.85rem)] font-[300] leading-[1.7] text-smoke/50 mt-2 max-w-[320px]">
+          {project.description}
+        </p>
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-[1px] w-6 bg-ember/40" />
+          <span className="font-body text-[0.42rem] font-[400] tracking-[0.15em] text-linen/30">
+            {project.location.toUpperCase()}
           </span>
         </div>
       </div>

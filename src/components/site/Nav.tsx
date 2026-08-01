@@ -83,7 +83,7 @@ export default function Nav() {
           const y = window.scrollY;
 
           // On homepage, show nav only after cinematic experience ends (980vh total)
-          const threshold = isHome ? window.innerHeight * 9.5 : 80;
+          const threshold = isHome ? window.innerHeight * 6.9 : 80;
           const pastThreshold = y > threshold;
 
           setScrolled(y > 80);

@@ -6,35 +6,20 @@ import { motion, useScroll, useTransform, type MotionValue } from "motion/react"
 import Act1Curiosity from "./Act1Curiosity";
 import Act2Anatomy from "./Act2Anatomy";
 import Act3Manufacturing from "./Act3Manufacturing";
-import Act4Materials from "./Act4Materials";
-import Act5Intelligence from "./Act5Intelligence";
-import Act6BuildTimeline from "./Act6BuildTimeline";
-import Act7BeforeAfter from "./Act7BeforeAfter";
-import Act8FinalReveal from "./Act8FinalReveal";
 import { MotionText } from "@/components/site/MotionText";
 
-/* ─── ACT TIMING ───────────────────────────────────────── */
+/* ─── ACT TIMING — 3 ACTS ─────────────────────────────── */
 
 export const ACTS = [
-  { id: "curiosity", start: 0, end: 0.125 },
-  { id: "anatomy", start: 0.125, end: 0.3125 },
-  { id: "manufacturing", start: 0.3125, end: 0.4375 },
-  { id: "materials", start: 0.4375, end: 0.5625 },
-  { id: "intelligence", start: 0.5625, end: 0.6875 },
-  { id: "build", start: 0.6875, end: 0.8125 },
-  { id: "beforeafter", start: 0.8125, end: 0.90625 },
-  { id: "reveal", start: 0.90625, end: 1.0 },
+  { id: "curiosity", start: 0, end: 0.35 },
+  { id: "anatomy", start: 0.35, end: 0.68 },
+  { id: "manufacturing", start: 0.68, end: 1.0 },
 ];
 
 const LABELS: Record<string, string> = {
-  curiosity: "I · CURIOSITY",
-  anatomy: "II · ANATOMY",
-  manufacturing: "III · MANUFACTURING",
-  materials: "IV · MATERIALS",
-  intelligence: "V · INTELLIGENCE",
-  build: "VI · BUILD",
-  beforeafter: "VII · TRANSFORM",
-  reveal: "VIII · REVEAL",
+  curiosity: "I · CRAFT",
+  anatomy: "II · MATERIAL",
+  manufacturing: "III · HOME",
 };
 
 /* ─── HOOK: USE ACT PROGRESS ───────────────────────────── */
@@ -88,11 +73,6 @@ const ACT_COMPONENTS = {
   curiosity: Act1Curiosity,
   anatomy: Act2Anatomy,
   manufacturing: Act3Manufacturing,
-  materials: Act4Materials,
-  intelligence: Act5Intelligence,
-  build: Act6BuildTimeline,
-  beforeafter: Act7BeforeAfter,
-  reveal: Act8FinalReveal,
 };
 
 export default function ActOrchestrator() {
@@ -104,7 +84,7 @@ export default function ActOrchestrator() {
   });
 
   return (
-    <div ref={containerRef} className="relative z-10" style={{ height: "680vh" }}>
+    <div ref={containerRef} className="relative z-10" style={{ height: "400vh" }}>
       <div className="sticky top-0 h-screen overflow-hidden bg-void">
         {ACTS.map((act) => {
           const ActComponent = ACT_COMPONENTS[act.id as keyof typeof ACT_COMPONENTS];
