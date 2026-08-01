@@ -236,28 +236,59 @@ export default function HeroCanvas() {
         className="fixed inset-0 z-[9988] flex flex-col items-center justify-center pointer-events-none"
         style={{ opacity: 0 }}
       >
-        <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] font-[100] tracking-[0.2em] text-linen/90 text-center">
+        {/* Level 1: Brand label */}
+        <span
+          className="text-linen/40"
+          style={{
+            fontFamily: '"DM Serif Display", Georgia, serif',
+            fontSize: "clamp(0.75rem, 1.1vw, 1rem)",
+            fontWeight: 400,
+            letterSpacing: "0.3em",
+            lineHeight: 1,
+            textTransform: "uppercase",
+          }}
+        >
           KITSER
+        </span>
+
+        {/* Spacer: label → headline */}
+        <div style={{ height: "clamp(28px, 4vw, 48px)" }} />
+
+        {/* Level 2: Main headline */}
+        <h1
+          className="text-center text-linen/90"
+          style={{
+            fontFamily: '"DM Serif Display", Georgia, serif',
+            fontSize: "clamp(2.2rem, 5.5vw, 4.5rem)",
+            fontWeight: 400,
+            letterSpacing: "-0.02em",
+            lineHeight: 1.02,
+            maxWidth: "750px",
+          }}
+        >
+          Crafted Kitchens.<br />Designed Around Living.
         </h1>
-        <div className="mt-6 text-center">
-          <p className="font-display text-[clamp(1rem,2.5vw,1.8rem)] font-[200] tracking-[0.04em] text-linen/70">
-            Crafted Kitchens.
-          </p>
-          <p className="font-display text-[clamp(1rem,2.5vw,1.8rem)] font-[200] tracking-[0.04em] text-linen/50 mt-1">
-            Designed Around Living.
-          </p>
-        </div>
-        <div className="mt-10 flex flex-col items-center gap-1.5">
-          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
-            Italian precision.
-          </p>
-          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
-            Exceptional materials.
-          </p>
-          <p className="font-body text-[clamp(0.55rem,0.9vw,0.75rem)] font-[300] tracking-[0.15em] text-linen/30">
-            Timeless craftsmanship.
-          </p>
-        </div>
+
+        {/* Spacer: headline → supporting copy */}
+        <div style={{ height: "clamp(24px, 3.5vw, 40px)" }} />
+
+        {/* Level 3: Supporting copy */}
+        <p
+          className="text-center text-linen/45"
+          style={{
+            fontFamily: '"Inter", system-ui, sans-serif',
+            fontSize: "clamp(0.78rem, 1vw, 0.95rem)",
+            fontWeight: 300,
+            letterSpacing: "0.08em",
+            lineHeight: 1.85,
+            maxWidth: "520px",
+          }}
+        >
+          Italian precision, exceptional materials,<br />and timeless craftsmanship.
+        </p>
+
+        {/* Spacer: copy → scroll indicator */}
+        <div style={{ height: "clamp(40px, 6vw, 64px)" }} />
       </div>
 
       {/* Fade-to-black overlay at end */}
@@ -271,10 +302,28 @@ export default function HeroCanvas() {
       {isLoading && (
         <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-void">
           <div className="text-center">
-            <h1 className="font-display text-[clamp(2rem,6vw,4rem)] font-[100] tracking-[0.2em] text-linen/80">
+            <h1
+              className="text-linen/80"
+              style={{
+                fontFamily: '"DM Serif Display", Georgia, serif',
+                fontSize: "clamp(1.8rem, 5vw, 3.5rem)",
+                fontWeight: 400,
+                letterSpacing: "0.2em",
+                lineHeight: 1,
+              }}
+            >
               KITSER
             </h1>
-            <span className="font-body text-[0.55rem] font-[300] tracking-[0.3em] text-ember/40 mt-3 block">
+            <span
+              className="text-ember/40 mt-4 block"
+              style={{
+                fontFamily: '"Inter", system-ui, sans-serif',
+                fontSize: "0.65rem",
+                fontWeight: 400,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+              }}
+            >
               ALL ABOUT KITCHENS
             </span>
           </div>
@@ -290,10 +339,27 @@ export default function HeroCanvas() {
               />
             </div>
             <div className="flex justify-between mt-4">
-              <span className="font-body text-[0.42rem] font-[300] tracking-[0.18em] text-linen/15">
+              <span
+                className="text-linen/15"
+                style={{
+                  fontFamily: '"Inter", system-ui, sans-serif',
+                  fontSize: "0.55rem",
+                  fontWeight: 400,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                }}
+              >
                 PREPARING EXPERIENCE
               </span>
-              <span className="font-body text-[0.42rem] font-[300] tracking-[0.18em] text-linen/15">
+              <span
+                className="text-linen/15"
+                style={{
+                  fontFamily: '"Inter", system-ui, sans-serif',
+                  fontSize: "0.55rem",
+                  fontWeight: 400,
+                  letterSpacing: "0.18em",
+                }}
+              >
                 {progress}%
               </span>
             </div>
