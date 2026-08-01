@@ -128,10 +128,10 @@ function ProjectCard({
 
       {/* Hover content */}
       <div className="absolute inset-0 flex flex-col justify-end p-[clamp(16px,2vw,28px)] opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">
-        <span className="editorial-caption block mb-1">
+        <span className="editorial-caption block mb-1.5">
           {project.location.toUpperCase()}
         </span>
-        <h3 className="font-display text-[clamp(1rem,1.8vw,1.5rem)] font-[400] tracking-[0.02em] text-linen">
+        <h3 className="font-display text-[clamp(1.1rem,1.9vw,1.6rem)] font-[400] tracking-[0.02em] text-linen">
           {project.title}
         </h3>
       </div>

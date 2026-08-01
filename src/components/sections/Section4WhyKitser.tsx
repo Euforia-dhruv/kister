@@ -68,9 +68,9 @@ export default function Section4WhyKitser() {
         {/* Reasons with timeline */}
         <div className="mt-24 relative">
           {/* Timeline line */}
-          <div className="absolute left-[clamp(20px,3vw,40px)] top-0 bottom-0 w-[1px] bg-linen/6">
+          <div className="absolute left-[clamp(20px,3vw,40px)] top-0 bottom-0 w-[1px] bg-linen/8">
             <motion.div
-              className="w-full bg-ember/25 origin-top"
+              className="w-full bg-ember/30 origin-top"
               style={{ height: lineHeight }}
             />
           </div>
@@ -99,7 +99,7 @@ function ReasonBlock({
       <div className="flex gap-[clamp(24px,4vw,60px)] pl-[clamp(40px,5vw,80px)]">
         {/* Number dot */}
         <div className="absolute left-[clamp(16px,2.7vw,36px)] mt-1">
-          <div className="w-2 h-2 rounded-full bg-ember/40" />
+          <div className="w-2.5 h-2.5 rounded-full bg-ember/50" />
         </div>
 
         {/* Content */}

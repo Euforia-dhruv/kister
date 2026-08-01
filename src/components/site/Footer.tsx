@@ -50,8 +50,8 @@ export default function Footer() {
           {/* Brand + description */}
           <StaggerItem className="md:col-span-4">
             <div className="flex flex-col gap-5">
-              <span className="font-display text-sm tracking-[0.25em] text-linen/40">KITSER</span>
-              <p className="font-body text-[0.8rem] font-[300] leading-[1.8] text-smoke/40 max-w-xs">
+              <span className="font-display text-base tracking-[0.25em] text-linen/40">KITSER</span>
+              <p className="font-body text-[0.85rem] font-[300] leading-[1.8] text-smoke/40 max-w-xs">
                 Premium kitchen curation from {BRAND.brandPartners}+ world-class brands.
                 Heritage meets innovation in {BRAND.location.city}, India.
               </p>
@@ -62,7 +62,7 @@ export default function Footer() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-body text-[0.6rem] font-[400] tracking-[0.12em] text-smoke/25 transition-colors duration-500 hover:text-ember"
+                    className="font-body text-[0.68rem] font-[400] tracking-[0.12em] text-smoke/25 transition-colors duration-500 hover:text-ember"
                   >
                     {s.label}
                   </a>
@@ -79,7 +79,7 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-body text-[0.75rem] font-[300] tracking-wide-custom text-smoke/40 transition-colors duration-500 hover:text-linen"
+                  className="font-body text-[0.82rem] font-[300] tracking-wide-custom text-smoke/40 transition-colors duration-500 hover:text-linen"
                 >
                   {link.label}
                 </Link>
@@ -91,21 +91,21 @@ export default function Footer() {
           <StaggerItem className="md:col-span-4 md:col-start-10">
             <div className="flex flex-col gap-3">
               <span className="editorial-caption mb-1">CONTACT</span>
-              <span className="font-body text-[0.75rem] font-[300] text-smoke/40">
+              <span className="font-body text-[0.82rem] font-[300] text-smoke/40">
                 {BRAND.location.address}
               </span>
-              <span className="font-body text-[0.75rem] font-[300] text-smoke/40">
+              <span className="font-body text-[0.82rem] font-[300] text-smoke/40">
                 {BRAND.location.city} — {BRAND.location.pincode}
               </span>
               <a
                 href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
-                className="mt-1 font-body text-[0.75rem] font-[300] text-ember/50 transition-colors duration-500 hover:text-ember"
+                className="mt-1 font-body text-[0.82rem] font-[300] text-ember/50 transition-colors duration-500 hover:text-ember"
               >
                 {BRAND.contact.phone}
               </a>
               <a
                 href={`mailto:${BRAND.contact.email}`}
-                className="font-body text-[0.75rem] font-[300] text-smoke/40 transition-colors duration-500 hover:text-linen"
+                className="font-body text-[0.82rem] font-[300] text-smoke/40 transition-colors duration-500 hover:text-linen"
               >
                 {BRAND.contact.email}
               </a>
@@ -118,15 +118,15 @@ export default function Footer() {
 
         {/* ─── BOTTOM BAR ─── */}
         <Reveal>
-          <div className="py-8 flex flex-col sm:flex-row justify-between items-center gap-5">
-            <p className="font-body text-[0.55rem] font-[300] text-ash/30">
+          <div className="py-10 flex flex-col sm:flex-row justify-between items-center gap-5">
+            <p className="font-body text-[0.65rem] font-[300] text-ash/30">
               © {new Date().getFullYear()} {BRAND.legalName}. All rights reserved.
             </p>
             <div className="flex gap-8">
-              <Link href="/contact" className="font-body text-[0.55rem] font-[300] text-ash/20 transition-colors duration-500 hover:text-smoke">
+              <Link href="/contact" className="font-body text-[0.65rem] font-[300] text-ash/20 transition-colors duration-500 hover:text-smoke">
                 Privacy
               </Link>
-              <Link href="/contact" className="font-body text-[0.55rem] font-[300] text-ash/20 transition-colors duration-500 hover:text-smoke">
+              <Link href="/contact" className="font-body text-[0.65rem] font-[300] text-ash/20 transition-colors duration-500 hover:text-smoke">
                 Terms
               </Link>
             </div>

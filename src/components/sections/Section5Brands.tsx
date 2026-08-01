@@ -89,7 +89,7 @@ export default function Section5Brands() {
 
 function BrandLogo({ brand }: { brand: (typeof BRAND_LOGOS)[number] }) {
   return (
-    <div className="relative w-[clamp(80px,10vw,140px)] h-[clamp(40px,5vw,60px)] shrink-0 opacity-25 hover:opacity-55 transition-opacity duration-700">
+    <div className="relative w-[clamp(80px,10vw,140px)] h-[clamp(40px,5vw,60px)] shrink-0 opacity-30 hover:opacity-60 transition-opacity duration-700">
       <Image
         src={`/images/brands/${brand.file}`}
         alt={`${brand.name} — Kitser brand partner`}

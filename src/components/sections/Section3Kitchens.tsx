@@ -140,16 +140,16 @@ function KitchenRow({
             <h3 className="editorial-headline-sm">
               {kitchen.name}
             </h3>
-            <p className="font-body text-[0.6rem] font-[300] tracking-wide-custom text-smoke/30 mt-3">
+            <p className="font-body text-[0.72rem] font-[300] tracking-wide-custom text-smoke/30 mt-3">
               {kitchen.series} — {kitchen.location}
             </p>
-            <div className="h-[1px] w-10 bg-ember/25 mt-6" />
+            <div className="h-[1px] w-10 bg-ember/35 mt-6" />
             <p className="editorial-body mt-6 max-w-[340px]">
               {kitchen.description}
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 mt-8 font-body text-[0.6rem] font-[400] tracking-[0.15em] text-linen/40 transition-colors duration-500 hover:text-ember"
+              className="inline-flex items-center gap-2 mt-8 font-body text-[0.72rem] font-[400] tracking-[0.15em] text-linen/40 transition-colors duration-500 hover:text-ember"
             >
               EXPLORE
               <span className="w-0 hover:w-4 h-[1px] bg-current transition-all duration-500" />

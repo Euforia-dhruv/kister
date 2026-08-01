@@ -93,7 +93,7 @@ export default function Nav() {
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
         <nav
-          className="flex items-center justify-between px-2 py-1.5 rounded-full"
+          className="flex items-center justify-between px-2 py-2 rounded-full"
           style={{
             backdropFilter: "blur(28px) saturate(1.5)",
             WebkitBackdropFilter: "blur(28px) saturate(1.5)",
@@ -104,8 +104,8 @@ export default function Nav() {
           }}
         >
           {/* Logo — left */}
-          <Link href="/" className="flex items-center px-5 py-2 group shrink-0">
-            <span className="font-display text-[0.8rem] tracking-[0.22em] text-linen/60 group-hover:text-linen transition-colors duration-500">
+          <Link href="/" className="flex items-center px-6 py-2.5 group shrink-0">
+            <span className="font-display text-[1rem] tracking-[0.22em] text-linen/60 group-hover:text-linen transition-colors duration-500">
               KITSER
             </span>
           </Link>
@@ -116,10 +116,10 @@ export default function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-3.5 py-2 group"
+                className="relative px-4 py-2 group"
               >
                 <span
-                  className={`font-body text-[0.6rem] font-[400] tracking-[0.12em] transition-colors duration-500 ${
+                  className={`font-body text-[0.68rem] font-[400] tracking-[0.12em] transition-colors duration-500 ${
                     pathname === link.href
                       ? "text-ember"
                       : "text-linen/30 group-hover:text-linen/65"
@@ -130,7 +130,7 @@ export default function Nav() {
                 {pathname === link.href && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute bottom-0 left-3.5 right-3.5 h-[1px] bg-ember/40"
+                    className="absolute bottom-0 left-4 right-4 h-[1px] bg-ember/40"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -142,7 +142,7 @@ export default function Nav() {
           <div className="hidden lg:flex items-center pr-3">
             <Link
               href="/contact"
-              className="flex items-center px-5 py-2 font-body text-[0.55rem] font-[400] tracking-[0.14em] text-ember/70 hover:text-ember border border-ember/20 hover:border-ember/40 rounded-full transition-all duration-500"
+              className="flex items-center px-6 py-2.5 font-body text-[0.65rem] font-[400] tracking-[0.14em] text-ember/70 hover:text-ember border border-ember/20 hover:border-ember/40 rounded-full transition-all duration-500"
             >
               BOOK CONSULTATION
             </Link>
@@ -210,7 +210,7 @@ export default function Nav() {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     />
                     <span
-                      className={`font-display text-2xl tracking-[0.04em] transition-colors duration-500 ${
+                      className={`font-display text-[1.7rem] tracking-[0.04em] transition-colors duration-500 ${
                         pathname === link.href ? "text-ember" : "text-linen/35 group-hover:text-linen"
                       }`}
                     >
@@ -230,7 +230,7 @@ export default function Nav() {
                 <Link
                   href="/contact"
                   onClick={closeMenu}
-                  className="inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-[0.08em] text-ember transition-all duration-500 hover:bg-ember hover:text-void"
+                  className="inline-flex items-center gap-3 border border-ember px-8 py-3.5 font-body text-[0.85rem] font-[300] tracking-[0.08em] text-ember transition-all duration-500 hover:bg-ember hover:text-void"
                 >
                   BOOK CONSULTATION
                 </Link>
@@ -243,10 +243,10 @@ export default function Nav() {
               transition={{ delay: 0.5, duration: 0.4 }}
               className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-1.5"
             >
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/10">
+              <span className="font-body text-[0.6rem] font-[300] tracking-[0.12em] text-linen/10">
                 {BRAND.location.full}
               </span>
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/10">
+              <span className="font-body text-[0.6rem] font-[300] tracking-[0.12em] text-linen/10">
                 {BRAND.contact.phone}
               </span>
             </motion.div>

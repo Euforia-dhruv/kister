@@ -122,7 +122,7 @@ export default function BrandsPage() {
                   <Reveal delay={200}>
                     <span className="editorial-caption">{brand.category.toUpperCase()}</span>
                     <h2 className="editorial-headline-md mt-4">{brand.name}</h2>
-                    <p className="font-body text-xs font-[300] tracking-wide-custom text-smoke/40 mt-3">
+                    <p className="font-body text-[0.72rem] font-[300] tracking-wide-custom text-smoke/40 mt-3">
                       {brand.origin} · Est. {brand.year}
                     </p>
                     <p className="editorial-body mt-6 max-w-sm">{brand.story}</p>
@@ -149,7 +149,7 @@ export default function BrandsPage() {
                 >
                   <div className="flex items-baseline justify-between">
                     <div className="flex items-baseline gap-6">
-                      <span className="font-body text-[0.6rem] font-[400] tracking-ultra text-ember/40">
+                      <span className="font-body text-[0.68rem] font-[400] tracking-ultra text-ember/40">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <h3 className="font-display text-xl text-linen/65 group-hover:text-linen transition-colors duration-500">
@@ -157,7 +157,7 @@ export default function BrandsPage() {
                       </h3>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="hidden sm:inline font-body text-[0.6rem] font-[400] tracking-wide-custom text-smoke/35">
+                      <span className="hidden sm:inline font-body text-[0.68rem] font-[400] tracking-wide-custom text-smoke/35">
                         {brand.category.toUpperCase()} · {brand.origin}
                       </span>
                       <motion.span
@@ -181,7 +181,7 @@ export default function BrandsPage() {
                         <div className="pt-6 pl-12 max-w-2xl">
                           <p className="editorial-body">{brand.story}</p>
                           <div className="mt-4 flex items-center gap-2">
-                            <span className="font-body text-[0.6rem] font-[400] tracking-wide-custom text-ember/70">
+                            <span className="font-body text-[0.68rem] font-[400] tracking-wide-custom text-ember/70">
                               Est. {brand.year}
                             </span>
                           </div>

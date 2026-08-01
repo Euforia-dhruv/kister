@@ -119,7 +119,7 @@ export default function MaterialsPage() {
                     <p className="editorial-body mt-6 max-w-sm">
                       {material.description}
                     </p>
-                    <p className="font-body text-sm font-[300] leading-[1.8] text-smoke/50 mt-4 max-w-sm">
+                    <p className="editorial-body mt-4 max-w-sm">
                       {material.detail}
                     </p>
                     <div className="flex flex-wrap gap-2 mt-8">
@@ -133,9 +133,9 @@ export default function MaterialsPage() {
                       ))}
                     </div>
                     <div className="flex items-center gap-2 mt-6">
-                      <span className="font-body text-xs font-[300] text-smoke/35">Featured in:</span>
+                      <span className="font-body text-[0.72rem] font-[300] text-smoke/35">Featured in:</span>
                       {material.brands.map((b, j) => (
-                        <span key={b} className="font-body text-xs font-[400] text-linen/45">
+                        <span key={b} className="font-body text-[0.72rem] font-[400] text-linen/45">
                           {b}{j < material.brands.length - 1 ? "," : ""}
                         </span>
                       ))}

@@ -95,7 +95,7 @@ export default function ShowroomPage() {
                     href={`https://maps.google.com/?q=${encodeURIComponent(BRAND.name + " " + BRAND.location.full)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
+                    className="mt-4 inline-flex items-center gap-2 font-body text-[0.72rem] font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
                   >
                     OPEN IN MAPS
                     <span className="w-0 hover:w-4 h-[1px] bg-current transition-all duration-500" />
@@ -118,8 +118,8 @@ export default function ShowroomPage() {
                   <div className="flex flex-col gap-3 mt-4">
                     {HOURS.map((h) => (
                       <div key={h.day} className="flex justify-between items-baseline border-b border-linen/5 pb-3">
-                        <span className="font-body text-sm font-[300] text-smoke/60">{h.day}</span>
-                        <span className="font-body text-sm font-[300] text-linen">{h.time}</span>
+                        <span className="font-body text-[0.85rem] font-[300] text-smoke/60">{h.day}</span>
+                        <span className="font-body text-[0.85rem] font-[300] text-linen">{h.time}</span>
                       </div>
                     ))}
                   </div>
@@ -149,14 +149,14 @@ export default function ShowroomPage() {
                 <div className="mt-auto flex flex-col gap-3">
                   <Link
                     href="/contact"
-                    className="group inline-flex items-center justify-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void"
+                    className="group inline-flex items-center justify-center gap-3 border border-ember px-8 py-3 font-body text-[0.85rem] font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void"
                   >
                     BOOK CONSULTATION
                     <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
                   </Link>
                   <a
                     href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
-                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke/50 transition-colors duration-500 hover:text-linen"
+                    className="inline-flex items-center justify-center font-body text-[0.72rem] font-[300] tracking-wide-custom text-smoke/50 transition-colors duration-500 hover:text-linen"
                   >
                     Or call directly →
                   </a>
@@ -184,11 +184,11 @@ export default function ShowroomPage() {
                     <span className="font-display text-base text-linen/55 group-hover:text-linen transition-colors duration-500">
                       {brand.name}
                     </span>
-                    <span className="font-body text-[0.55rem] font-[400] tracking-wide-custom text-smoke/35">
+                    <span className="font-body text-[0.68rem] font-[400] tracking-wide-custom text-smoke/35">
                       {brand.origin}
                     </span>
                   </div>
-                  <p className="font-body text-xs font-[300] text-smoke/35 mt-2 group-hover:text-smoke/65 transition-colors duration-500">
+                  <p className="font-body text-[0.72rem] font-[300] text-smoke/35 mt-2 group-hover:text-smoke/65 transition-colors duration-500">
                     {brand.note}
                   </p>
                 </div>

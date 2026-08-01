@@ -282,7 +282,7 @@ export default function ContactPage() {
               <button
                 onClick={() => setStep(Math.max(1, step - 1) as Step)}
                 disabled={step === 1}
-                className="font-body text-sm font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
+                className="font-body text-[0.85rem] font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 ← Back
               </button>
@@ -290,7 +290,7 @@ export default function ContactPage() {
                 <button
                   onClick={() => setStep((step + 1) as Step)}
                   disabled={!canProceed()}
-                  className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-[0.85rem] font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   CONTINUE
                   <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
@@ -299,7 +299,7 @@ export default function ContactPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={!canProceed() || status === "loading"}
-                  className="group inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-3 border border-ember px-8 py-3 font-body text-[0.85rem] font-[300] tracking-wide-custom text-ember transition-all duration-500 hover:bg-ember hover:text-void disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   {status === "loading" ? (
                     <span className="flex items-center gap-2">

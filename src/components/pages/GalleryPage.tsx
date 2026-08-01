@@ -135,7 +135,7 @@ export default function GalleryPage() {
                 <span className="editorial-caption">{GALLERY[0].category.toUpperCase()}</span>
                 <h2 className="editorial-headline-sm mt-3">{GALLERY[0].title}</h2>
                 <p className="editorial-body mt-2 max-w-sm">{GALLERY[0].description}</p>
-                <p className="font-body text-xs font-[300] text-smoke/40 mt-2">
+                <p className="font-body text-[0.72rem] font-[300] text-smoke/40 mt-2">
                   {GALLERY[0].location} · {GALLERY[0].year}
                 </p>
               </div>
@@ -165,7 +165,7 @@ export default function GalleryPage() {
                 <div className="absolute bottom-0 left-0 p-8">
                   <span className="editorial-caption">{GALLERY[1].category.toUpperCase()}</span>
                   <h3 className="editorial-headline-sm mt-2">{GALLERY[1].title}</h3>
-                  <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
+                  <p className="font-body text-[0.72rem] font-[300] text-smoke/40 mt-1">
                     {GALLERY[1].location} · {GALLERY[1].year}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ export default function GalleryPage() {
                 <div className="absolute bottom-0 left-0 p-8">
                   <span className="editorial-caption">{GALLERY[2].category.toUpperCase()}</span>
                   <h3 className="editorial-headline-sm mt-2">{GALLERY[2].title}</h3>
-                  <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
+                  <p className="font-body text-[0.72rem] font-[300] text-smoke/40 mt-1">
                     {GALLERY[2].location} · {GALLERY[2].year}
                   </p>
                 </div>
@@ -329,7 +329,7 @@ export default function GalleryPage() {
                 <span className="editorial-caption">{selected.category.toUpperCase()}</span>
                 <h3 className="editorial-headline-sm mt-2">{selected.title}</h3>
                 <p className="editorial-body mt-2 max-w-lg">{selected.description}</p>
-                <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
+                <p className="font-body text-[0.72rem] font-[300] text-smoke/40 mt-1">
                   {selected.location} · {selected.year}
                 </p>
               </div>

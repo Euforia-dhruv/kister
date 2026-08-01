@@ -110,7 +110,7 @@ export default function ProjectsPage() {
                   <Reveal delay={200}>
                     <span className="editorial-caption">0{i + 1}</span>
                     <h2 className="editorial-headline-sm mt-4">{project.title}</h2>
-                    <p className="font-body text-xs font-[400] tracking-wide-custom text-smoke/40 mt-2">
+                    <p className="font-body text-[0.72rem] font-[400] tracking-wide-custom text-smoke/40 mt-2">
                       {project.location}
                     </p>
                     <p className="editorial-body mt-6 max-w-sm">
@@ -120,15 +120,15 @@ export default function ProjectsPage() {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4 mt-8 py-6 border-t border-b border-linen/5">
                       <div>
-                        <span className="editorial-caption text-[0.55rem]">AREA</span>
+                        <span className="editorial-caption">AREA</span>
                         <p className="font-body text-sm font-[300] text-linen mt-1">{project.stats.area}</p>
                       </div>
                       <div>
-                        <span className="editorial-caption text-[0.55rem]">DURATION</span>
+                        <span className="editorial-caption">DURATION</span>
                         <p className="font-body text-sm font-[300] text-linen mt-1">{project.stats.duration}</p>
                       </div>
                       <div>
-                        <span className="editorial-caption text-[0.55rem]">BRANDS</span>
+                        <span className="editorial-caption">BRANDS</span>
                         <p className="font-body text-sm font-[300] text-linen mt-1">{project.stats.brands}</p>
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export default function ProjectsPage() {
                     <div className="mt-8">
                       <Link
                         href="/contact"
-                        className="font-body text-xs font-[400] tracking-wide-custom text-ember transition-colors hover:text-flame"
+                        className="font-body text-[0.72rem] font-[400] tracking-wide-custom text-ember transition-colors hover:text-flame"
                       >
                         DISCUSS YOUR PROJECT →
                       </Link>

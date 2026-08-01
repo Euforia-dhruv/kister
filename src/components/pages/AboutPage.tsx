@@ -117,7 +117,7 @@ export default function AboutPage() {
             {VALUES.map((val, i) => (
               <Reveal key={val.title} delay={i * 80}>
                 <div className="flex flex-col gap-3">
-                  <span className="font-body text-[0.55rem] font-[400] tracking-ultra text-ember/40">
+                  <span className="font-body text-[0.68rem] font-[400] tracking-ultra text-ember/40">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="font-display text-lg text-linen">{val.title}</h3>
@@ -159,7 +159,7 @@ export default function AboutPage() {
                 ].map((item) => (
                   <div key={item.label} className="flex flex-col gap-2 p-4 border border-linen/5">
                     <span className="editorial-caption">{item.label}</span>
-                    <p className="font-body text-[0.7rem] font-[300] leading-[1.6] text-smoke/40">{item.desc}</p>
+                    <p className="font-body text-[0.82rem] font-[300] leading-[1.6] text-smoke/40">{item.desc}</p>
                   </div>
                 ))}
               </div>

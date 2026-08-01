@@ -45,21 +45,21 @@ export default function Section7Testimonials() {
             <Reveal key={i} delay={i * 120}>
               <blockquote className="flex flex-col h-full p-[clamp(24px,3vw,40px)] border border-linen/5 group hover:border-ember/15 transition-colors duration-700">
                 {/* Quote mark */}
-                <span className="font-display text-[3rem] text-ember/20 leading-none mb-4">
+                <span className="font-display text-[4rem] text-ember/20 leading-none mb-4">
                   &ldquo;
                 </span>
 
                 {/* Quote text */}
-                <p className="font-display text-[clamp(0.9rem,1.1vw,1.05rem)] leading-[1.7] text-linen/65 flex-1">
+                <p className="font-display text-[clamp(0.95rem,1.15vw,1.1rem)] leading-[1.7] text-linen/65 flex-1">
                   {t.quote}
                 </p>
 
                 {/* Attribution */}
                 <div className="mt-8 pt-6 border-t border-linen/5">
-                  <span className="font-body text-[0.65rem] font-[400] tracking-[0.1em] text-linen/55 block">
+                  <span className="font-body text-[0.72rem] font-[400] tracking-[0.1em] text-linen/55 block">
                     {t.author}
                   </span>
-                  <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-smoke/25 block mt-1">
+                  <span className="font-body text-[0.6rem] font-[300] tracking-[0.12em] text-smoke/25 block mt-1">
                     {t.project}
                   </span>
                 </div>
