@@ -23,16 +23,17 @@ export default function Section8CTA() {
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
       {/* Background image */}
       <motion.div className="absolute inset-0" style={{ y, scale }}>
-        <Image
-          src="/images/kitchens/scavolini-poetica-hero.jpg"
-          alt="Design your dream kitchen — Kitser premium kitchen design"
-          fill
-          className="object-cover"
-          style={{
-            filter: "saturate(0.8) contrast(1.05) brightness(0.5)",
-          }}
-          sizes="100vw"
-        />
+          <Image
+            src="/images/kitchens/scavolini-poetica-hero.jpg"
+            alt="Design your dream kitchen — Kitser premium kitchen design"
+            fill
+            className="object-cover"
+            style={{
+              filter: "saturate(0.8) contrast(1.05) brightness(0.5)",
+            }}
+            sizes="100vw"
+            quality={80}
+          />
       </motion.div>
 
       {/* Dark overlay */}

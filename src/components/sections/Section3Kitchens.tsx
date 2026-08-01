@@ -99,9 +99,7 @@ function KitchenRow({
       style={{ padding: "clamp(40px,6vh,80px) clamp(1.5rem, 5vw, 6rem)" }}
     >
       <div
-        className={`grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center ${
-          isReversed ? "md:direction-rtl" : ""
-        }`}
+        className={`grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center`}
       >
         {/* Image */}
         <Reveal

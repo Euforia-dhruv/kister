@@ -304,6 +304,10 @@ select option { background: #0a0a0a; color: #f5f0eb; }
   .editorial-headline { font-size: clamp(2rem, 8vw, 3rem); }
   .editorial-headline-md { font-size: clamp(1.6rem, 6.5vw, 2.2rem); }
   .editorial-headline-sm { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+  .editorial-headline-xs { font-size: clamp(0.95rem, 4vw, 1.2rem); }
+
+  .editorial-body { max-width: 100%; }
+  .editorial-body-lg { max-width: 100%; }
 
   .film-grain { opacity: 0.012; }
 }

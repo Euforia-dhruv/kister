@@ -48,8 +48,8 @@ export default function Section5Brands() {
       {/* Marquee */}
       <div className="relative">
         {/* Gradient masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-void to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-void to-transparent z-10" />
 
         {/* Row 1 — left to right */}
         <div className="flex overflow-hidden mb-6">
