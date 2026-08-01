@@ -94,7 +94,7 @@ export default function Nav() {
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
         <nav
-          className="flex items-center justify-between w-full max-w-[1520px] mx-auto"
+          className="flex items-center justify-between w-full max-w-[1520px] mx-auto relative"
           style={{
             padding: "0 clamp(24px, 4vw, 80px)",
             height: "88px",
@@ -102,7 +102,7 @@ export default function Nav() {
         >
           {/* ─── GLASS CONTAINER (absolute, behind content) ─── */}
           <div
-            className="absolute inset-x-0 top-3 mx-auto max-w-[1520px] rounded-full pointer-events-none"
+            className="absolute top-3 rounded-full pointer-events-none"
             style={{
               left: "clamp(24px, 4vw, 80px)",
               right: "clamp(24px, 4vw, 80px)",
@@ -119,7 +119,7 @@ export default function Nav() {
           {/* ─── LOGO ─── */}
           <Link
             href="/"
-            className="relative z-10 flex items-center group shrink-0"
+            className="relative z-10 flex items-center group shrink-0 whitespace-nowrap"
             style={{ height: "64px", paddingLeft: "12px", paddingRight: "12px" }}
           >
             <span
@@ -135,13 +135,13 @@ export default function Nav() {
           </Link>
 
           {/* ─── CENTER NAVIGATION ─── */}
-          <div className="hidden items-center lg:flex relative z-10">
+          <div className="hidden items-center justify-center lg:flex relative z-10 flex-1" style={{ gap: "clamp(4px, 1.2vw, 16px)" }}>
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-[22px] xl:px-[26px] flex items-center group"
-                style={{ height: "64px" }}
+                className="relative flex items-center group whitespace-nowrap"
+                style={{ height: "64px", padding: "0 clamp(10px, 1.2vw, 20px)" }}
               >
                 <span
                   className={`transition-colors duration-400 ${
@@ -162,7 +162,7 @@ export default function Nav() {
                 {pathname === link.href && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute bottom-2 left-[22px] xl:left-[26px] right-[22px] xl:right-[26px] h-[1.5px] bg-ember/50 rounded-full"
+                    className="absolute bottom-2 left-0 right-0 h-[1.5px] bg-ember/50 rounded-full"
                     transition={{
                       type: "spring",
                       stiffness: 380,
@@ -175,7 +175,7 @@ export default function Nav() {
           </div>
 
           {/* ─── CTA BUTTON ─── */}
-          <div className="hidden lg:flex items-center relative z-10 shrink-0">
+          <div className="hidden lg:flex items-center relative z-10 shrink-0 whitespace-nowrap">
             <Link
               href="/contact"
               className="flex items-center justify-center rounded-full transition-all duration-500 hover:bg-ember hover:text-void group"
