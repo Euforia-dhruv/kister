@@ -6,16 +6,15 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { BRAND } from "@/lib/brand";
 
-/* ─── GLASSMORPHISM NAVBAR ────────────────────────────────── */
-/* Floating. Blur. Rounded. Minimal.                           */
-/* Hides while scrolling down. Returns while scrolling up.      */
-/* Hidden during cinematic intro.                               */
+/* ─── PREMIUM NAVBAR ──────────────────────────────────────── */
+/* Glassmorphism. Premium. Scroll-aware.                        */
 
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
   { href: "/collections", label: "Collections" },
   { href: "/brands", label: "Brands" },
+  { href: "/materials", label: "Materials" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -83,50 +82,47 @@ export default function Nav() {
     <>
       {/* ─── FLOATING GLASS NAVBAR ─── */}
       <motion.header
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[min(96vw,1280px)]"
         initial={false}
         animate={{
           opacity: navVisible ? 1 : 0,
           y: navVisible ? 0 : -10,
-          scale: navVisible ? 1 : 0.95,
+          scale: navVisible ? 1 : 0.96,
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
         <nav
-          className="flex items-center gap-0.5 px-2 py-1.5 rounded-full"
+          className="flex items-center justify-between px-2 py-1.5 rounded-full"
           style={{
-            backdropFilter: "blur(24px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-            backgroundColor: "rgba(10,10,10,0.55)",
-            border: "1px solid rgba(245,240,235,0.06)",
+            backdropFilter: "blur(28px) saturate(1.5)",
+            WebkitBackdropFilter: "blur(28px) saturate(1.5)",
+            backgroundColor: "rgba(10,10,10,0.5)",
+            border: "1px solid rgba(245,240,235,0.05)",
             boxShadow:
-              "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,240,235,0.03)",
+              "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(245,240,235,0.02)",
           }}
         >
           {/* Logo — left */}
-          <Link href="/" className="flex items-center px-4 py-1.5 group">
-            <span className="font-display text-[0.65rem] font-[100] tracking-[0.2em] text-linen/70 group-hover:text-linen transition-colors duration-500">
+          <Link href="/" className="flex items-center px-5 py-2 group shrink-0">
+            <span className="font-display text-[0.8rem] tracking-[0.22em] text-linen/60 group-hover:text-linen transition-colors duration-500">
               KITSER
             </span>
           </Link>
 
-          {/* Divider */}
-          <div className="w-px h-3 bg-linen/[0.06] mx-1" />
-
           {/* Center links */}
-          <div className="hidden items-center md:flex">
+          <div className="hidden items-center lg:flex">
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-3 py-1.5 group"
+                className="relative px-3.5 py-2 group"
               >
                 <span
-                  className={`font-body text-[0.55rem] font-[300] tracking-[0.12em] transition-colors duration-500 ${
+                  className={`font-body text-[0.6rem] font-[400] tracking-[0.12em] transition-colors duration-500 ${
                     pathname === link.href
                       ? "text-ember"
-                      : "text-linen/35 group-hover:text-linen/70"
+                      : "text-linen/30 group-hover:text-linen/65"
                   }`}
                 >
                   {link.label.toUpperCase()}
@@ -134,7 +130,7 @@ export default function Nav() {
                 {pathname === link.href && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute bottom-0 left-3 right-3 h-[1px] bg-ember/40"
+                    className="absolute bottom-0 left-3.5 right-3.5 h-[1px] bg-ember/40"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -142,14 +138,11 @@ export default function Nav() {
             ))}
           </div>
 
-          {/* Divider */}
-          <div className="hidden md:block w-px h-3 bg-linen/[0.06] mx-1" />
-
           {/* CTA — right */}
-          <div className="hidden md:block">
+          <div className="hidden lg:flex items-center pr-3">
             <Link
               href="/contact"
-              className="flex items-center px-4 py-1.5 font-body text-[0.5rem] font-[400] tracking-[0.12em] text-ember/70 hover:text-ember transition-colors duration-500"
+              className="flex items-center px-5 py-2 font-body text-[0.55rem] font-[400] tracking-[0.14em] text-ember/70 hover:text-ember border border-ember/20 hover:border-ember/40 rounded-full transition-all duration-500"
             >
               BOOK CONSULTATION
             </Link>
@@ -157,24 +150,24 @@ export default function Nav() {
 
           {/* Mobile hamburger */}
           <button
-            className="relative z-50 flex flex-col gap-[4px] md:hidden w-7 h-7 justify-center items-center"
+            className="relative z-50 flex flex-col gap-[5px] lg:hidden w-8 h-8 justify-center items-center"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
           >
             <motion.span
-              className="absolute block h-[1px] w-4 bg-linen/60"
-              animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }}
+              className="absolute block h-[1px] w-5 bg-linen/50"
+              animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3.5 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
             <motion.span
-              className="absolute block h-[1px] w-4 bg-linen/60"
+              className="absolute block h-[1px] w-5 bg-linen/50"
               animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.2 }}
             />
             <motion.span
-              className="absolute block h-[1px] w-4 bg-linen/60"
-              animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }}
+              className="absolute block h-[1px] w-5 bg-linen/50"
+              animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3.5 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
           </button>
@@ -185,7 +178,7 @@ export default function Nav() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -195,12 +188,12 @@ export default function Nav() {
               className="absolute inset-0"
               style={{
                 backgroundColor: "rgba(10,10,10,0.96)",
-                backdropFilter: "blur(30px)",
-                WebkitBackdropFilter: "blur(30px)",
+                backdropFilter: "blur(32px)",
+                WebkitBackdropFilter: "blur(32px)",
               }}
             />
 
-            <div className="relative flex flex-col items-center gap-6">
+            <div className="relative flex flex-col items-center gap-7">
               {LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -217,8 +210,8 @@ export default function Nav() {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     />
                     <span
-                      className={`font-display text-2xl font-[200] tracking-[0.06em] transition-colors duration-500 ${
-                        pathname === link.href ? "text-ember" : "text-linen/40 group-hover:text-linen"
+                      className={`font-display text-2xl tracking-[0.04em] transition-colors duration-500 ${
+                        pathname === link.href ? "text-ember" : "text-linen/35 group-hover:text-linen"
                       }`}
                     >
                       {link.label}
@@ -232,7 +225,7 @@ export default function Nav() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-4"
+                className="mt-5"
               >
                 <Link
                   href="/contact"
@@ -248,12 +241,12 @@ export default function Nav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-1.5"
+              className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-1.5"
             >
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/10">
                 {BRAND.location.full}
               </span>
-              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/12">
+              <span className="font-body text-[0.5rem] font-[300] tracking-[0.12em] text-linen/10">
                 {BRAND.contact.phone}
               </span>
             </motion.div>
