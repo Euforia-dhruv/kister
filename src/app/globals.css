@@ -13,7 +13,7 @@
   --color-copper: #b87333;
   --color-flame: #e8632b;
   --color-ashwarm: #6b5b4e;
-  --font-display: "Inter", system-ui, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
 }
 
@@ -21,6 +21,14 @@
   font-family: "Inter";
   src: url("https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2") format("woff2");
   font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Serif Display";
+  src: url("https://fonts.gstatic.com/s/dmserifdisplay/v15/-nFnOHM81r4j6k0gjAW3mujVU2B2K_d709jy92k.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -34,6 +42,7 @@ html {
   background: #0a0a0a;
   color: #ffffff;
   scroll-behavior: auto;
+  min-height: 100dvh;
 }
 
 body {
@@ -43,6 +52,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -76,64 +86,61 @@ body {
   outline-offset: 2px;
 }
 
-/* ─── SITE-WIDE PADDING ──────────────────────────────────── */
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* DESIGN SYSTEM                                                  */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* ─── SITE PADDING ──────────────────────────────────────────── */
 
 .site-padding {
   padding-left: clamp(1.5rem, 5vw, 6rem);
   padding-right: clamp(1.5rem, 5vw, 6rem);
 }
 
-/* ─── EDITORIAL SPACING ──────────────────────────────────── */
-
-.editorial-section {
-  padding: clamp(2rem, 5vw, 4rem) 0;
-}
-
-.editorial-section-lg {
-  padding: clamp(2.5rem, 7vw, 6rem) 0;
-}
-
-.editorial-section-sm {
-  padding: clamp(1.5rem, 4vw, 3rem) 0;
-}
-
-/* ─── EDITORIAL TYPOGRAPHY ────────────────────────────────── */
+/* ─── TYPOGRAPHY — DISPLAY (Serif) ─────────────────────────── */
 
 .editorial-headline {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 200;
-  font-size: clamp(2.2rem, 6.5vw, 5.5rem);
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
   line-height: 0.94;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: #f5f0eb;
 }
 
 .editorial-headline-md {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 200;
-  font-size: clamp(1.6rem, 4vw, 3.5rem);
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
   line-height: 1.0;
   letter-spacing: -0.015em;
   color: #f5f0eb;
 }
 
 .editorial-headline-sm {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 200;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
   font-size: clamp(1.3rem, 2.5vw, 2rem);
   line-height: 1.1;
-  letter-spacing: 0.005em;
+  letter-spacing: 0;
   color: #f5f0eb;
 }
 
 .editorial-headline-xs {
   font-family: "Inter", system-ui, sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: clamp(0.95rem, 1.6vw, 1.3rem);
   line-height: 1.2;
   letter-spacing: 0.01em;
   color: #f5f0eb;
 }
+
+/* ─── TYPOGRAPHY — BODY ────────────────────────────────────── */
 
 .editorial-body {
   font-family: "Inter", system-ui, sans-serif;
@@ -144,87 +151,43 @@ body {
   max-width: 52ch;
 }
 
+.editorial-body-lg {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.8;
+  color: #8a8a8a;
+  max-width: 48ch;
+}
+
+/* ─── TYPOGRAPHY — CAPTION / LABEL ─────────────────────────── */
+
 .editorial-caption {
   font-family: "Inter", system-ui, sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #c45a2c;
 }
 
 .editorial-label {
   font-family: "Inter", system-ui, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #8a8a8a;
 }
 
-/* ─── FILM GRAIN ──────────────────────────────────────────── */
-
-.film-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.018;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-}
-
-/* ─── IMAGE TREATMENT ──────────────────────────────────────── */
-
-.img-grade {
-  filter: saturate(0.82) sepia(0.06) contrast(1.08) brightness(0.92);
-}
-
-.img-vignette::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(5,5,5,0.5) 100%);
-  pointer-events: none;
-}
-
-.img-warm::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(196,90,44,0.05);
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-
-.img-tactile {
-  filter: saturate(0.9) contrast(1.12) brightness(0.88);
-}
-
-.img-atmospheric {
-  filter: saturate(0.65) sepia(0.12) contrast(1.05) brightness(0.82);
-}
-
-/* ─── TYPOGRAPHY UTILITIES ────────────────────────────────── */
+/* ─── TYPOGRAPHY — UTILITIES ────────────────────────────────── */
 
 .text-balance { text-wrap: balance; }
 .text-pretty { text-wrap: pretty; }
 .tracking-ultra { letter-spacing: 0.3em; }
 .tracking-wide-custom { letter-spacing: 0.12em; }
 
-/* ─── SMOOTH SCROLL ───────────────────────────────────────── */
-
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-
-/* ─── FORM ELEMENTS ───────────────────────────────────────── */
-
-input::placeholder,
-textarea::placeholder,
-select::placeholder { color: rgba(74, 74, 74, 0.6); }
-select option { background: #0a0a0a; color: #f5f0eb; }
-
-/* ─── MAGNETIC BUTTON ─────────────────────────────────────── */
+/* ─── BUTTONS ───────────────────────────────────────────────── */
 
 .magnetic-btn {
   position: relative;
@@ -262,7 +225,7 @@ select option { background: #0a0a0a; color: #f5f0eb; }
 
 .magnetic-btn:hover .btn-arrow { width: 1rem; }
 
-/* ─── SCENE TYPES ─────────────────────────────────────────── */
+/* ─── SCENE TYPES ───────────────────────────────────────────── */
 
 .scene {
   position: relative;
@@ -274,7 +237,62 @@ select option { background: #0a0a0a; color: #f5f0eb; }
 .scene-dark { background: #0a0a0a; color: #ffffff; }
 .scene-warm { background: #1a1a1a; color: #ffffff; }
 
-/* ─── MOBILE ──────────────────────────────────────────────── */
+/* ─── FILM GRAIN ────────────────────────────────────────────── */
+
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ─── IMAGE TREATMENT ───────────────────────────────────────── */
+
+.img-grade {
+  filter: saturate(0.82) sepia(0.06) contrast(1.08) brightness(0.92);
+}
+
+.img-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(5,5,5,0.5) 100%);
+  pointer-events: none;
+}
+
+.img-warm::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(196,90,44,0.05);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.img-tactile {
+  filter: saturate(0.9) contrast(1.12) brightness(0.88);
+}
+
+.img-atmospheric {
+  filter: saturate(0.65) sepia(0.12) contrast(1.05) brightness(0.82);
+}
+
+/* ─── SMOOTH SCROLL ─────────────────────────────────────────── */
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* ─── FORM ELEMENTS ─────────────────────────────────────────── */
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder { color: rgba(74, 74, 74, 0.6); }
+select option { background: #0a0a0a; color: #f5f0eb; }
+
+/* ─── MOBILE ────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
   .magnetic-btn {
@@ -283,30 +301,11 @@ select option { background: #0a0a0a; color: #f5f0eb; }
     font-size: 0.68rem;
   }
 
-  .editorial-section { padding: clamp(1.5rem, 5vw, 3rem) 0; }
-  .editorial-section-lg { padding: clamp(2rem, 7vw, 4rem) 0; }
-
   .editorial-headline { font-size: clamp(1.8rem, 8vw, 2.8rem); }
   .editorial-headline-md { font-size: clamp(1.4rem, 6vw, 2rem); }
   .editorial-headline-sm { font-size: clamp(1.1rem, 5vw, 1.5rem); }
 
   .film-grain { opacity: 0.012; }
-}
-
-/* Prevent viewport jump on iOS when address bar shows/hides */
-html {
-  min-height: 100dvh;
-}
-
-/* Prevent overscroll bounce from showing body background */
-body {
-  overscroll-behavior: none;
-}
-
-/* Ensure canvas doesn't cause layout shift */
-canvas {
-  display: block;
-  max-width: 100%;
 }
 
 @media (hover: none) {

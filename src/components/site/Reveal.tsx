@@ -11,16 +11,16 @@ interface RevealProps {
   scale?: boolean;
   slide?: "up" | "down" | "left" | "right";
   mask?: boolean;
+  clipRight?: boolean;
   duration?: number;
-  stagger?: number;
   once?: boolean;
 }
 
 const slideVariants: Record<string, Variants> = {
-  up: { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } },
-  down: { hidden: { opacity: 0, y: -40 }, visible: { opacity: 1, y: 0 } },
-  left: { hidden: { opacity: 0, x: 40 }, visible: { opacity: 1, x: 0 } },
-  right: { hidden: { opacity: 0, x: -40 }, visible: { opacity: 1, x: 0 } },
+  up: { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } },
+  down: { hidden: { opacity: 0, y: -50 }, visible: { opacity: 1, y: 0 } },
+  left: { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0 } },
+  right: { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0 } },
 };
 
 export default function Reveal({
@@ -31,25 +31,31 @@ export default function Reveal({
   scale = false,
   slide = "up",
   mask = false,
-  duration = 0.8,
+  clipRight = false,
+  duration = 0.9,
   once = true,
 }: RevealProps) {
   let variants: Variants;
 
   if (blur) {
     variants = {
-      hidden: { opacity: 0, filter: "blur(12px)" },
+      hidden: { opacity: 0, filter: "blur(16px)" },
       visible: { opacity: 1, filter: "blur(0px)" },
     };
   } else if (scale) {
     variants = {
-      hidden: { opacity: 0, scale: 1.06 },
+      hidden: { opacity: 0, scale: 1.08 },
       visible: { opacity: 1, scale: 1 },
     };
   } else if (mask) {
     variants = {
       hidden: { clipPath: "inset(0 100% 0 0)" },
       visible: { clipPath: "inset(0 0% 0 0)" },
+    };
+  } else if (clipRight) {
+    variants = {
+      hidden: { clipPath: "inset(0 0 0 100%)" },
+      visible: { clipPath: "inset(0 0 0 0%)" },
     };
   } else {
     variants = slideVariants[slide];
@@ -60,7 +66,7 @@ export default function Reveal({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.1, margin: "0px 0px -60px 0px" }}
+      viewport={{ once, amount: 0.15, margin: "0px 0px -80px 0px" }}
       variants={variants}
       transition={{
         duration,
@@ -82,7 +88,7 @@ interface StaggerProps {
   delay?: number;
 }
 
-export function Stagger({ children, className = "", stagger = 0.1, delay = 0 }: StaggerProps) {
+export function Stagger({ children, className = "", stagger = 0.08, delay = 0 }: StaggerProps) {
   return (
     <motion.div
       className={className}
@@ -115,7 +121,7 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 25 },
+        hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0 },
       }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
