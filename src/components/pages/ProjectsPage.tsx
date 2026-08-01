@@ -145,7 +145,7 @@ export default function ProjectsPage() {
                     <div className="mt-8">
                       <Link
                         href="/contact"
-                        className="font-body text-[0.72rem] font-[400] tracking-wide-custom text-ember transition-colors hover:text-flame"
+                        className="font-body text-[0.72rem] font-[400] tracking-wide-custom text-ember transition-colors duration-500 hover:text-flame"
                       >
                         DISCUSS YOUR PROJECT →
                       </Link>

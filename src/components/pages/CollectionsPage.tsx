@@ -121,7 +121,7 @@ export default function CollectionsPage() {
                 <div className="mt-8">
                   <span className="inline-flex items-center gap-2 font-body text-[0.72rem] font-[300] tracking-wide-custom text-linen/45 group-hover:text-ember transition-colors duration-500">
                     EXPLORE COLLECTION
-                    <span className="w-0 group-hover:w-5 h-[1px] bg-current transition-all duration-700" />
+                    <span className="w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
                   </span>
                 </div>
               </Reveal>

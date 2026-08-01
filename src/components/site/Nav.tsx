@@ -150,7 +150,7 @@ export default function Nav() {
 
           {/* Mobile hamburger */}
           <button
-            className="relative z-50 flex flex-col gap-[5px] lg:hidden w-8 h-8 justify-center items-center"
+            className="relative z-50 flex flex-col gap-[5px] lg:hidden w-8 h-8 justify-center items-center transition-opacity duration-300 hover:opacity-70"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
