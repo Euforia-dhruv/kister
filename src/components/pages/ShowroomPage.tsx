@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
 import Reveal, { Stagger, StaggerItem } from "@/components/site/Reveal";
 import { BRAND } from "@/lib/brand";
 
@@ -31,14 +30,14 @@ const GALLERY_IMAGES = [
   { src: "/images/showroom/02-display.jpg", alt: "Showroom interior — dark kitchen display" },
   { src: "/images/showroom/03-cookware.jpg", alt: "Showroom interior — marble and stone displays" },
   { src: "/images/showroom/04-brand-wall.jpg", alt: "Showroom interior — brass and copper accents" },
-  { src: "/images/appliances/smeg-musa-hero.jpg", alt: "Showroom interior — Smeg Musa lifestyle display with vibrant colors" },
+  { src: "/images/appliances/smeg-musa-hero.jpg", alt: "Smeg Musa lifestyle display" },
 ];
 
 export default function ShowroomPage() {
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">SHOWROOM</span>
@@ -58,13 +57,13 @@ export default function ShowroomPage() {
       </section>
 
       {/* Full-bleed hero image */}
-      <section className="editorial-section-sm">
+      <section className="py-[clamp(40px,6vh,80px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal scale>
             <div className="relative aspect-[16/7] overflow-hidden">
               <Image
                 src="/images/kitchens/scavolini-carattere-hero.jpg"
-                alt="Kitser showroom — Scavolini kitchen display with premium materials and natural lighting"
+                alt="Kitser showroom — Scavolini kitchen display with premium materials"
                 fill
                 className="object-cover img-grade"
                 sizes="(max-width: 768px) 100vw, 90vw"
@@ -76,8 +75,8 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* Details — editorial split: location, hours, appointment */}
-      <section className="editorial-section">
+      {/* Details — editorial split */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
             {/* Location */}
@@ -85,7 +84,7 @@ export default function ShowroomPage() {
               <div className="flex flex-col gap-6">
                 <div>
                   <span className="editorial-caption">LOCATION</span>
-                  <h3 className="font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3">
+                  <h3 className="font-display text-lg text-linen mt-3">
                     {BRAND.location.address}
                   </h3>
                   <p className="editorial-body mt-2">
@@ -105,7 +104,7 @@ export default function ShowroomPage() {
                 <div>
                   <span className="editorial-caption">PARKING</span>
                   <p className="editorial-body mt-3">
-                    Dedicated parking available on {BRAND.location.address.split(",")[0]}. Valet service for consultation appointments.
+                    Dedicated parking available. Valet service for consultation appointments.
                   </p>
                 </div>
               </div>
@@ -119,7 +118,7 @@ export default function ShowroomPage() {
                   <div className="flex flex-col gap-3 mt-4">
                     {HOURS.map((h) => (
                       <div key={h.day} className="flex justify-between items-baseline border-b border-linen/5 pb-3">
-                        <span className="font-body text-sm font-[300] text-smoke">{h.day}</span>
+                        <span className="font-body text-sm font-[300] text-smoke/60">{h.day}</span>
                         <span className="font-body text-sm font-[300] text-linen">{h.time}</span>
                       </div>
                     ))}
@@ -127,10 +126,10 @@ export default function ShowroomPage() {
                 </div>
                 <div>
                   <span className="editorial-caption">CONTACT</span>
-                  <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="block font-display text-lg font-[300] tracking-[0.04em] text-linen mt-3 transition-colors duration-500 hover:text-ember">
+                  <a href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`} className="block font-display text-lg text-linen mt-3 transition-colors duration-500 hover:text-ember">
                     {BRAND.contact.phone}
                   </a>
-                  <a href={`mailto:${BRAND.contact.email}`} className="block font-body text-sm font-[300] text-smoke mt-1 transition-colors duration-500 hover:text-linen">
+                  <a href={`mailto:${BRAND.contact.email}`} className="block font-body text-sm font-[300] text-smoke/50 mt-1 transition-colors duration-500 hover:text-linen">
                     {BRAND.contact.email}
                   </a>
                 </div>
@@ -139,7 +138,7 @@ export default function ShowroomPage() {
 
             {/* Appointment CTA */}
             <Reveal className="md:col-span-4" delay={200}>
-              <div className="flex flex-col gap-6 p-8 border border-linen/10 h-full">
+              <div className="flex flex-col gap-6 p-8 border border-linen/8 h-full">
                 <span className="editorial-caption">APPOINTMENT</span>
                 <h3 className="editorial-headline-sm leading-[1.15]">
                   Book a private consultation.
@@ -157,7 +156,7 @@ export default function ShowroomPage() {
                   </Link>
                   <a
                     href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
-                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke transition-colors duration-500 hover:text-linen"
+                    className="inline-flex items-center justify-center font-body text-xs font-[300] tracking-wide-custom text-smoke/50 transition-colors duration-500 hover:text-linen"
                   >
                     Or call directly →
                   </a>
@@ -168,8 +167,8 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* Brand wall — editorial grid */}
-      <section className="editorial-section">
+      {/* Brand wall */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">BRAND WALL</span>
@@ -177,19 +176,19 @@ export default function ShowroomPage() {
               35+ brands.<br />One showroom.
             </h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-px bg-linen/5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid grid-cols-1 gap-px bg-linen/5 sm:grid-cols-2 lg:grid-cols-3">
             {BRAND_STORIES.map((brand, i) => (
               <Reveal key={brand.name} delay={i * 30}>
                 <div className="group bg-void p-8 transition-colors duration-500 hover:bg-ember/[0.03]">
                   <div className="flex items-baseline justify-between">
-                    <span className="font-display text-base font-[100] tracking-[0.08em] text-linen/60 group-hover:text-linen transition-colors duration-500">
+                    <span className="font-display text-base text-linen/55 group-hover:text-linen transition-colors duration-500">
                       {brand.name}
                     </span>
-                    <span className="font-body text-[0.55rem] font-[400] tracking-wide-custom text-smoke/40">
+                    <span className="font-body text-[0.55rem] font-[400] tracking-wide-custom text-smoke/35">
                       {brand.origin}
                     </span>
                   </div>
-                  <p className="font-body text-xs font-[300] text-smoke/40 mt-2 group-hover:text-smoke/70 transition-colors duration-500">
+                  <p className="font-body text-xs font-[300] text-smoke/35 mt-2 group-hover:text-smoke/65 transition-colors duration-500">
                     {brand.note}
                   </p>
                 </div>
@@ -199,8 +198,8 @@ export default function ShowroomPage() {
         </div>
       </section>
 
-      {/* Interior gallery — editorial grid */}
-      <section className="editorial-section">
+      {/* Interior gallery */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">INTERIORS</span>
@@ -208,7 +207,7 @@ export default function ShowroomPage() {
               The showroom<br />experience.
             </h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {GALLERY_IMAGES.map((img, i) => (
               <Reveal key={img.src} delay={i * 80}>
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -228,7 +227,7 @@ export default function ShowroomPage() {
       </section>
 
       {/* Map */}
-      <section className="editorial-section">
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">FIND US</span>
@@ -255,7 +254,7 @@ export default function ShowroomPage() {
       </section>
 
       {/* Closing statement */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
@@ -273,10 +272,10 @@ export default function ShowroomPage() {
             <div className="mt-10">
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="magnetic-btn"
               >
                 BOOK A VISIT
-                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                <span className="btn-arrow">→</span>
               </Link>
             </div>
           </Reveal>

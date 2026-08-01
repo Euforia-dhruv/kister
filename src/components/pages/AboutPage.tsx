@@ -50,15 +50,15 @@ export default function AboutPage() {
 
         <motion.div className="absolute inset-0 z-[10] flex flex-col justify-center" style={{ padding: "clamp(60px, 8vh, 120px) clamp(28px, 5vw, 72px)", opacity: heroOpacity }}>
           <Reveal blur>
-            <span className="block font-body text-[0.6rem] font-[400] tracking-[0.2em] text-ember/70 mb-8">OUR STORY</span>
+            <span className="editorial-caption block mb-8">OUR STORY</span>
           </Reveal>
           <Reveal delay={100} blur>
-            <h1 className="font-display text-[clamp(40px,8vw,96px)] font-[200] leading-[0.94] tracking-[-0.025em] text-linen max-w-[700px]">
+            <h1 className="editorial-headline max-w-[700px]">
               Three decades of<br />curated craft.
             </h1>
           </Reveal>
           <Reveal delay={200}>
-            <p className="font-body text-[clamp(0.85rem,1vw,0.95rem)] font-[300] leading-[1.75] text-smoke/50 max-w-[420px] mt-8">
+            <p className="editorial-body max-w-[420px] mt-8">
               From a single showroom to 35+ world-class partnerships — the story of Kitser is the story of the kitchen itself.
             </p>
           </Reveal>
@@ -66,7 +66,7 @@ export default function AboutPage() {
       </section>
 
       {/* Story — editorial split */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
             <div className="md:col-span-5 md:col-start-1 flex flex-col justify-center">
@@ -91,7 +91,7 @@ export default function AboutPage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src="/images/kitchens/scavolini-carattere-hero.jpg"
-                  alt="Scavolini Carattere kitchen — premium cabinetry installation in a modern Indian home"
+                  alt="Scavolini Carattere kitchen — premium cabinetry installation"
                   fill
                   className="object-cover img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -105,7 +105,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values — editorial grid */}
-      <section className="editorial-section">
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">VALUES</span>
@@ -113,14 +113,14 @@ export default function AboutPage() {
               What we believe.
             </h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((val, i) => (
               <Reveal key={val.title} delay={i * 80}>
                 <div className="flex flex-col gap-3">
                   <span className="font-body text-[0.55rem] font-[400] tracking-ultra text-ember/40">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-lg font-[300] tracking-[0.06em] text-linen">{val.title}</h3>
+                  <h3 className="font-display text-lg text-linen">{val.title}</h3>
                   <p className="editorial-body">{val.desc}</p>
                 </div>
               </Reveal>
@@ -130,7 +130,7 @@ export default function AboutPage() {
       </section>
 
       {/* Sustainability */}
-      <section className="editorial-section bg-concrete/30">
+      <section className="py-[clamp(60px,10vh,120px)] bg-concrete/30">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
             <Reveal>
@@ -158,7 +158,7 @@ export default function AboutPage() {
                   { label: "MINDFUL", desc: "Healthy eating, joy of sharing" },
                 ].map((item) => (
                   <div key={item.label} className="flex flex-col gap-2 p-4 border border-linen/5">
-                    <span className="font-body text-[0.5rem] font-[400] tracking-[0.2em] text-ember/60">{item.label}</span>
+                    <span className="editorial-caption">{item.label}</span>
                     <p className="font-body text-[0.7rem] font-[300] leading-[1.6] text-smoke/40">{item.desc}</p>
                   </div>
                 ))}
@@ -169,7 +169,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline — editorial vertical */}
-      <section className="editorial-section">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">JOURNEY</span>
@@ -177,17 +177,17 @@ export default function AboutPage() {
               A timeline of craft.
             </h2>
           </Reveal>
-          <div className="mt-12 relative">
-            <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-linen/10" />
+          <div className="mt-16 relative">
+            <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-linen/8" />
             {TIMELINE.map((item, i) => (
               <Reveal key={item.year} delay={i * 80}>
                 <div className="flex gap-8 relative py-6">
-                  <div className="absolute left-8 top-1/2 w-2 h-2 -translate-x-[3.5px] -translate-y-1/2 rounded-full bg-ember/60" />
-                  <span className="font-display text-sm font-[300] tracking-wide-custom text-ember shrink-0 w-16 pl-12">
+                  <div className="absolute left-8 top-1/2 w-2 h-2 -translate-x-[3.5px] -translate-y-1/2 rounded-full bg-ember/50" />
+                  <span className="font-display text-sm tracking-wide-custom text-ember shrink-0 w-16 pl-12">
                     {item.year}
                   </span>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-base font-[300] tracking-[0.04em] text-linen">{item.title}</h3>
+                    <h3 className="font-display text-base text-linen">{item.title}</h3>
                     <p className="editorial-body">{item.desc}</p>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ export default function AboutPage() {
       </section>
 
       {/* Craftsmanship section */}
-      <section className="editorial-section">
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">CRAFTSMANSHIP</span>
@@ -206,11 +206,11 @@ export default function AboutPage() {
               The hands behind<br />the kitchen.
             </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
-              { image: "/images/cabinetry/04-hero.jpg", label: "Joinery & Assembly — detailed craftsmanship in Scavolini cabinetry" },
-              { image: "/images/materials/02-quartz-surface.jpg", label: "Stone Fabrication — premium quartz surface with natural veining" },
-              { image: "/images/hardware/06-showroom.jpg", label: "Hardware Installation — Blum showroom display of precision hardware" },
+              { image: "/images/cabinetry/04-hero.jpg", label: "Joinery & Assembly" },
+              { image: "/images/materials/02-quartz-surface.jpg", label: "Stone Fabrication" },
+              { image: "/images/hardware/06-showroom.jpg", label: "Hardware Installation" },
             ].map((item, i) => (
               <Reveal key={item.label} delay={i * 80}>
                 <div className="relative aspect-[4/3] overflow-hidden">

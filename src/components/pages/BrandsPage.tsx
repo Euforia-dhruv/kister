@@ -79,8 +79,8 @@ export default function BrandsPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">PARTNERS</span>
@@ -103,7 +103,7 @@ export default function BrandsPage() {
         const brand = BRANDS[idx];
         const isReversed = i % 2 === 1;
         return (
-          <section key={brand.name} className="editorial-section-sm">
+          <section key={brand.name} className="py-[clamp(40px,6vh,80px)]">
             <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
               <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
                 <Reveal className={`${isReversed ? "md:col-span-5 md:order-2" : "md:col-span-7"}`} scale>
@@ -122,7 +122,7 @@ export default function BrandsPage() {
                   <Reveal delay={200}>
                     <span className="editorial-caption">{brand.category.toUpperCase()}</span>
                     <h2 className="editorial-headline-md mt-4">{brand.name}</h2>
-                    <p className="font-body text-xs font-[300] tracking-wide-custom text-smoke mt-3">
+                    <p className="font-body text-xs font-[300] tracking-wide-custom text-smoke/40 mt-3">
                       {brand.origin} · Est. {brand.year}
                     </p>
                     <p className="editorial-body mt-6 max-w-sm">{brand.story}</p>
@@ -134,13 +134,13 @@ export default function BrandsPage() {
         );
       })}
 
-      {/* All brands — editorial list, expandable */}
-      <section className="editorial-section">
+      {/* All brands — editorial list */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1000px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal>
             <span className="editorial-caption">ALL PARTNERS</span>
           </Reveal>
-          <div className="mt-12">
+          <div className="mt-16">
             {BRANDS.map((brand, i) => (
               <Reveal key={brand.name} delay={i * 40}>
                 <div
@@ -152,18 +152,18 @@ export default function BrandsPage() {
                       <span className="font-body text-[0.6rem] font-[400] tracking-ultra text-ember/40">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="font-display text-xl font-[100] tracking-[0.06em] text-linen/70 group-hover:text-linen transition-colors duration-500">
+                      <h3 className="font-display text-xl text-linen/65 group-hover:text-linen transition-colors duration-500">
                         {brand.name}
                       </h3>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="hidden sm:inline font-body text-[0.6rem] font-[400] tracking-wide-custom text-smoke/40">
+                      <span className="hidden sm:inline font-body text-[0.6rem] font-[400] tracking-wide-custom text-smoke/35">
                         {brand.category.toUpperCase()} · {brand.origin}
                       </span>
                       <motion.span
                         animate={{ rotate: expandedBrand === brand.name ? 45 : 0 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-ember/40 text-lg"
+                        className="text-ember/35 text-lg"
                       >
                         +
                       </motion.span>
@@ -181,7 +181,7 @@ export default function BrandsPage() {
                         <div className="pt-6 pl-12 max-w-2xl">
                           <p className="editorial-body">{brand.story}</p>
                           <div className="mt-4 flex items-center gap-2">
-                            <span className="font-body text-[0.6rem] font-[400] tracking-wide-custom text-ember">
+                            <span className="font-body text-[0.6rem] font-[400] tracking-wide-custom text-ember/70">
                               Est. {brand.year}
                             </span>
                           </div>
@@ -196,8 +196,8 @@ export default function BrandsPage() {
         </div>
       </section>
 
-      {/* CTA — closing */}
-      <section className="editorial-section-lg">
+      {/* CTA */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
@@ -213,10 +213,10 @@ export default function BrandsPage() {
             <div className="mt-10">
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="magnetic-btn"
               >
                 DISCUSS YOUR PROJECT
-                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                <span className="btn-arrow">→</span>
               </Link>
             </div>
           </Reveal>

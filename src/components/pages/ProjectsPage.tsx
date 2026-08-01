@@ -59,7 +59,7 @@ export default function ProjectsPage() {
   return (
     <main className="relative bg-void">
       {/* Hero */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">PROJECTS</span>
@@ -76,7 +76,7 @@ export default function ProjectsPage() {
       {PROJECTS.map((project, i) => {
         const isReversed = i % 2 === 1;
         return (
-          <section key={project.id} className="editorial-section">
+          <section key={project.id} className="py-[clamp(60px,10vh,120px)]">
             <div className="mx-auto max-w-[1400px]">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-start">
                 <Reveal
@@ -110,7 +110,7 @@ export default function ProjectsPage() {
                   <Reveal delay={200}>
                     <span className="editorial-caption">0{i + 1}</span>
                     <h2 className="editorial-headline-sm mt-4">{project.title}</h2>
-                    <p className="font-body text-xs font-[400] tracking-wide-custom text-smoke mt-2">
+                    <p className="font-body text-xs font-[400] tracking-wide-custom text-smoke/40 mt-2">
                       {project.location}
                     </p>
                     <p className="editorial-body mt-6 max-w-sm">
@@ -159,7 +159,7 @@ export default function ProjectsPage() {
       })}
 
       {/* CTA */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal blur>
             <h2 className="editorial-headline">
@@ -175,9 +175,10 @@ export default function ProjectsPage() {
             <div className="mt-10">
               <Link
                 href="/contact"
-                className="inline-block border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="magnetic-btn"
               >
                 BEGIN YOUR KITCHEN JOURNEY
+                <span className="btn-arrow">→</span>
               </Link>
             </div>
           </Reveal>

@@ -57,8 +57,8 @@ const MATERIALS = [
 export default function MaterialsPage() {
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">MATERIALS</span>
@@ -77,11 +77,11 @@ export default function MaterialsPage() {
         </div>
       </section>
 
-      {/* Materials — editorial splits, alternating, with per-material atmosphere */}
+      {/* Materials — editorial splits, alternating */}
       {MATERIALS.map((material, i) => {
         const isReversed = i % 2 === 1;
         return (
-          <section key={material.name} className="editorial-section">
+          <section key={material.name} className="py-[clamp(60px,10vh,120px)]">
             <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
               <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center">
                 <Reveal
@@ -99,7 +99,7 @@ export default function MaterialsPage() {
                     <div className="absolute inset-0 img-warm img-vignette" />
                     {/* Material number overlay */}
                     <div className="absolute top-0 right-0 p-8">
-                      <span className="font-display text-[4rem] md:text-[6rem] font-[100] text-linen/[0.04] leading-none">
+                      <span className="font-display text-[4rem] md:text-[6rem] text-linen/[0.04] leading-none">
                         0{i + 1}
                       </span>
                     </div>
@@ -119,23 +119,23 @@ export default function MaterialsPage() {
                     <p className="editorial-body mt-6 max-w-sm">
                       {material.description}
                     </p>
-                    <p className="font-body text-sm font-[300] leading-[1.8] text-smoke/60 mt-4 max-w-sm">
+                    <p className="font-body text-sm font-[300] leading-[1.8] text-smoke/50 mt-4 max-w-sm">
                       {material.detail}
                     </p>
                     <div className="flex flex-wrap gap-2 mt-8">
                       {material.properties.map((prop) => (
                         <span
                           key={prop}
-                          className="editorial-label border border-ember/20 px-3 py-1.5"
+                          className="editorial-label border border-ember/15 px-3 py-1.5"
                         >
                           {prop}
                         </span>
                       ))}
                     </div>
                     <div className="flex items-center gap-2 mt-6">
-                      <span className="font-body text-xs font-[300] text-smoke/40">Featured in:</span>
+                      <span className="font-body text-xs font-[300] text-smoke/35">Featured in:</span>
                       {material.brands.map((b, j) => (
-                        <span key={b} className="font-body text-xs font-[400] text-linen/50">
+                        <span key={b} className="font-body text-xs font-[400] text-linen/45">
                           {b}{j < material.brands.length - 1 ? "," : ""}
                         </span>
                       ))}
@@ -149,7 +149,7 @@ export default function MaterialsPage() {
       })}
 
       {/* Closing statement */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">

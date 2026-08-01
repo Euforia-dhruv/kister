@@ -62,8 +62,8 @@ export default function CollectionsPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">COLLECTIONS</span>
@@ -83,7 +83,7 @@ export default function CollectionsPage() {
       </section>
 
       {/* Featured collection — asymmetric editorial split */}
-      <section className="editorial-section-sm">
+      <section className="py-[clamp(40px,6vh,80px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div
             className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 items-center cursor-pointer group"
@@ -93,7 +93,7 @@ export default function CollectionsPage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src="/images/kitchens/scavolini-delinea-hero.jpg"
-                  alt="Scavolini DeLinea kitchen — premium modular design with brass hardware and warm materials"
+                  alt="Scavolini DeLinea kitchen — premium modular design"
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 60vw"
@@ -119,7 +119,7 @@ export default function CollectionsPage() {
                   ))}
                 </div>
                 <div className="mt-8">
-                  <span className="inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/50 group-hover:text-ember transition-colors duration-500">
+                  <span className="inline-flex items-center gap-2 font-body text-xs font-[300] tracking-wide-custom text-linen/45 group-hover:text-ember transition-colors duration-500">
                     EXPLORE COLLECTION
                     <span className="w-0 group-hover:w-5 h-[1px] bg-current transition-all duration-700" />
                   </span>
@@ -131,7 +131,7 @@ export default function CollectionsPage() {
       </section>
 
       {/* Remaining collections — asymmetric editorial grid */}
-      <section className="editorial-section">
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
             {/* Large card — 8 cols */}
@@ -141,7 +141,7 @@ export default function CollectionsPage() {
                 onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[1].name ? null : CATEGORIES[1].name)}
               >
                 <div className="relative overflow-hidden aspect-[16/10]">
-                  <Image src={CATEGORIES[1].image} alt="Le Creuset stoneware bakeware arranged on wooden kitchen shelf" fill
+                  <Image src={CATEGORIES[1].image} alt="Le Creuset stoneware bakeware" fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 70vw" />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -162,7 +162,7 @@ export default function CollectionsPage() {
                 onClick={() => setExpandedCategory(expandedCategory === CATEGORIES[2].name ? null : CATEGORIES[2].name)}
               >
                 <div className="relative overflow-hidden aspect-[4/5]">
-                  <Image src={CATEGORIES[2].image} alt="Nachtmann crystal barware and cocktail accessories on dark surface" fill
+                  <Image src={CATEGORIES[2].image} alt="Nachtmann crystal barware" fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw" />
                   <div className="absolute inset-0 img-warm img-vignette" />
@@ -183,7 +183,7 @@ export default function CollectionsPage() {
                   onClick={() => setExpandedCategory(expandedCategory === cat.name ? null : cat.name)}
                 >
                   <div className="relative overflow-hidden aspect-[4/5]">
-                    <Image src={cat.image} alt={`${cat.name} collection featuring ${cat.brands.join(' and ')} products`} fill
+                    <Image src={cat.image} alt={`${cat.name} collection`} fill
                       className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                       sizes="(max-width: 768px) 100vw, 33vw" />
                     <div className="absolute inset-0 img-warm img-vignette" />
@@ -210,7 +210,7 @@ export default function CollectionsPage() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="scene scene-warm overflow-hidden"
           >
-            <div className="editorial-section">
+            <div className="py-[clamp(60px,10vh,120px)]">
               <div className="mx-auto max-w-[1000px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
                 {CATEGORIES.filter((c) => c.name === expandedCategory).map((cat) => (
                   <div key={cat.name} className="grid grid-cols-1 gap-12 md:grid-cols-2">
@@ -236,7 +236,7 @@ export default function CollectionsPage() {
                       </Link>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden">
-                      <Image src={cat.image} alt={`${cat.name} collection detail view`} fill className="object-cover img-grade"
+                      <Image src={cat.image} alt={`${cat.name} collection detail`} fill className="object-cover img-grade"
                         sizes="(max-width: 768px) 100vw, 50vw" />
                       <div className="absolute inset-0 img-warm img-vignette" />
                     </div>
@@ -248,8 +248,8 @@ export default function CollectionsPage() {
         )}
       </AnimatePresence>
 
-      {/* Brand statement — closing */}
-      <section className="editorial-section-lg">
+      {/* Closing statement */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
@@ -264,9 +264,9 @@ export default function CollectionsPage() {
           </Reveal>
           <Reveal delay={400}>
             <div className="mt-10">
-              <Link href="/brands" className="group inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember">
+              <Link href="/brands" className="magnetic-btn">
                 VIEW ALL BRANDS
-                <span className="block w-0 group-hover:w-4 h-[1px] bg-current transition-all duration-500" />
+                <span className="btn-arrow">→</span>
               </Link>
             </div>
           </Reveal>

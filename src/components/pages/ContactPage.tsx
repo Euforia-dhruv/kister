@@ -47,8 +47,8 @@ export default function ContactPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">CONSULTATION</span>
@@ -67,10 +67,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Consultation form — luxury minimal */}
-      <section className="editorial-section">
+      {/* Consultation form */}
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-2xl" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
-          {/* Progress — minimal dots */}
+          {/* Progress */}
           {status !== "success" && (
             <Reveal>
               <div className="flex items-center gap-3 mb-12">
@@ -111,7 +111,7 @@ export default function ContactPage() {
                           : "border-linen/10 hover:border-linen/30"
                       }`}
                     >
-                      <span className={`font-display text-lg font-[100] tracking-[0.04em] ${
+                      <span className={`font-display text-lg ${
                         formData.kitchenType === type ? "text-ember" : "text-linen"
                       }`}>
                         {type}
@@ -144,7 +144,7 @@ export default function ContactPage() {
                           : "border-linen/10 hover:border-linen/30"
                       }`}
                     >
-                      <span className={`font-display text-lg font-[100] tracking-[0.04em] ${
+                      <span className={`font-display text-lg ${
                         formData.style === style ? "text-ember" : "text-linen"
                       }`}>
                         {style}
@@ -321,7 +321,7 @@ export default function ContactPage() {
       </section>
 
       {/* Closing statement */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
@@ -338,7 +338,7 @@ export default function ContactPage() {
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href={`tel:${BRAND.contact.phone.replace(/\s/g, "")}`}
-                className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="magnetic-btn"
               >
                 CALL US
               </a>
@@ -346,7 +346,7 @@ export default function ContactPage() {
                 href={`https://maps.google.com/?q=${encodeURIComponent(BRAND.name + " " + BRAND.location.full)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 border border-linen/20 px-8 py-3 font-body text-sm font-[300] tracking-wide-custom text-linen transition-all duration-500 hover:border-ember hover:text-ember"
+                className="magnetic-btn"
               >
                 VISIT SHOWROOM
               </a>

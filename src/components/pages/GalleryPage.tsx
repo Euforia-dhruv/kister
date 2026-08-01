@@ -94,8 +94,8 @@ export default function GalleryPage() {
 
   return (
     <main className="relative bg-void">
-      {/* Hero — full viewport */}
-      <section className="editorial-section-lg">
+      {/* Hero */}
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-[1400px] text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <span className="editorial-caption">GALLERY</span>
@@ -115,7 +115,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Featured kitchen — full viewport */}
-      <section className="editorial-section-sm">
+      <section className="py-[clamp(40px,6vh,80px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal scale>
             <div
@@ -135,7 +135,7 @@ export default function GalleryPage() {
                 <span className="editorial-caption">{GALLERY[0].category.toUpperCase()}</span>
                 <h2 className="editorial-headline-sm mt-3">{GALLERY[0].title}</h2>
                 <p className="editorial-body mt-2 max-w-sm">{GALLERY[0].description}</p>
-                <p className="font-body text-xs font-[300] text-smoke/50 mt-2">
+                <p className="font-body text-xs font-[300] text-smoke/40 mt-2">
                   {GALLERY[0].location} · {GALLERY[0].year}
                 </p>
               </div>
@@ -144,8 +144,8 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Gallery — editorial grid with varying sizes */}
-      <section className="editorial-section">
+      {/* Gallery — editorial grid */}
+      <section className="py-[clamp(60px,10vh,120px)]">
         <div className="mx-auto max-w-[1400px]" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-4">
             {/* Row 1: two medium */}
@@ -156,7 +156,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[1].image}
-                  alt={`${GALLERY[1].title} — ${GALLERY[1].category} kitchen in ${GALLERY[1].location}`}
+                  alt={`${GALLERY[1].title} — ${GALLERY[1].category} kitchen`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -165,7 +165,7 @@ export default function GalleryPage() {
                 <div className="absolute bottom-0 left-0 p-8">
                   <span className="editorial-caption">{GALLERY[1].category.toUpperCase()}</span>
                   <h3 className="editorial-headline-sm mt-2">{GALLERY[1].title}</h3>
-                  <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
+                  <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
                     {GALLERY[1].location} · {GALLERY[1].year}
                   </p>
                 </div>
@@ -178,7 +178,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[2].image}
-                  alt={`${GALLERY[2].title} — ${GALLERY[2].category} kitchen in ${GALLERY[2].location}`}
+                  alt={`${GALLERY[2].title} — ${GALLERY[2].category} kitchen`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -187,7 +187,7 @@ export default function GalleryPage() {
                 <div className="absolute bottom-0 left-0 p-8">
                   <span className="editorial-caption">{GALLERY[2].category.toUpperCase()}</span>
                   <h3 className="editorial-headline-sm mt-2">{GALLERY[2].title}</h3>
-                  <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
+                  <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
                     {GALLERY[2].location} · {GALLERY[2].year}
                   </p>
                 </div>
@@ -202,7 +202,7 @@ export default function GalleryPage() {
               >
                 <Image
                   src={GALLERY[3].image}
-                  alt={`${GALLERY[3].title} — artisan kitchen with ${GALLERY[3].category.toLowerCase()} design`}
+                  alt={`${GALLERY[3].title} — artisan kitchen`}
                   fill
                   className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                   sizes="(max-width: 768px) 100vw, 70vw"
@@ -222,7 +222,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={GALLERY[4].image}
-                    alt={`${GALLERY[4].title} — ${GALLERY[4].category.toLowerCase()} kitchen design`}
+                    alt={`${GALLERY[4].title} — ${GALLERY[4].category.toLowerCase()} kitchen`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
@@ -240,7 +240,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={GALLERY[5].image}
-                    alt={`${GALLERY[5].title} — ${GALLERY[5].category.toLowerCase()} kitchen with stainless steel`}
+                    alt={`${GALLERY[5].title} — ${GALLERY[5].category.toLowerCase()} kitchen`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 30vw"
@@ -262,7 +262,7 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={item.image}
-                    alt={`${item.title} — ${item.category} kitchen in ${item.location}`}
+                    alt={`${item.title} — ${item.category} kitchen`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
                     sizes="(max-width: 768px) 100vw, 33vw"
@@ -270,7 +270,7 @@ export default function GalleryPage() {
                   <div className="absolute inset-0 img-warm img-vignette" />
                   <div className="absolute bottom-0 left-0 p-6">
                     <span className="editorial-caption">{item.category.toUpperCase()}</span>
-                    <h3 className="font-display text-base font-[100] tracking-[0.04em] text-linen mt-1">
+                    <h3 className="font-display text-base text-linen mt-1">
                       {item.title}
                     </h3>
                   </div>
@@ -282,7 +282,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Closing statement */}
-      <section className="editorial-section-lg">
+      <section className="py-[clamp(80px,12vh,160px)]">
         <div className="mx-auto max-w-3xl text-center" style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)" }}>
           <Reveal blur>
             <h2 className="editorial-headline-md">
@@ -329,7 +329,7 @@ export default function GalleryPage() {
                 <span className="editorial-caption">{selected.category.toUpperCase()}</span>
                 <h3 className="editorial-headline-sm mt-2">{selected.title}</h3>
                 <p className="editorial-body mt-2 max-w-lg">{selected.description}</p>
-                <p className="font-body text-xs font-[300] text-smoke/50 mt-1">
+                <p className="font-body text-xs font-[300] text-smoke/40 mt-1">
                   {selected.location} · {selected.year}
                 </p>
               </div>
