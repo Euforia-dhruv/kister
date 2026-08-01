@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { BRAND } from "@/lib/brand";
 
-/* ─── PREMIUM NAVBAR ──────────────────────────────────────── */
-/* Glassmorphism. Premium. Scroll-aware.                        */
+/* ─── LUXURY NAVBAR ──────────────────────────────────────── */
+/* Spacious. Balanced. Premium glassmorphism.                  */
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -29,10 +29,12 @@ export default function Nav() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
-  // Scroll-based show/hide
+  /* Scroll-based show/hide */
   useEffect(() => {
     let lastY = 0;
     let ticking = false;
@@ -41,13 +43,10 @@ export default function Nav() {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-
-          // On homepage, show nav only after hero video ends (300vh)
           const threshold = isHome ? window.innerHeight * 2.8 : 80;
           const pastThreshold = y > threshold;
-
-          // Show/hide logic
           const scrollingUp = y < lastY;
+
           if (pastThreshold) {
             if (scrollingUp) {
               setVisible(true);
@@ -69,9 +68,12 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  // Reduced motion: show nav immediately
+  /* Reduced motion: show nav immediately */
   useEffect(() => {
-    if (isHome && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      isHome &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setVisible(true);
     }
   }, [isHome]);
@@ -80,95 +82,150 @@ export default function Nav() {
 
   return (
     <>
-      {/* ─── FLOATING GLASS NAVBAR ─── */}
+      {/* ─── DESKTOP / TABLET NAVBAR ─── */}
       <motion.header
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[min(96vw,1280px)]"
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
         initial={false}
         animate={{
           opacity: navVisible ? 1 : 0,
-          y: navVisible ? 0 : -10,
-          scale: navVisible ? 1 : 0.96,
+          y: navVisible ? 0 : -12,
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         style={{ pointerEvents: navVisible ? "auto" : "none" }}
       >
         <nav
-          className="flex items-center justify-between px-2 py-2 rounded-full"
+          className="flex items-center justify-between w-full max-w-[1520px] mx-auto"
           style={{
-            backdropFilter: "blur(28px) saturate(1.5)",
-            WebkitBackdropFilter: "blur(28px) saturate(1.5)",
-            backgroundColor: "rgba(10,10,10,0.5)",
-            border: "1px solid rgba(245,240,235,0.05)",
-            boxShadow:
-              "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(245,240,235,0.02)",
+            padding: "0 clamp(24px, 4vw, 80px)",
+            height: "88px",
           }}
         >
-          {/* Logo — left */}
-          <Link href="/" className="flex items-center px-6 py-2.5 group shrink-0">
-            <span className="font-display text-[1rem] tracking-[0.22em] text-linen/60 group-hover:text-linen transition-colors duration-500">
+          {/* ─── GLASS CONTAINER (absolute, behind content) ─── */}
+          <div
+            className="absolute inset-x-0 top-3 mx-auto max-w-[1520px] rounded-full pointer-events-none"
+            style={{
+              left: "clamp(24px, 4vw, 80px)",
+              right: "clamp(24px, 4vw, 80px)",
+              height: "64px",
+              backdropFilter: "blur(32px) saturate(1.6)",
+              WebkitBackdropFilter: "blur(32px) saturate(1.6)",
+              backgroundColor: "rgba(10,10,10,0.45)",
+              border: "1px solid rgba(245,240,235,0.06)",
+              boxShadow:
+                "0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(245,240,235,0.03)",
+            }}
+          />
+
+          {/* ─── LOGO ─── */}
+          <Link
+            href="/"
+            className="relative z-10 flex items-center group shrink-0"
+            style={{ height: "64px", paddingLeft: "12px", paddingRight: "12px" }}
+          >
+            <span
+              className="tracking-[0.28em] text-linen/50 group-hover:text-linen transition-colors duration-500"
+              style={{
+                fontFamily: '"DM Serif Display", Georgia, serif',
+                fontSize: "clamp(1.15rem, 1.4vw, 1.35rem)",
+                fontWeight: 400,
+              }}
+            >
               KITSER
             </span>
           </Link>
 
-          {/* Center links */}
-          <div className="hidden items-center lg:flex">
+          {/* ─── CENTER NAVIGATION ─── */}
+          <div className="hidden items-center lg:flex relative z-10">
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-4 py-2 group"
+                className="relative px-[22px] xl:px-[26px] flex items-center group"
+                style={{ height: "64px" }}
               >
                 <span
-                  className={`font-body text-[0.68rem] font-[400] tracking-[0.12em] transition-colors duration-500 ${
+                  className={`transition-colors duration-400 ${
                     pathname === link.href
                       ? "text-ember"
-                      : "text-linen/30 group-hover:text-linen/65"
+                      : "text-linen/40 group-hover:text-linen/80"
                   }`}
+                  style={{
+                    fontFamily: '"Inter", system-ui, sans-serif',
+                    fontSize: "0.85rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.06em",
+                    lineHeight: 1,
+                  }}
                 >
-                  {link.label.toUpperCase()}
+                  {link.label}
                 </span>
                 {pathname === link.href && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute bottom-0 left-4 right-4 h-[1px] bg-ember/40"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="absolute bottom-2 left-[22px] xl:left-[26px] right-[22px] xl:right-[26px] h-[1.5px] bg-ember/50 rounded-full"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 32,
+                    }}
                   />
                 )}
               </Link>
             ))}
           </div>
 
-          {/* CTA — right */}
-          <div className="hidden lg:flex items-center pr-3">
+          {/* ─── CTA BUTTON ─── */}
+          <div className="hidden lg:flex items-center relative z-10 shrink-0">
             <Link
               href="/contact"
-              className="flex items-center px-6 py-2.5 font-body text-[0.65rem] font-[400] tracking-[0.14em] text-ember/70 hover:text-ember border border-ember/20 hover:border-ember/40 rounded-full transition-all duration-500"
+              className="flex items-center justify-center rounded-full transition-all duration-500 hover:bg-ember hover:text-void group"
+              style={{
+                padding: "14px 30px",
+                fontFamily: '"Inter", system-ui, sans-serif',
+                fontSize: "0.78rem",
+                fontWeight: 500,
+                letterSpacing: "0.1em",
+                color: "rgba(196,90,44,0.8)",
+                border: "1px solid rgba(196,90,44,0.25)",
+              }}
             >
               BOOK CONSULTATION
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
+          {/* ─── MOBILE HAMBURGER ─── */}
           <button
-            className="relative z-50 flex flex-col gap-[5px] lg:hidden w-8 h-8 justify-center items-center transition-opacity duration-300 hover:opacity-70"
+            className="relative z-50 flex flex-col justify-center items-center lg:hidden transition-opacity duration-300 hover:opacity-60"
+            style={{ width: "44px", height: "64px" }}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
           >
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen/50"
-              animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3.5 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute block h-[1.5px] bg-linen/60 rounded-full"
+              style={{ width: "24px" }}
+              animate={
+                menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }
+              }
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             />
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen/50"
-              animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.2 }}
+              className="absolute block h-[1.5px] bg-linen/60 rounded-full"
+              style={{ width: "24px" }}
+              animate={
+                menuOpen
+                  ? { opacity: 0, scaleX: 0 }
+                  : { opacity: 1, scaleX: 1 }
+              }
+              transition={{ duration: 0.25 }}
             />
             <motion.span
-              className="absolute block h-[1px] w-5 bg-linen/50"
-              animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3.5 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute block h-[1.5px] bg-linen/60 rounded-full"
+              style={{ width: "24px" }}
+              animate={
+                menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }
+              }
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             />
           </button>
         </nav>
@@ -184,35 +241,88 @@ export default function Nav() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
+            {/* Backdrop */}
             <motion.div
               className="absolute inset-0"
               style={{
-                backgroundColor: "rgba(10,10,10,0.96)",
-                backdropFilter: "blur(32px)",
-                WebkitBackdropFilter: "blur(32px)",
+                backgroundColor: "rgba(10,10,10,0.97)",
+                backdropFilter: "blur(40px)",
+                WebkitBackdropFilter: "blur(40px)",
               }}
             />
 
-            <div className="relative flex flex-col items-center gap-7">
+            {/* Close button */}
+            <motion.button
+              className="absolute top-0 right-0 z-50 flex items-center justify-center"
+              style={{
+                width: "88px",
+                height: "88px",
+              }}
+              onClick={closeMenu}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+              aria-label="Close menu"
+            >
+              <span
+                className="text-linen/50 hover:text-linen transition-colors duration-300"
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: 300,
+                  lineHeight: 1,
+                }}
+              >
+                ×
+              </span>
+            </motion.button>
+
+            {/* Navigation links */}
+            <div className="relative flex flex-col items-center">
               {LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 32 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ delay: 0.08 + i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    delay: 0.06 + i * 0.04,
+                    duration: 0.6,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                 >
-                  <Link href={link.href} onClick={closeMenu} className="group flex items-center gap-3">
+                  <Link
+                    href={link.href}
+                    onClick={closeMenu}
+                    className="group flex items-center gap-5"
+                    style={{ padding: "14px 0" }}
+                  >
+                    {/* Active indicator line */}
                     <motion.span
-                      className="block h-[1px] bg-ember"
-                      animate={{ width: pathname === link.href ? 24 : 0 }}
-                      whileHover={{ width: 16 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="block h-[1.5px] bg-ember/60 rounded-full shrink-0"
+                      animate={{
+                        width: pathname === link.href ? 32 : 0,
+                      }}
+                      whileHover={{ width: 20 }}
+                      transition={{
+                        duration: 0.4,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                     />
                     <span
-                      className={`font-display text-[1.7rem] tracking-[0.04em] transition-colors duration-500 ${
-                        pathname === link.href ? "text-ember" : "text-linen/35 group-hover:text-linen"
+                      className={`transition-colors duration-500 ${
+                        pathname === link.href
+                          ? "text-ember"
+                          : "text-linen/30 group-hover:text-linen"
                       }`}
+                      style={{
+                        fontFamily:
+                          '"DM Serif Display", Georgia, serif',
+                        fontSize: "clamp(1.6rem, 5vw, 2rem)",
+                        fontWeight: 400,
+                        letterSpacing: "0.03em",
+                        lineHeight: 1.2,
+                      }}
                     >
                       {link.label}
                     </span>
@@ -220,33 +330,64 @@ export default function Nav() {
                 </motion.div>
               ))}
 
+              {/* CTA button */}
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-5"
+                exit={{ opacity: 0, y: -20 }}
+                transition={{
+                  delay: 0.35,
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                style={{ marginTop: "40px" }}
               >
                 <Link
                   href="/contact"
                   onClick={closeMenu}
-                  className="inline-flex items-center gap-3 border border-ember px-8 py-3.5 font-body text-[0.85rem] font-[300] tracking-[0.08em] text-ember transition-all duration-500 hover:bg-ember hover:text-void"
+                  className="inline-flex items-center justify-center rounded-full transition-all duration-500 hover:bg-ember hover:text-void"
+                  style={{
+                    padding: "16px 40px",
+                    fontFamily: '"Inter", system-ui, sans-serif',
+                    fontSize: "0.85rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.1em",
+                    color: "rgba(196,90,44,0.9)",
+                    border: "1px solid rgba(196,90,44,0.3)",
+                  }}
                 >
                   BOOK CONSULTATION
                 </Link>
               </motion.div>
             </div>
 
+            {/* Bottom info */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-1.5"
+              className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-2"
             >
-              <span className="font-body text-[0.6rem] font-[300] tracking-[0.12em] text-linen/10">
+              <span
+                className="text-linen/10"
+                style={{
+                  fontFamily: '"Inter", system-ui, sans-serif',
+                  fontSize: "0.68rem",
+                  fontWeight: 300,
+                  letterSpacing: "0.12em",
+                }}
+              >
                 {BRAND.location.full}
               </span>
-              <span className="font-body text-[0.6rem] font-[300] tracking-[0.12em] text-linen/10">
+              <span
+                className="text-linen/10"
+                style={{
+                  fontFamily: '"Inter", system-ui, sans-serif',
+                  fontSize: "0.68rem",
+                  fontWeight: 300,
+                  letterSpacing: "0.12em",
+                }}
+              >
                 {BRAND.contact.phone}
               </span>
             </motion.div>
