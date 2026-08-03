@@ -14,42 +14,36 @@ const PROJECTS = [
     title: "The Lakewood Residence",
     location: "Coimbatore",
     image: "/images/kitchens/scavolini-poetica-hero.jpg",
-    span: "tall",
   },
   {
     id: 2,
     title: "The Heritage Kitchen",
     location: "Bangalore",
     image: "/images/kitchens/scavolini-delinea-hero.jpg",
-    span: "wide",
   },
   {
     id: 3,
     title: "The Minimalist Studio",
     location: "Mumbai",
     image: "/images/kitchens/03-minimal-white.jpg",
-    span: "normal",
   },
   {
     id: 4,
     title: "The Chef's Kitchen",
     location: "Chennai",
     image: "/images/kitchens/scavolini-carattere-hero.jpg",
-    span: "tall",
   },
   {
     id: 5,
     title: "The Modern Family",
     location: "Hyderabad",
     image: "/images/kitchens/04-modular-hero.jpg",
-    span: "wide",
   },
   {
     id: 6,
     title: "The Urban Loft",
     location: "Delhi NCR",
     image: "/images/kitchens/scavolini-poetica-island.jpg",
-    span: "normal",
   },
 ];
 
@@ -69,8 +63,8 @@ export default function Section6Projects() {
           </h2>
         </Reveal>
 
-        {/* Masonry grid */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 gap-[clamp(8px,1vw,14px)] auto-rows-[clamp(200px,28vw,340px)]">
+        {/* Editorial grid — uniform cards */}
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[clamp(8px,1vw,14px)]">
           {PROJECTS.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
@@ -90,17 +84,10 @@ function ProjectCard({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const spanClass =
-    project.span === "tall"
-      ? "row-span-2"
-      : project.span === "wide"
-      ? "col-span-2"
-      : "";
-
   return (
     <motion.div
       ref={ref}
-      className={`relative overflow-hidden group cursor-pointer ${spanClass}`}
+      className="relative overflow-hidden group cursor-pointer"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -109,22 +96,24 @@ function ProjectCard({
         ease: [0.16, 1, 0.3, 1],
       }}
     >
-      <Image
-        src={project.image}
-        alt={`${project.title} — ${project.location}`}
-        fill
-        className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
-        style={{
-          filter: "saturate(0.85) contrast(1.05) brightness(0.75)",
-        }}
-        sizes="(max-width: 768px) 50vw, 33vw"
-      />
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <Image
+          src={project.image}
+          alt={`${project.title} — ${project.location}`}
+          fill
+          className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+          style={{
+            filter: "saturate(0.85) contrast(1.05) brightness(0.75)",
+          }}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
 
       {/* Default overlay */}
-      <div className="absolute inset-0 bg-void/15 transition-opacity duration-700 group-hover:opacity-0" />
+      <div className="absolute inset-0 bg-void/15 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
 
       {/* Hover overlay */}
-      <div className="absolute inset-0 bg-void/60 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-void/60 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none" />
 
       {/* Hover content */}
       <div className="absolute inset-0 flex flex-col justify-end p-[clamp(16px,2vw,28px)] opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">

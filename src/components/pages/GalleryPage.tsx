@@ -194,64 +194,30 @@ export default function GalleryPage() {
               </div>
             </Reveal>
 
-            {/* Row 2: one wide, two stacked */}
-            <Reveal className="md:col-span-8" delay={160}>
-              <div
-                className="group relative aspect-[16/10] overflow-hidden cursor-pointer"
-                onClick={() => setSelected(GALLERY[3])}
-              >
-                <Image
-                  src={GALLERY[3].image}
-                  alt={`${GALLERY[3].title} — artisan kitchen`}
-                  fill
-                  className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
-                  sizes="(max-width: 768px) 100vw, 70vw"
-                />
-                <div className="absolute inset-0 img-warm img-vignette" />
-                <div className="absolute bottom-0 left-0 p-8">
-                  <span className="editorial-caption">{GALLERY[3].category.toUpperCase()}</span>
-                  <h3 className="editorial-headline-sm mt-2">{GALLERY[3].title}</h3>
-                </div>
-              </div>
-            </Reveal>
-            <div className="md:col-span-4 flex flex-col gap-4">
-              <Reveal delay={240}>
+            {/* Row 2: three equal */}
+            {GALLERY.slice(3, 6).map((item, i) => (
+              <Reveal key={item.id} className="md:col-span-4" delay={i * 80}>
                 <div
-                  className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
-                  onClick={() => setSelected(GALLERY[4])}
+                  className="group relative aspect-[4/5] overflow-hidden cursor-pointer"
+                  onClick={() => setSelected(item)}
                 >
                   <Image
-                    src={GALLERY[4].image}
-                    alt={`${GALLERY[4].title} — ${GALLERY[4].category.toLowerCase()} kitchen`}
+                    src={item.image}
+                    alt={`${item.title} — ${item.category} kitchen`}
                     fill
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
-                    sizes="(max-width: 768px) 100vw, 30vw"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 img-warm img-vignette" />
                   <div className="absolute bottom-0 left-0 p-6">
-                    <span className="editorial-caption">{GALLERY[4].category.toUpperCase()}</span>
+                    <span className="editorial-caption">{item.category.toUpperCase()}</span>
+                    <h3 className="editorial-headline-xs text-linen mt-1">
+                      {item.title}
+                    </h3>
                   </div>
                 </div>
               </Reveal>
-              <Reveal delay={320}>
-                <div
-                  className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
-                  onClick={() => setSelected(GALLERY[5])}
-                >
-                  <Image
-                    src={GALLERY[5].image}
-                    alt={`${GALLERY[5].title} — ${GALLERY[5].category.toLowerCase()} kitchen`}
-                    fill
-                    className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04] img-grade"
-                    sizes="(max-width: 768px) 100vw, 30vw"
-                  />
-                  <div className="absolute inset-0 img-warm img-vignette" />
-                  <div className="absolute bottom-0 left-0 p-6">
-                    <span className="editorial-caption">{GALLERY[5].category.toUpperCase()}</span>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+            ))}
 
             {/* Row 3: three equal */}
             {GALLERY.slice(6).map((item, i) => (

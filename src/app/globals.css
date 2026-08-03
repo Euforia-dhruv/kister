@@ -285,6 +285,31 @@ canvas {
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
+/* ─── ASPECT RATIO / CLS PREVENTION ────────────────────────── */
+
+.ratio-hero { aspect-ratio: 21/9; }
+.ratio-wide { aspect-ratio: 16/9; }
+.ratio-landscape { aspect-ratio: 16/10; }
+.ratio-photo { aspect-ratio: 3/2; }
+.ratio-card { aspect-ratio: 4/3; }
+.ratio-tall { aspect-ratio: 5/4; }
+.ratio-square { aspect-ratio: 1/1; }
+.ratio-portrait { aspect-ratio: 4/5; }
+.ratio-tall-portrait { aspect-ratio: 3/4; }
+
+/* Ensure all image containers have overflow hidden and relative positioning */
+.media-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Prevent CLS: reserve space for images with known dimensions */
+.media-reserve {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
 /* ─── FORM ELEMENTS ─────────────────────────────────────────── */
 
 input::placeholder,
